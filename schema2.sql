@@ -1,4 +1,16 @@
 DROP TABLE IF EXISTS module;
+DROP TABLE IF EXISTS exam;
+DROP TABLE IF EXISTS student;
+DROP TABLE IF EXISTS lecturer;
+DROP TABLE IF EXISTS course;
+DROP TABLE IF EXISTS lectModule;
+DROP TABLE IF EXISTS organise;
+DROP TABLE IF EXISTS studentExam;
+DROP TABLE IF EXISTS courseModule;
+DROP TABLE IF EXISTS studentModule;
+DROP TABLE IF EXISTS courseStudent;
+DROP TABLE IF EXISTS admin;
+
 CREATE TABLE module (
 	code VARCHAR(45) NOT NULL,
 	name VARCHAR(45) NOT NULL,
@@ -6,96 +18,104 @@ CREATE TABLE module (
 	ECTs INT NULL);
 
 INSERT INTO module VALUES
-  ('EE123','Analogue Designs',2,5); 
+  ('EE123','Analogue Designs',2,5);
 
-DROP TABLE IF EXISTS exam;
 CREATE TABLE exam (
-	examId VARCHAR(45) NOT NULL,
-	moduleCode VARCHAR(45) NOT NULL,
-	time TIME,
-	date DATE,
-	duration INT);
+  examId VARCHAR(45) NOT NULL,
+  moduleCode VARCHAR(45) NOT NULL,
+  time TIME,
+  date DATE,
+  duration INT);
 
-#INSERT INTO exam VALUES
-#  ('EXAM1','EE456',093000,2021-06-01,120);
+INSERT INTO exam VALUES
+  ('EXAM1','EE123',093000,'2021-06-01',120);
 
-DROP TABLE IF EXISTS student;
   CREATE TABLE `student` (
   `studentId` INT NOT NULL,
   `fName` VARCHAR(45) ,
   `lName` VARCHAR(45));
 
-#INSERT INTO student VALUES
-#  (12345678,'Niamh','Hennigan'),
-#  (23456789,'John','Jones'),
-#  (34567890,'Mary','OConnor'),
-#  (45678901,'Luke','Curran'),
-#  (56789012,'Meadhbh','Keane'),
-#  (67890123,'Katie','Whelan'),
-#  (78901234,'Michael','Talty'),
-#  (89012345,'Aine','Ronan'),
-#  (90123456,'Rachel','Foxe');
+INSERT INTO student VALUES
+  (12345678,'Niamh','Hennigan'),
+  (23456789,'John','Jones'),
+  (34567890,'Mary','OConnor'),
+  (45678901,'Luke','Curran'),
+  (56789012,'Meadhbh','Keane'),
+  (67890123,'Katie','Whelan'),
+  (78901234,'Michael','Talty'),
+  (89012345,'Aine','Ronan'),
+  (90123456,'Rachel','Foxe');
 
-DROP TABLE IF EXISTS lecturer;
 CREATE TABLE lecturer (
   lecturerId INT NOT NULL,
   fName VARCHAR(45) ,
   lName VARCHAR(45));
 
-#INSERT INTO lecturer VALUES
-#(1,'Sinead','Grimes');
+INSERT INTO lecturer VALUES
+(1,'Sinead','Grimes');
 
-DROP TABLE IF EXISTS course;
 CREATE TABLE course (
   code VARCHAR(45) NOT NULL,
   name VARCHAR(45));
 
-#INSERT INTO course VALUES
-#('BP','Computer and Electronic Engineering');
+INSERT INTO course VALUES
+('BP','Computer and Electronic Engineering');
 
-DROP TABLE IF EXISTS lectModule;
 CREATE TABLE lectModule (
   staffId int NOT NULL,
   modCode VARCHAR(45)  NOT NULL);
 
-#INSERT INTO lectModule VALUES
-#(1,'EE123');
+INSERT INTO lectModule VALUES
+(1,'EE123');
 
-DROP TABLE IF EXISTS organise;
+CREATE TABLE admin(
+        staffId INT NOT NULL,
+        fName VARCHAR(45) ,
+        lName VARCHAR(45));
+
+INSERT INTO admin VALUES
+(1,'Peter','Mangan');
+
 CREATE TABLE `organise` (
   `staffId` int NOT NULL,
   `examId` VARCHAR(45) NOT NULL);
 
-DROP TABLE IF EXISTS studentExam;
- CREATE TABLE `studentExam` (
-  `studentId` int NOT NULL,
-  `examId` VARCHAR(45)  NOT NULL);
+INSERT INTO organise VALUES
+(1,'EXAM1');
 
-DROP TABLE IF EXISTS courseModule;
- CREATE TABLE `courseModule` (
-  `courseCode` VARCHAR(45) NOT NULL,
-  `modCode` VARCHAR(45) NOT NULL);
+CREATE TABLE studentExam (
+  studentId int NOT NULL,
+  examId VARCHAR(45)  NOT NULL);
 
-DROP TABLE IF EXISTS studentModule;
- CREATE TABLE `studentModule` (
-  `studentId` INT NOT NULL,
-  `modCode` VARCHAR(45) NOT NULL);
+INSERT INTO studentExam VALUES
+(12345678, 'EXAM1');
 
-DROP TABLE IF EXISTS courseStudent;
-CREATE TABLE `courseStudent` (
-  `studentId` INT NOT NULL,
-  `courseCode` VARCHAR(45) NOT NULL);
+CREATE TABLE courseModule (
+  courseCode VARCHAR(45) NOT NULL,
+  modCode VARCHAR(45) NOT NULL);
 
-DROP TABLE IF EXISTS admin;
-CREATE TABLE admin(
-	staffId INT NOT NULL,
-	fName VARCHAR(45) ,
-	lName VARCHAR(45));
+INSERT INTO courseModule VALUES
+('BP','EE123');
+
+CREATE TABLE studentModule (
+  studentId INT NOT NULL,
+  modCode VARCHAR(45) NOT NULL);
+
+INSERT INTO studentModule VALUES
+(12345678, 'EE123');
+
+CREATE TABLE courseStudent (
+  studentId INT NOT NULL,
+  courseCode VARCHAR(45) NOT NULL);
+
+INSERT INTO courseStudent VALUES
+(12345678, 'BP');
+
 
 ALTER TABLE module
 	ADD PRIMARY KEY(code);
 
-ALTER TABLE exam 
+ALTER TABLE exam
 	ADD PRIMARY KEY(examId);
 #	ADD KEY moduleCode(moduleCode);
 
@@ -142,7 +162,7 @@ ALTER TABLE admin
         ADD PRIMARY KEY(staffId);
 
 ALTER TABLE exam
-  ADD CONSTRAINT FOREIGN KEY (moduleCode) REFERENCES module(code); 
+  ADD CONSTRAINT FOREIGN KEY (moduleCode) REFERENCES module(code);
 
 ALTER TABLE lectModule
   ADD CONSTRAINT FOREIGN KEY (modCode) REFERENCES module(code),
