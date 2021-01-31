@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Home</h1>
+    <p>{%for c in blog %}
+   <div>   Hello    {{c}} + </div>
+    {% endfor %}
+    </p>
+    {% endblock %}
+

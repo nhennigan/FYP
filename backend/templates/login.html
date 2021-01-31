@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>    
+    <title>Login Form</title>    
+    <!<link rel="stylesheet" type="text/css" href="css/style.css">    
+</head>
+<body>
+    <h2>Login Page</h2><br>
+    <div class="login">
+	    <form method="post" action="http://localhost:5000/login">
+        <div class="msg">{{ msg }}</div>
+	<label><b>Student Id     
+        </b>
+        </label>
+        <input type="text" name="id" id="id" placeholder="Student Id">
+        <br><br>
+        <label><b>Password     
+        </b>
+        </label>
+        <input type="Password" name="password" id="password" placeholder="Password">
+        <br><br>
+	<input type="submit" name="log" id="log" value="Log In Here">
+        <br><br>
+    </form>
+</div>
+</body>
+</html>
+
