@@ -12,9 +12,9 @@ def get_tables():
 
     TABLES['lect_module'] = ("CREATE TABLE `lect_module` (`staff_id` int NOT NULL,`mod_code` VARCHAR(45)  NOT NULL,PRIMARY KEY (`staff_id`,`mod_code`),FOREIGN KEY (`mod_code`) REFERENCES `module`(`code`),FOREIGN KEY (`staff_id`) REFERENCES `lecturer`(`lecturer_id`));")
  
-    TABLES['admin'] =("CREATE TABLE `admin` (`staff_id` int NOT NULL, `f_name` VARCHAR(45), `l_name` VARCHAR(45), PRIMARY KEY (`staffid`));") 
+    TABLES['admin'] = ("CREATE TABLE `admin` (`staff_id` int NOT NULL, `f_name` VARCHAR(45), `l_name` VARCHAR(45), PRIMARY KEY (`staff_id`));") 
 
-    TABLES['organise'] = ("CREATE TABLE `organise` (`staff_id` int NOT NULL,`exam_id` VARCHAR(45) NOT NULL ,PRIMARY KEY (`staff_id`,`exam_id`),FOREIGN KEY (`exam_id`) REFERENCES `exam`(`exam_id`),FOREIGN KEY (`staff_id`) REFERENCES `lecturer`(`staff_id`));")
+    TABLES['organise'] = ("CREATE TABLE `organise` (`staff_id` int NOT NULL,`exam_id` VARCHAR(45) NOT NULL, PRIMARY KEY (`staff_id`,`exam_id`),FOREIGN KEY (`exam_id`) REFERENCES `exam`(`exam_id`),FOREIGN KEY (`staff_id`) REFERENCES `lecturer`(`lecturer_id`));")
 
     TABLES['student_exam'] = ("CREATE TABLE `student_exam` (`student_id` int NOT NULL,`exam_id` VARCHAR(45)  NOT NULL,PRIMARY KEY (`student_id`,`exam_id`),FOREIGN KEY (`exam_id`) REFERENCES `exam`(`exam_id`),FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`));")
 
@@ -22,7 +22,7 @@ def get_tables():
 
     TABLES['student_module'] = ("CREATE TABLE `student_module` (`student_id` INT NOT NULL,`mod_code` VARCHAR(45) NOT NULL,PRIMARY KEY (`student_id`,`mod_code`),FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`),FOREIGN KEY (`mod_code`) REFERENCES `module`(`code`));")
 
-    TABLES['course_student'] = ("CREATE TABLE `course_student` (`student_id` INT NOT NULL,`course_code` VARCHAR(45) NOT NULL,PRIMARY KEY (`student_id`,`mod_code`),FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`),FOREIGN KEY (`course_code`) REFERENCES `course`(`code`));")
+    TABLES['course_student'] = ("CREATE TABLE `course_student` (`student_id` INT NOT NULL,`course_code` VARCHAR(45) NOT NULL,PRIMARY KEY (`student_id`,`course_code`),FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`),FOREIGN KEY (`course_code`) REFERENCES `course`(`code`));")
 
 #    TABLES['student_info'] = ("INSERT INTO student(student_id, f_name, l_name,password) VALUES (456,'niamh','hen','pw')")
 
@@ -30,24 +30,24 @@ def get_tables():
 
 def get_data():
     DATA = {}
-    DATA['module']=("('EE123','Analogue Designs',2,5)")
-    DATA['exam']=("('EXAM1','EE123',093000,'2021-06-01',120)")
-    DATA['student']=("(12345678,'niamh','hen','pw')")
-    DATA['lecturer']=("(1,'Sinead','Grimes')")
-    DATA['course']=("('BP','Computer and Electronic Engineering')")
-    DATA['lectmodule']=("(1,'EE123')")
-    DATA['admin']=("(1,'Peter','Mangan')")
-    DATA['organise']=("(1,'EXAM1')")
-    DATA['student_exam']=("(12345678, 'EXAM1')")
-    DATA['course_module']=("('BP','EE123')")
-    DATA['student_module']=("(12345678, 'EE123')")
-    DATA['course_student']=("(12345678, 'BP')")
+    DATA['module']=(('EE123','Analogue Designs',2,5))
+    DATA['exam']=(('EXAM1','EE123','08:00:00','2021-06-01',120))
+    DATA['student']=((12345678,'niamh','hen','pw'))
+    DATA['lecturer']=((1,'Sinead','Grimes'))
+    DATA['course']=(('BP','Computer and Electronic Engineering'))
+    DATA['lect_module']=((1,'EE123'))
+    DATA['admin']=((1,'Peter','Mangan'))
+    DATA['organise']=((1,'EXAM1'))
+    DATA['student_exam']=((12345678, 'EXAM1'))
+    DATA['course_module']=(('BP','EE123'))
+    DATA['student_module']=((12345678, 'EE123'))
+    DATA['course_student']=((12345678, 'BP'))
     
     return DATA 
 
 def get_instructions():
-    INSTRUCTIONS= ["INSERT INTO `module`(`code`,`name`,`semester`,`ECTs`) VALUES (`%s`,`%s`,%s,%s);","INSERT INTO `exam` (`exam_id`,`module_code`,`time`,`date`, `duration`) VALUES ('%s','%s',%s,'%s',%s);","INSERT INTO `student`(`student_id`, `f_name`, `l_name`, `password`) VALUES (%s,'%s','%s','%s');","INSERT INTO `lecturer`(`lecturer_id`,`f_name`,`l_name`) VALUES (%s,'%s','%s');","INSERT INTO `course`(`code`,`name`) VALUES ('%s','%s');","INSERT INTO `lectmodule`(`staff_id`, `mod_code`) VALUES (%s,'%s');","INSERT INTO `admin`(`staff_id`,`f_name`,`l_name`) VALUES (%s,'%s','%s');","INSERT INTO `organise`(`staff_id`,`exam_id`) VALUES (%s,'%s');","INSERT INTO `student_exam`(`student_id`,`exam_id`) VALUES (%s,'%s');","INSERT INTO `course_module`(`course_code`,`mod_code`) VALUES ('%s','%s');","INSERT INTO `student_module`(`student_id`,`mod_code`) VALUES (%s,'%s');","INSERT INTO `course_student`(`student_id`,`course_code`) VALUES (%s,'%s');"]
+    INSTRUCTIONS= ["""INSERT INTO `module`(`code`,`name`,`semester`,`ECTs`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `exam` (`exam_id`,`module_code`,`time`,`date`, `duration`) VALUES (%s,%s,%s,%s,%s);""","""INSERT INTO `student`(`student_id`, `f_name`, `l_name`, `password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `lecturer`(`lecturer_id`,`f_name`,`l_name`) VALUES (%s,%s,%s);""","""INSERT INTO `course`(`code`,`name`) VALUES (%s,%s);""","""INSERT INTO `lect_module`(`staff_id`, `mod_code`) VALUES (%s,%s);""","""INSERT INTO `admin`(`staff_id`,`f_name`,`l_name`) VALUES (%s,%s,%s);""","""INSERT INTO `organise`(`staff_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `student_exam`(`student_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `course_module`(`course_code`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `student_module`(`student_id`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `course_student`(`student_id`,`course_code`) VALUES (%s,%s);"""]
     return INSTRUCTIONS
 
 def get_names():
-    NAMES=["module","exam","student","lecturer","course","admin","organise","student_exam","course_module","student_module","course_student"]
+    NAMES=["module","exam","student","lecturer","course","lect_module","admin","organise","student_exam","course_module","student_module","course_student"]

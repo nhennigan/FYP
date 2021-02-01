@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template,request,session
 import mysql.connector
 import schema2
 from mysql.connector import errorcode
@@ -93,61 +93,26 @@ def init():
         conn.populate_db2()
         conn.fill_database()
         #conn.student()
-        conn.sample_data()
-
-
-#    rec = conn.query_titles()
-
-#    if request.method == 'POST' and 'id' in request.form and 'password' in request.form :
-#        loginid = request.form['id']
-#        password = request.form['password']
-#        check = loginid + password
-#        return check
-#        conn.cursor.execute('SELECT * FROM Student WHERE id = % s AND password = % s', (loginid, password,))
-#        #return render_template('home.html',blog=conn)
-#        account = conn.fetchone()
-#        if account:
-##            session['loggedin'] = True
-##            session['id'] = account['id']
-##            session['username'] = account['username']
-#            msg = 'Logged in successfully !'
-#            return render_template('home.html')
-#        else:
-#            msg= 'Incorrect log in details'
+#        conn.sample_data()
     return render_template('login2.html',msg="start")
 
 @server.route('/login', methods = ['POST','GET'])
 def login(): 
     msg = '' 
-#    if request.method == 'POST' and 'username' in request.form and 'password' in request.form: 
-#        username = request.form['username'] 
-#        password = request.form['password']
-#        return render_template('home.html',blog=msg)
-        #cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor) 
-        #conn.cursor.execute('SELECT * FROM Student WHERE username = % s AND password = % s', (username, password, )) 
-        #account = cursor.fetchone() 
-       # if account: 
-       #     session['loggedin'] = True
-       #     session['id'] = account['id'] 
-       #     session['username'] = account['username'] 
-       #     msg = 'Logged in successfully !'
-       #     return render_template('home.html',blog=msg)
-       # else: 
-       #     msg = 'Incorrect username / password !'
-    return render_template('home.html', blog = msg)
-
-#def check_login():
-#    msg=''
-#    if request.method == 'POST' :
-#        msg="ok"
-#        return msg
-#        #        loginid = request.form['id']
-##        password = request.form['password']
-##        check = loginid + password
-##        return check
-#    else:
-#        msg='not ok '
-#    return render_template('login2.html',msg=msg) 
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form: 
+        username = request.form['username'] 
+        password = request.form['password']
+        conn.cursor.execute('SELECT * FROM student WHERE student_id = %s AND password = %s', (username, password, )) 
+        account = conn.cursor.fetchone() 
+        if account: 
+            session['loggedin'] = True
+            session['id'] = account['id'] 
+            session['username'] = account['username'] 
+            msg = 'Logged in successfully !'
+            return render_template('home.html',blog=msg)
+        else: 
+           msg = 'Incorrect username / password !'
+    return render_template('login2.html', msg = msg)
 
 @server.route('/home/', methods = ['POST','GET'])
 def home_page():
