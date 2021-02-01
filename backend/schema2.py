@@ -24,24 +24,23 @@ def get_tables():
 
     TABLES['course_student'] = ("CREATE TABLE `course_student` (`student_id` INT NOT NULL,`course_code` VARCHAR(45) NOT NULL,PRIMARY KEY (`student_id`,`course_code`),FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`),FOREIGN KEY (`course_code`) REFERENCES `course`(`code`));")
 
-#    TABLES['student_info'] = ("INSERT INTO student(student_id, f_name, l_name,password) VALUES (456,'niamh','hen','pw')")
 
     return TABLES
 
 def get_data():
     DATA = {}
-    DATA['module']=(('EE123','Analogue Designs',2,5))
-    DATA['exam']=(('EXAM1','EE123','08:00:00','2021-06-01',120))
-    DATA['student']=((12345678,'niamh','hen','pw'))
-    DATA['lecturer']=((1,'Sinead','Grimes'))
-    DATA['course']=(('BP','Computer and Electronic Engineering'))
-    DATA['lect_module']=((1,'EE123'))
-    DATA['admin']=((1,'Peter','Mangan'))
-    DATA['organise']=((1,'EXAM1'))
-    DATA['student_exam']=((12345678, 'EXAM1'))
-    DATA['course_module']=(('BP','EE123'))
-    DATA['student_module']=((12345678, 'EE123'))
-    DATA['course_student']=((12345678, 'BP'))
+    DATA['module']=[('EE123','Analogue Designs',2,5),('EE456','System On Chip Design',2,5)]
+    DATA['exam']=[('EXAM1','EE123','08:00:00','2021-06-01',120)]
+    DATA['student']=[(12345678,'niamh','hen','pw')]
+    DATA['lecturer']=[(1,'Sinead','Grimes')]
+    DATA['course']=[('BP','Computer and Electronic Engineering')]
+    DATA['lect_module']=[(1,'EE123')]
+    DATA['admin']=[(1,'Peter','Mangan')]
+    DATA['organise']=[(1,'EXAM1')]
+    DATA['student_exam']=[(12345678, 'EXAM1')]
+    DATA['course_module']=[('BP','EE123')]
+    DATA['student_module']=[(12345678, 'EE123')]
+    DATA['course_student']=[(12345678, 'BP')]
     
     return DATA 
 
