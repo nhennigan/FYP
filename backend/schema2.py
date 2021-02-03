@@ -22,7 +22,7 @@ def get_tables():
 
     TABLES['student_module'] = ("CREATE TABLE `student_module` (`student_id` INT NOT NULL,`mod_code` VARCHAR(45) NOT NULL,PRIMARY KEY (`student_id`,`mod_code`),FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`),FOREIGN KEY (`mod_code`) REFERENCES `module`(`code`));")
 
-    TABLES['course_student'] = ("CREATE TABLE `course_student` (`student_id` INT NOT NULL,`course_code` VARCHAR(45) NOT NULL,PRIMARY KEY (`student_id`,`course_code`),FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`),FOREIGN KEY (`course_code`) REFERENCES `course`(`code`));")
+    TABLES['course_student'] = ("CREATE TABLE `course_student` (`student_id` INT NOT NULL,`course_code` VARCHAR(45) NOT NULL,FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`),FOREIGN KEY (`course_code`) REFERENCES `course`(`code`));")
 
 
     return TABLES
@@ -31,7 +31,7 @@ def get_data():
     DATA = {}
     DATA['module']=[('EE123','Analogue Designs',2,5),('EE456','System On Chip Design',2,5)]
     DATA['exam']=[('EXAM1','EE123','08:00:00','2021-06-01',120)]
-    DATA['student']=[(12345678,'niamh','hen','pw')]
+    DATA['student']=[(12345678,'niamh','hen','pw'),(23456789,'John','Jones','pw'),(34567890,'Mary','OConnor','pw')]
     DATA['lecturer']=[(1,'Sinead','Grimes')]
     DATA['course']=[('BP','Computer and Electronic Engineering')]
     DATA['lect_module']=[(1,'EE123')]

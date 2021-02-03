@@ -2,9 +2,8 @@
 
 {% block content %}
     <h1>Home</h1>
-    <p>{%for c in blog %}
-   <div>   Hello    {{c}} + </div>
-    {% endfor %}
+    <p>
+    <div>   Hello    {{user.id_no}} + {{user.f_name}} + {{user.l_name}}+ {{user.course}}</div>
     </p>
     {% endblock %}
 

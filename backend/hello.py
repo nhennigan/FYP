@@ -49,10 +49,24 @@ class DBManager:
                 self.connection.commit()
             except mysql.connector.Error as err:
                     print(err.msg)
+    
+    def get_student_data(self,id_no):
+        self.cursor.execute('SELECT f_name,l_name FROM student WHERE student_id = %s ', (id_no,))
+        f_name,l_name = self.cursor.fetchone()
+        self.cursor.execute('SELECT course_code FROM course_student WHERE student_id = %s ', (id_no,))
+        course = self.cursor.fetchone()
+        return f_name,l_name,course
 
+class User:
+    def __init__(self,id_no,f_name,l_name,course):
+        self.id_no = id_no
+        self.f_name = f_name
+        self.l_name = l_name
+        self.course = course
 
 server = Flask(__name__)
 conn = None
+user_in = None
 
 @server.route('/',methods = ['POST','GET'])
 def init():
@@ -67,24 +81,28 @@ def init():
 @server.route('/login', methods = ['POST','GET'])
 def login(): 
     msg = '' 
+    global user_in
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form: 
         username = request.form['username'] 
         password = request.form['password']
         conn.cursor.execute('SELECT * FROM student WHERE student_id = %s AND password = %s', (username, password, )) 
         account = conn.cursor.fetchone() 
-        if account: 
-           # session['loggedin'] = True
-           # session['id'] = account['id'] 
-           # session['username'] = account['username'] 
+        if account:
+#            server.secret_key = 'super secret key'
+#            session['loggedin'] = True
+#            session['id'] = account['id'] 
+#            session['username'] = account['id'] 
+            f_name,l_name,course = conn.get_student_data(username)
+            user_in = User(username,f_name,l_name,course)
             msg = 'Logged in successfully !'
-            return render_template('home.html',blog=msg)
+            return render_template('home.html',user=user_in)
         else: 
            msg = 'Incorrect username / password !'
     return render_template('login2.html', msg = msg)
 
 @server.route('/home/', methods = ['POST','GET'])
 def home_page():
-    blog = "hello" 
+    blog = user_in.id_no
     return render_template('home.html',blog=blog)
 
 @server.route('/admin_home/', methods = ['POST','GET'])
