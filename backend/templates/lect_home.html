@@ -1,7 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-      <h1>Home</h1>
+<h1>Home {{lecturer.f_name}}</h1>
+   <p>
+        {%for item in lecturer.exam_list%}
+                {{item.module_code}}
+                {{item.time}}
+                {{item.date}}
+                {{item.duration}}
+                {{item.module_name}}
+                {{item.venue}}
+                {{item.lecturer_notes}}
+        {%endfor%}
+    </p>
 
 {% endblock %}
 

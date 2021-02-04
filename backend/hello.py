@@ -79,9 +79,30 @@ class DBManager:
             notes = self.cursor.fetchone()
             exam_object = Exam(code,time,date,duration,name,venue,notes) 
             exam_list_details.append(exam_object)
-        
         return exam_list_details
         
+    def get_lecturer_data(self,id_no):
+        lecturer_exam_list=[]
+        self.cursor.execute('SELECT f_name,l_name FROM lecturer where lecturer_id = %s ', (id_no,))
+        f_name,l_name = self.cursor.fetchone()
+        self.cursor.execute('SELECT mod_code FROM lect_module WHERE staff_id = %s ', (id_no,))
+        try:
+            modules = self.cursor.fetchall()
+        except mysql.connector.errors.InterfaceError as ie:
+            if ie.msg == 'No result set to fetch from.':
+        # no problem, we were just at the end of the result set
+                pass
+            else:
+                raise
+        for m in modules:
+            self.cursor.execute('SELECT time,date,duration,venue FROM exam WHERE module_code = %s ', (m[0],))
+            time,date,duration,venue = self.cursor.fetchone()
+            self.cursor.execute('SELECT name,lecturer_notes FROM module WHERE code = %s ', (m[0],))
+            name,notes = self.cursor.fetchone()
+            exam = Exam(m,time,date,duration,name,venue,notes)
+            lecturer_exam_list.append(exam)
+        lecturer_object = Lecturer(id_no,f_name,l_name,lecturer_exam_list)        
+        return lecturer_object
 
 class User:
     def __init__(self,id_no,f_name,l_name,course):
@@ -100,21 +121,28 @@ class Exam:
         self.venue = venue
         self.lecturer_notes = lecturer_notes
 
+#class Admin:
+#    def __init__(self):
+
+class Lecturer:
+    def __init__(self,lecturer_id,f_name,l_name,exam_list):
+        self.lecturer_id = lecturer_id
+        self.f_name = f_name
+        self.l_name = l_name
+        self.exam_list = exam_list
+
 server = Flask(__name__)
 conn = None
 user_in = None
-#cursorB = None
 
 @server.route('/',methods = ['POST','GET'])
 def init():
     msg=''
     global conn
-    #global cursorB
     if not conn:
         conn = DBManager(password_file='/run/secrets/db-password')
         conn.create_database_tables()
         conn.sample_data()
-        cursorB = conn.cursor(buffered=True)
     return render_template('login2.html',msg="start")
 
 @server.route('/login', methods = ['POST','GET'])
@@ -125,20 +153,24 @@ def login():
         username = request.form['username'] 
         password = request.form['password']
         conn.cursor.execute('SELECT * FROM student WHERE student_id = %s AND password = %s', (username, password, )) 
-        account = conn.cursor.fetchone() 
-        if account:
+        student_account = conn.cursor.fetchone() 
+        if student_account:
 #            server.secret_key = 'super secret key'
 #            session['loggedin'] = True
 #            session['id'] = account['id'] 
 #            session['username'] = account['id'] 
             f_name,l_name,course = conn.get_student_data(username)
             exam_list = conn.get_exam_data(username)
-#            cursorB.execute('SELECT exam_id FROM student_exam WHERE student_id = %s ', (id_no,))
- #           exams = cursorB.fetchall()
             user_in = User(username,f_name,l_name,course)
             msg = 'Logged in successfully !'
             return render_template('home.html',user=user_in,exams=exam_list)
-        else: 
+        else:
+            conn.cursor.execute('SELECT * FROM lecturer WHERE lecturer_id = %s AND password = %s', (username, password, ))
+        lecturer_account = conn.cursor.fetchone()
+        if lecturer_account:
+            lecturer_info = conn.get_lecturer_data(username)
+            return render_template('lect_home.html',lecturer = lecturer_info )
+        else:
            msg = 'Incorrect username / password !'
     return render_template('login2.html', msg = msg)
 
