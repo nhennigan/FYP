@@ -16,7 +16,8 @@ class DBManager:
             auth_plugin='mysql_native_password'
         )
         pf.close()
-        self.cursor = self.connection.cursor()
+        self.cursor = self.connection.cursor(buffered=True)
+#        self.cursor(buffered=True)
     
     def create_database_tables(self):
         tables = schema2.get_tables()
@@ -56,6 +57,31 @@ class DBManager:
         self.cursor.execute('SELECT course_code FROM course_student WHERE student_id = %s ', (id_no,))
         course = self.cursor.fetchone()
         return f_name,l_name,course
+        
+    def get_exam_data(self,id_no):
+        exam_list_details=[]
+#        cursor2 = self.cursor(buffered=True)
+        self.cursor.execute('SELECT exam_id FROM student_exam WHERE student_id = %s ', (id_no,))
+        try:
+            exams = self.cursor.fetchall()
+        except mysql.connector.errors.InterfaceError as ie:
+            if ie.msg == 'No result set to fetch from.':
+        # no problem, we were just at the end of the result set
+                pass
+            else:
+                raise
+        for e in exams:
+            self.cursor.execute('SELECT module_code,time,date,duration,venue FROM exam WHERE exam_id = %s ', (e[0],))
+            code,time,date,duration,venue = self.cursor.fetchone()
+            self.cursor.execute('SELECT name FROM module WHERE code = %s ', (code,))
+            name = self.cursor.fetchone()
+            self.cursor.execute('SELECT lecturer_notes FROM module WHERE code = %s ', (code,))
+            notes = self.cursor.fetchone()
+            exam_object = Exam(code,time,date,duration,name,venue,notes) 
+            exam_list_details.append(exam_object)
+        
+        return exam_list_details
+        
 
 class User:
     def __init__(self,id_no,f_name,l_name,course):
@@ -64,18 +90,31 @@ class User:
         self.l_name = l_name
         self.course = course
 
+class Exam:
+    def __init__(self,module_code, time, date, duration,module_name,venue,lecturer_notes):
+        self.module_code = module_code
+        self.time = time
+        self.dat = date
+        self.duration = duration
+        self.module_name = module_name
+        self.venue = venue
+        self.lecturer_notes = lecturer_notes
+
 server = Flask(__name__)
 conn = None
 user_in = None
+#cursorB = None
 
 @server.route('/',methods = ['POST','GET'])
 def init():
     msg=''
     global conn
+    #global cursorB
     if not conn:
         conn = DBManager(password_file='/run/secrets/db-password')
         conn.create_database_tables()
         conn.sample_data()
+        cursorB = conn.cursor(buffered=True)
     return render_template('login2.html',msg="start")
 
 @server.route('/login', methods = ['POST','GET'])
@@ -93,9 +132,12 @@ def login():
 #            session['id'] = account['id'] 
 #            session['username'] = account['id'] 
             f_name,l_name,course = conn.get_student_data(username)
+            exam_list = conn.get_exam_data(username)
+#            cursorB.execute('SELECT exam_id FROM student_exam WHERE student_id = %s ', (id_no,))
+ #           exams = cursorB.fetchall()
             user_in = User(username,f_name,l_name,course)
             msg = 'Logged in successfully !'
-            return render_template('home.html',user=user_in)
+            return render_template('home.html',user=user_in,exams=exam_list)
         else: 
            msg = 'Incorrect username / password !'
     return render_template('login2.html', msg = msg)
