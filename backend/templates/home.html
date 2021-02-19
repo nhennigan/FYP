@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Home</h1>
     <p>
-    <div>   Hello    {{user.id_no}} + {{user.f_name}} + {{user.l_name}}+ {{user.course}}</div>
+    <div>   Hello  to  {{user.id_no}} + {{user.f_name}} + {{user.l_name}}+ {{user.course}}</div>
     </p>
     <p>
 	{%for item in exams%}
@@ -14,6 +14,8 @@
 		{{item.module_name}}
 		{{item.venue}}
 		{{item.lecturer_notes}}
+		{{item.percent}}
+		{{item.seat_no}}
 	{%endfor%}
     </p>
     {% endblock %}

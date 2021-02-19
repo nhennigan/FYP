@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template,request,session
+from flask import Flask, render_template,request,session,redirect
 import mysql.connector
 import schema2
 from mysql.connector import errorcode
@@ -26,6 +26,7 @@ class DBManager:
             table_description = tables[table_name]
             try:
                 print("Creating table {}: ".format(table_name), end='')
+               # self.cursor.execute('DROP TABLE IF EXISTS %s ', (table_name,))
                 self.cursor.execute(table_description)
             except mysql.connector.Error as err:
                 if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
@@ -71,13 +72,15 @@ class DBManager:
             else:
                 raise
         for e in exams:
-            self.cursor.execute('SELECT module_code,time,date,duration,venue FROM exam WHERE exam_id = %s ', (e[0],))
-            code,time,date,duration,venue = self.cursor.fetchone()
+            self.cursor.execute('SELECT module_code,time,date,duration,venue,percent FROM exam WHERE exam_id = %s ', (e[0],))
+            code,time,date,duration,venue,percent = self.cursor.fetchone()
             self.cursor.execute('SELECT name FROM module WHERE code = %s ', (code,))
             name = self.cursor.fetchone()
             self.cursor.execute('SELECT lecturer_notes FROM module WHERE code = %s ', (code,))
             notes = self.cursor.fetchone()
-            exam_object = Exam(code,time,date,duration,name,venue,notes) 
+            self.cursor.execute('SELECT seat_no FROM seating WHERE student_id = %s AND exam_id = %s ', (id_no,e[0],))
+            seat_no = self.cursor.fetchone()
+            exam_object = Exam(code,time,date,duration,name,venue,percent,notes,seat_no) 
             exam_list_details.append(exam_object)
         return exam_list_details
         
@@ -95,11 +98,11 @@ class DBManager:
             else:
                 raise
         for m in modules:
-            self.cursor.execute('SELECT time,date,duration,venue FROM exam WHERE module_code = %s ', (m[0],))
-            time,date,duration,venue = self.cursor.fetchone()
+            self.cursor.execute('SELECT time,date,duration,venue,percent FROM exam WHERE module_code = %s ', (m[0],))
+            time,date,duration,venue,percent = self.cursor.fetchone()
             self.cursor.execute('SELECT name,lecturer_notes FROM module WHERE code = %s ', (m[0],))
             name,notes = self.cursor.fetchone()
-            exam = Exam(m,time,date,duration,name,venue,notes)
+            exam = Exam(m,time,date,duration,name,venue,percent,notes,0)
             lecturer_exam_list.append(exam)
         lecturer_object = Lecturer(id_no,f_name,l_name,lecturer_exam_list)        
         return lecturer_object
@@ -112,14 +115,16 @@ class User:
         self.course = course
 
 class Exam:
-    def __init__(self,module_code, time, date, duration,module_name,venue,lecturer_notes):
+    def __init__(self,module_code, time, date, duration,module_name,venue,percent,lecturer_notes,seat_no):
         self.module_code = module_code
         self.time = time
         self.dat = date
         self.duration = duration
         self.module_name = module_name
         self.venue = venue
+        self.percent = percent
         self.lecturer_notes = lecturer_notes
+        self.seat_no = seat_no
 
 #class Admin:
 #    def __init__(self):
@@ -132,6 +137,7 @@ class Lecturer:
         self.exam_list = exam_list
 
 server = Flask(__name__)
+server.secret_key = 'super secret key'
 conn = None
 user_in = None
 
@@ -157,12 +163,16 @@ def login():
         if student_account:
 #            server.secret_key = 'super secret key'
 #            session['loggedin'] = True
-#            session['id'] = account['id'] 
-#            session['username'] = account['id'] 
+#            session['id'] = student_account[id_no]
+#            session['username'] = student_account['f_name`'] 
+
             f_name,l_name,course = conn.get_student_data(username)
             exam_list = conn.get_exam_data(username)
             user_in = User(username,f_name,l_name,course)
             msg = 'Logged in successfully !'
+            session['loggedin'] = True
+            session['id'] = user_in.id_no
+            session['username'] = user_in.f_name
             return render_template('home.html',user=user_in,exams=exam_list)
         else:
             conn.cursor.execute('SELECT * FROM lecturer WHERE lecturer_id = %s AND password = %s', (username, password, ))
@@ -171,31 +181,36 @@ def login():
             lecturer_info = conn.get_lecturer_data(username)
             return render_template('lect_home.html',lecturer = lecturer_info )
         else:
+            conn.cursor.execute('SELECT * FROM admin WHERE staff_id = %s AND password = %s', (username, password, ))
+        admin_account = conn.cursor.fetchone()
+        if admin_account:
+            return render_template('admin_home.html')
+        else:
            msg = 'Incorrect username / password !'
     return render_template('login2.html', msg = msg)
 
-@server.route('/home/', methods = ['POST','GET'])
+@server.route('/login/home/', methods = ['POST','GET'])
 def home_page():
     blog = user_in.id_no
     return render_template('home.html',blog=blog)
 
-@server.route('/admin_home/', methods = ['POST','GET'])
+@server.route('/login/admin_home/', methods = ['POST','GET'])
 def admin_home_page():
     return render_template('admin_home.html')
 
-@server.route('/lect_home/')
+@server.route('/login/lect_home/')
 def lect_home_page():
     return render_template('lect_home.html')
 
-@server.route('/calendarview/')
+@server.route('/login/calendarview/')
 def calendar_page():
     return render_template('calendar.html')
 
-@server.route('/mapview/')
+@server.route('/login/mapview/')
 def map_page():
     return render_template('map.html')
 
-@server.route('/examofficeinfo/')
+@server.route('/login/examofficeinfo/')
 def info_page():
     return render_template('info.html')
 
