@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template,request,session,redirect
+from flask import Flask, render_template,request,session,redirect,url_for
 import mysql.connector
 import schema2
 from mysql.connector import errorcode
@@ -156,7 +156,7 @@ def init():
         conn.sample_data()
     return render_template('login2.html',msg="start")
 
-@server.route('/login', methods = ['POST','GET'])
+@server.route('/login',methods = ['POST','GET'])
 def login(): 
     msg = '' 
     global user_in
@@ -166,59 +166,57 @@ def login():
         conn.cursor.execute('SELECT * FROM student WHERE student_id = %s AND password = %s', (username, password, )) 
         student_account = conn.cursor.fetchone() 
         if student_account:
-#            server.secret_key = 'super secret key'
-#            session['loggedin'] = True
-#            session['id'] = student_account[id_no]
-#            session['username'] = student_account['f_name`'] 
-
-            f_name,l_name,course = conn.get_student_data(username)
-            exam_list = conn.get_exam_data(username)
-            user_in = User(username,f_name,l_name,course)
-            msg = 'Logged in successfully !'
             session['loggedin'] = True
             session['id'] = user_in.id_no
             session['username'] = user_in.f_name
-            return render_template('home.html',user=user_in,exams=exam_list)
+            return redirect(url_for('home_page',username = username))
         else:
             conn.cursor.execute('SELECT * FROM lecturer WHERE lecturer_id = %s AND password = %s', (username, password, ))
         lecturer_account = conn.cursor.fetchone()
         if lecturer_account:
-            lecturer_info = conn.get_lecturer_data(username)
-            return render_template('lect_home.html',lecturer = lecturer_info )
+            return redirect(url_for('lect_home_page',username = username))
         else:
             conn.cursor.execute('SELECT * FROM admin WHERE staff_id = %s AND password = %s', (username, password, ))
         admin_account = conn.cursor.fetchone()
         if admin_account:
-            return render_template('admin_home.html')
+            return redirect(url_for('admin_home_page',username='1'))
+            #need to finish creating the admin objects and finsih the url
         else:
            msg = 'Incorrect username / password !'
-    return render_template('login2.html', msg = msg)
+    return redirect(url_for('login_again', msg = msg))
 
-@server.route('/login/home/', methods = ['POST','GET'])
-def home_page():
-    blog = user_in.id_no
-    return render_template('home.html',blog=blog)
+@server.route('/home/<username>', methods = ['POST','GET'])
+def home_page(username):
+    f_name,l_name,course = conn.get_student_data(username)
+    exam_list = conn.get_exam_data(username)
+    user_in = User(username,f_name,l_name,course)
+    msg = 'Logged in successfully !'
+    return render_template('home.html',user=user_in,exams=exam_list)
 
-@server.route('/login/admin_home/', methods = ['POST','GET'])
-def admin_home_page():
+@server.route('/admin_home/<username>', methods = ['POST','GET'])
+def admin_home_page(username):
     return render_template('admin_home.html')
 
-@server.route('/login/lect_home/')
-def lect_home_page():
-    return render_template('lect_home.html')
+@server.route('/lect_home/<username>')
+def lect_home_page(username):
+    lecturer_info = conn.get_lecturer_data(username)
+    return render_template('lect_home.html',lecturer = lecturer_info)
 
-@server.route('/login/calendarview/')
+@server.route('/calendarview/')
 def calendar_page():
     return render_template('calendar.html')
 
-@server.route('/login/mapview/')
+@server.route('/mapview/')
 def map_page():
     return render_template('map.html')
 
-@server.route('/login/examofficeinfo/')
+@server.route('/examofficeinfo/')
 def info_page():
     return render_template('info.html')
 
+@server.route('/login_again')
+def login_again():
+    return render_template('login2.html',msg="Incorrect password/username!")
 
 if __name__ == '__main__':
     server.run(debug= True)
