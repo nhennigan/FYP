@@ -1,20 +1,66 @@
 {% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+}
+th {
+  text-align: left;
+}
+</style>
+</head>
+<body>
 
 {% block content %}
 <h1>Home {{lecturer.f_name}} {{lecturer.l_name}}</h1>
    <p>
         {%for item in lecturer.exam_list%}
-                {{item.module_code}}
-                {{item.time}}
-                {{item.date}}
-                {{item.duration}}
-                {{item.module_name}}
-                {{item.venue}}
-                {{item.lecturer_notes}}
-		{{item.percent}}
+        <table style="width:100%">
+            <tr>
+              <th colspan="4"> Exam Number </th>
+            </tr>
+            <tr>
+              <th>Module Name</th>
+              <th>{{item.module_name}}</th>
+              <th>Module Code</th>
+              <th>{{item.module_code}}</th> 
+            </tr>
+            <tr>
+              <td>Day</td>
+              <th>{{item.exam_day}}</th>
+              <td>Date</td>
+              <th>{{item.exam_date}}</th>
+            </tr>
+            <tr>
+              <td>Time</td>
+              <th>{{item.exam_time}}</th>
+              <td>Duration</td>
+              <th>{{item.duration}}</th>
+            </tr>
+            <tr>
+              <td>Venue</td>
+              <th>{{item.venue}}</th>
+              <td>Exam Percentage</td>
+              <th>{{item.percent}}</th>
+            </tr>
+            <tr>
+              <td>Lecturer's notes</td>
+              <th>{{item.lecturer_notes}}</th>
+              <td>Seat Number</td>
+              <th>{{item.seat_no}}</th>
+            </tr>
+          </table>
         {%endfor%}
     </p>
-
+</body>
+</html>
 {% endblock %}
+
 
 

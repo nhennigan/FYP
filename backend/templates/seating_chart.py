@@ -4,8 +4,8 @@ from matplotlib import colors as mcolors
 
 kingfisher_length =3
 kingfisher_breadth = 4
-bailey_allen_length = 2
-bailet_allen_breadth = 3
+bailey_allen_length = 20
+bailet_allen_breadth = 30
 
 def plot_seating(venue,seat_no):
 
@@ -32,7 +32,6 @@ def plot_seating(venue,seat_no):
             if counter == seat_no:
                 data[x_count][y_count]=2
 
-    print (data)
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
    
@@ -40,28 +39,7 @@ def plot_seating(venue,seat_no):
         ax.axhline(x, lw=2, color='k', zorder=5)
     for y in range(length+1):
         ax.axvline(y, lw=2, color='k', zorder=5)
-    print(data.T)
     ax.imshow(data.T,cmap=my_cmap,extent=[0, length, 0, breadth])
-    # Major ticks every 20, minor ticks every 5
-    # major_ticks_x = np.arange(0, length-1, 1)
-    # major_ticks_y = np.arange(0, breadth-1, 1)
-
-    # minor_ticks = np.arange(1, 4, 1)
-
-    #ax.set_xticks(major_ticks_x,minor=False)
-    # ax.set_xticks(minor_ticks, minor=True)
-    #ax.set_yticks(major_ticks_y)
-    # ax.set_yticks(minor_ticks, minor=True)
-
-    # And a corresponding grid
-    #for val in data.T:
-
-    #ax.grid(which='both')
-
-    # Or if you want different settings for the grids:
-    # ax.grid(which='minor', alpha=0.2)
-    #ax.grid(which='major', alpha=2,linewidth=2)
-    
 
     frame1 = plt.gca()
     frame1.axes.xaxis.set_ticklabels([])
@@ -70,4 +48,4 @@ def plot_seating(venue,seat_no):
     plt.show()
 
 if __name__ == "__main__":
-    plot_seating("Bil",1)
+    plot_seating("Bil",90)

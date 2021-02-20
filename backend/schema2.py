@@ -2,7 +2,7 @@ def get_tables():
     TABLES = {}
     TABLES['module'] = ( "CREATE TABLE `module` (`code` VARCHAR(45) NOT NULL,`name` VARCHAR(45) NULL,`semester` INT NULL,`ECTs` INT NULL,`lecturer_notes` VARCHAR(45),PRIMARY KEY (`code`));")
 
-    TABLES['exam'] = ("CREATE TABLE `exam` (`exam_id` VARCHAR(45) NOT NULL,`module_code` VARCHAR(45) NOT NULL,`time` TIME,`date` DATE,`duration` INT, `venue` VARCHAR(45), `percent` INT, PRIMARY KEY (`exam_id`),FOREIGN KEY (`module_code`) REFERENCES `module`(`code`));")
+    TABLES['exam'] = ("CREATE TABLE `exam` (`exam_id` VARCHAR(45) NOT NULL,`module_code` VARCHAR(45) NOT NULL,`time` TIME,`exam_date` DATE,`duration` INT, `venue` VARCHAR(45), `percent` INT, PRIMARY KEY (`exam_id`),FOREIGN KEY (`module_code`) REFERENCES `module`(`code`));")
 
     TABLES['student'] = ("CREATE TABLE `student` (`student_id` INT NOT NULL,`f_name` VARCHAR(45),`l_name` VARCHAR(45),`password` VARCHAR(45), PRIMARY KEY (`student_id`));")
 
@@ -60,7 +60,7 @@ def get_data():
     return DATA 
 
 def get_instructions():
-    INSTRUCTIONS= ["""INSERT INTO `module`(`code`,`name`,`semester`,`ECTs`,`lecturer_notes`) VALUES (%s,%s,%s,%s,%s);""","""INSERT INTO `exam` (`exam_id`,`module_code`,`time`,`date`, `duration`,`venue`,`percent`) VALUES (%s,%s,%s,%s,%s,%s,%s);""","""INSERT INTO `student`(`student_id`, `f_name`, `l_name`, `password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `lecturer`(`lecturer_id`,`f_name`,`l_name`,`password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `course`(`code`,`name`) VALUES (%s,%s);""","""INSERT INTO `lect_module`(`staff_id`, `mod_code`) VALUES (%s,%s);""","""INSERT INTO `admin`(`staff_id`,`f_name`,`l_name`,`password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `organise`(`staff_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `student_exam`(`student_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `course_module`(`course_code`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `student_module`(`student_id`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `course_student`(`student_id`,`course_code`) VALUES (%s,%s);""","""INSERT INTO `seating`(`student_id`,`exam_id`,`seat_no`)VALUES (%s,%s,%s);"""]
+    INSTRUCTIONS= ["""INSERT INTO `module`(`code`,`name`,`semester`,`ECTs`,`lecturer_notes`) VALUES (%s,%s,%s,%s,%s);""","""INSERT INTO `exam` (`exam_id`,`module_code`,`time`,`exam_date`, `duration`,`venue`,`percent`) VALUES (%s,%s,%s,%s,%s,%s,%s);""","""INSERT INTO `student`(`student_id`, `f_name`, `l_name`, `password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `lecturer`(`lecturer_id`,`f_name`,`l_name`,`password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `course`(`code`,`name`) VALUES (%s,%s);""","""INSERT INTO `lect_module`(`staff_id`, `mod_code`) VALUES (%s,%s);""","""INSERT INTO `admin`(`staff_id`,`f_name`,`l_name`,`password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `organise`(`staff_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `student_exam`(`student_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `course_module`(`course_code`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `student_module`(`student_id`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `course_student`(`student_id`,`course_code`) VALUES (%s,%s);""","""INSERT INTO `seating`(`student_id`,`exam_id`,`seat_no`)VALUES (%s,%s,%s);"""]
     return INSTRUCTIONS
 
 def get_names():

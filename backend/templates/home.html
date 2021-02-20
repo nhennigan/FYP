@@ -1,22 +1,62 @@
 {% extends "base.html" %}
-
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+}
+th {
+  text-align: left;
+}
+</style>
+</head>
+<body>
 {% block content %}
-    <h1>Home</h1>
-    <p>
-    <div>   Hello  to  {{user.id_no}} + {{user.f_name}} + {{user.l_name}}+ {{user.course}}</div>
-    </p>
-    <p>
-	{%for item in exams%}
-		{{item.module_code}}
-		{{item.time}}
-		{{item.date}}
-		{{item.duration}}
-		{{item.module_name}}
-		{{item.venue}}
-		{{item.lecturer_notes}}
-		{{item.percent}}
-		{{item.seat_no}}
-	{%endfor%}
-    </p>
-    {% endblock %}
+<h2>Hello  to  {{user.id_no}} + {{user.f_name}} + {{user.l_name}}+ {{user.course}}</h2>
 
+{%for item in exams%}
+    <table style="width:100%">
+      <tr>
+        <th colspan="4"> Exam Number </th>
+      </tr>
+      <tr>
+        <th>Module Name</th>
+        <th>{{item.module_name}}</th>
+        <th>Module Code</th>
+        <th>{{item.module_code}}</th> 
+      </tr>
+      <tr>
+        <td>Day</td>
+	<th>{{item.exam_day}}</th>
+        <th></th>
+        <td>Date</td>
+        <th>{{item.exam_date}}</th>
+      </tr>
+      <tr>
+        <td>Time</td>
+        <th>{{item.time}}</th>
+        <td>Duration</td>
+        <th>{{item.duration}}</th>
+      </tr>
+      <tr>
+        <td>Venue</td>
+        <th>{{item.venue}}</th>
+        <td>Seat Number</td>
+        <th>{{item.seat_no}}</th>
+      </tr>
+      <tr>
+        <td>Exam Percentage</td>
+        <th>{{item.percent}}</th>
+        <td>Lecturer's notes</td>
+        <th>{{item.lecturer_notes}}</th>
+      </tr>
+    </table>
+    {%endfor%}
+{% endblock %}
+</body>
+</html>

@@ -72,15 +72,17 @@ class DBManager:
             else:
                 raise
         for e in exams:
-            self.cursor.execute('SELECT module_code,time,date,duration,venue,percent FROM exam WHERE exam_id = %s ', (e[0],))
-            code,time,date,duration,venue,percent = self.cursor.fetchone()
+            self.cursor.execute('SELECT module_code,time,exam_date,duration,venue,percent FROM exam WHERE exam_id = %s ', (e[0],))
+            code,time,exam_date,duration,venue,percent = self.cursor.fetchone()
+            self.cursor.execute('SELECT DAYNAME(%s)',(exam_date,))
+            exam_day = self.cursor.fetchone()
             self.cursor.execute('SELECT name FROM module WHERE code = %s ', (code,))
             name = self.cursor.fetchone()
             self.cursor.execute('SELECT lecturer_notes FROM module WHERE code = %s ', (code,))
             notes = self.cursor.fetchone()
             self.cursor.execute('SELECT seat_no FROM seating WHERE student_id = %s AND exam_id = %s ', (id_no,e[0],))
             seat_no = self.cursor.fetchone()
-            exam_object = Exam(code,time,date,duration,name,venue,percent,notes,seat_no) 
+            exam_object = Exam(code,time,exam_date,exam_day,duration,name,venue,percent,notes,seat_no) 
             exam_list_details.append(exam_object)
         return exam_list_details
         
@@ -98,11 +100,13 @@ class DBManager:
             else:
                 raise
         for m in modules:
-            self.cursor.execute('SELECT time,date,duration,venue,percent FROM exam WHERE module_code = %s ', (m[0],))
-            time,date,duration,venue,percent = self.cursor.fetchone()
+            self.cursor.execute('SELECT time,exam_date,duration,venue,percent FROM exam WHERE module_code = %s ', (m[0],))
+            time,exam_date,duration,venue,percent = self.cursor.fetchone()
             self.cursor.execute('SELECT name,lecturer_notes FROM module WHERE code = %s ', (m[0],))
             name,notes = self.cursor.fetchone()
-            exam = Exam(m,time,date,duration,name,venue,percent,notes,0)
+            self.cursor.execute('SELECT DAYNAME(%s)',(exam_date,))
+            exam_day = self.cursor.fetchone()
+            exam = Exam(m,time,exam_date,exam_day,duration,name,venue,percent,notes,0)
             lecturer_exam_list.append(exam)
         lecturer_object = Lecturer(id_no,f_name,l_name,lecturer_exam_list)        
         return lecturer_object
@@ -115,10 +119,11 @@ class User:
         self.course = course
 
 class Exam:
-    def __init__(self,module_code, time, date, duration,module_name,venue,percent,lecturer_notes,seat_no):
+    def __init__(self,module_code, time, exam_date,exam_day, duration,module_name,venue,percent,lecturer_notes,seat_no):
         self.module_code = module_code
         self.time = time
-        self.dat = date
+        self.exam_date = exam_date
+        self.exam_day = exam_day
         self.duration = duration
         self.module_name = module_name
         self.venue = venue
