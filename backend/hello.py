@@ -109,7 +109,13 @@ class DBManager:
             exam = Exam(m,time,exam_date,exam_day,duration,name,venue,percent,notes,0)
             lecturer_exam_list.append(exam)
         lecturer_object = Lecturer(id_no,f_name,l_name,lecturer_exam_list)        
+        print('In lecturer object')
         return lecturer_object
+
+    def update_lecturer_notes(self,notes,module_code):
+        self.cursor.execute('UPDATE module SET lecturer_notes = %s WHERE code=%s', (notes,module_code))
+        self.connection.commit()
+
 
 class User:
     def __init__(self,id_no,f_name,l_name,course):
@@ -201,6 +207,7 @@ def login_required(func):
 #this method needs testing
 @server.route('/logout/')
 def logout():
+    #this may need to be session.pop()
     session.clear()
     return redirect(url_for("login_again"))
 
@@ -210,7 +217,6 @@ def home_page():
     f_name,l_name,course = conn.get_student_data(session["username"])
     exam_list = conn.get_exam_data(session["username"])
     user_in = User(session["username"],f_name,l_name,course)
-    msg = 'Logged in successfully !'
     return render_template('home.html',user=user_in,exams=exam_list)
 
 @server.route('/admin_home/', methods = ['POST','GET'])
@@ -224,15 +230,17 @@ def lect_home_page():
     lecturer_info = conn.get_lecturer_data(session["username"])
     return render_template('lect_home.html',lecturer = lecturer_info)
 
-#@server.route('lecturer_updates')
-#def update_lect_notes():
-
+@server.route('/lecturer_updates/', methods = ['POST','GET'])
+@login_required
+def update_lect_notes():
+    if request.method == 'POST' and 'notes' in request.form and 'module_code' in request.form:
+        conn.update_lecturer_notes(request.form['notes'],request.form['module_code'])
+        return redirect(url_for('lect_home_page'))
+    return redirect(url_for('lect_home_page'))
 
 @server.route('/calendarview/')
 @login_required
 def calendar_page():
-#    if "username" not in session:
-#        return redirect(url_for("login_again"))
     return render_template('calendar.html')
 
 @server.route('/mapview/')

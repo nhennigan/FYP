@@ -26,13 +26,13 @@ th {
       </tr>
       <tr>
         <th>Module Name</th>
-        <th>{{item.module_name}}</th>
+        <th>{{item.module_name[0]}}</th>
         <th>Module Code</th>
         <th>{{item.module_code}}</th> 
       </tr>
       <tr>
         <td>Day</td>
-	<th>{{item.exam_day}}</th>
+	<th>{{item.exam_day[0]}}</th>
         <th></th>
         <td>Date</td>
         <th>{{item.exam_date}}</th>
@@ -53,7 +53,7 @@ th {
         <td>Exam Percentage</td>
         <th>{{item.percent}}</th>
         <td>Lecturer's notes</td>
-        <th>{{item.lecturer_notes}}</th>
+        <th>{{item.lecturer_notes[0]}}</th>
       </tr>
     </table>
     {%endfor%}
