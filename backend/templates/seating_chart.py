@@ -48,4 +48,4 @@ def plot_seating(venue,seat_no):
     plt.show()
 
 if __name__ == "__main__":
-    plot_seating("Bil",90)
+    plot_seating("Bil",7)

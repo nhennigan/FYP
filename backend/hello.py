@@ -3,7 +3,7 @@ from flask import Flask, render_template,request,session,redirect,url_for
 import mysql.connector
 import schema2
 from mysql.connector import errorcode
-
+import functools
 
 class DBManager:
     def __init__(self, database='example', host="db", user="root", password_file=None):
@@ -166,57 +166,88 @@ def login():
         conn.cursor.execute('SELECT * FROM student WHERE student_id = %s AND password = %s', (username, password, )) 
         student_account = conn.cursor.fetchone() 
         if student_account:
-            session['loggedin'] = True
-            session['id'] = user_in.id_no
-            session['username'] = user_in.f_name
-            return redirect(url_for('home_page',username = username))
+            create_session(username,password)
+            return redirect(url_for('home_page'))
         else:
             conn.cursor.execute('SELECT * FROM lecturer WHERE lecturer_id = %s AND password = %s', (username, password, ))
         lecturer_account = conn.cursor.fetchone()
         if lecturer_account:
-            return redirect(url_for('lect_home_page',username = username))
+            create_session(username,password)
+            return redirect(url_for('lect_home_page'))
         else:
             conn.cursor.execute('SELECT * FROM admin WHERE staff_id = %s AND password = %s', (username, password, ))
         admin_account = conn.cursor.fetchone()
         if admin_account:
-            return redirect(url_for('admin_home_page',username='1'))
+            create_session(username,password)
+            return redirect(url_for('admin_home_page'))
             #need to finish creating the admin objects and finsih the url
         else:
            msg = 'Incorrect username / password !'
     return redirect(url_for('login_again', msg = msg))
 
-@server.route('/home/<username>', methods = ['POST','GET'])
-def home_page(username):
-    f_name,l_name,course = conn.get_student_data(username)
-    exam_list = conn.get_exam_data(username)
-    user_in = User(username,f_name,l_name,course)
+def create_session(username,password):
+    session['loggedin'] = True
+    session['id'] = password
+    session["username"] = username
+
+def login_required(func):
+    @functools.wraps(func)
+    def secure_function(*args, **kwargs):
+        if "username" not in session:
+            return redirect(url_for("login_again"))
+        return func()
+    return secure_function
+
+#this method needs testing
+@server.route('/logout/')
+def logout():
+    session.clear()
+    return redirect(url_for("login_again"))
+
+@server.route('/home/', methods = ['POST','GET'])
+@login_required
+def home_page():
+    f_name,l_name,course = conn.get_student_data(session["username"])
+    exam_list = conn.get_exam_data(session["username"])
+    user_in = User(session["username"],f_name,l_name,course)
     msg = 'Logged in successfully !'
     return render_template('home.html',user=user_in,exams=exam_list)
 
-@server.route('/admin_home/<username>', methods = ['POST','GET'])
-def admin_home_page(username):
+@server.route('/admin_home/', methods = ['POST','GET'])
+@login_required
+def admin_home_page():
     return render_template('admin_home.html')
 
-@server.route('/lect_home/<username>')
-def lect_home_page(username):
-    lecturer_info = conn.get_lecturer_data(username)
+@server.route('/lect_home/')
+@login_required
+def lect_home_page():
+    lecturer_info = conn.get_lecturer_data(session["username"])
     return render_template('lect_home.html',lecturer = lecturer_info)
 
+#@server.route('lecturer_updates')
+#def update_lect_notes():
+
+
 @server.route('/calendarview/')
+@login_required
 def calendar_page():
+#    if "username" not in session:
+#        return redirect(url_for("login_again"))
     return render_template('calendar.html')
 
 @server.route('/mapview/')
+@login_required
 def map_page():
     return render_template('map.html')
 
 @server.route('/examofficeinfo/')
+@login_required
 def info_page():
     return render_template('info.html')
 
 @server.route('/login_again')
 def login_again():
-    return render_template('login2.html',msg="Incorrect password/username!")
+    return render_template('login2.html',msg="Please Log In")
 
 if __name__ == '__main__':
     server.run(debug= True)
