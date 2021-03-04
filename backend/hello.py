@@ -4,6 +4,7 @@ import mysql.connector
 import schema2
 from mysql.connector import errorcode
 import functools
+#import seating_chart
 
 class DBManager:
     def __init__(self, database='example', host="db", user="root", password_file=None):
@@ -219,6 +220,14 @@ def home_page():
     user_in = User(session["username"],f_name,l_name,course)
     return render_template('home.html',user=user_in,exams=exam_list)
 
+@server.route('/home/seating_chart',methods = ['POST','GET'])
+@login_required
+def plot_seating_chart():
+#    if request.method == 'POST' and 'venue' in request.form and 'seat_no' in request.form:
+#        seating_chart.plot_seating(request.form['venue'],request.form['seat_no'])
+    return redirect(url_for(home_page))
+
+
 @server.route('/admin_home/', methods = ['POST','GET'])
 @login_required
 def admin_home_page():
@@ -242,6 +251,10 @@ def update_lect_notes():
 @login_required
 def calendar_page():
     return render_template('calendar.html')
+
+#@server.route('/modal/')
+#def modal():
+#    return render_template('modal.html')
 
 @server.route('/mapview/')
 @login_required

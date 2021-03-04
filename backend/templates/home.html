@@ -13,50 +13,128 @@ th, td {
 th {
   text-align: left;
 }
+.modal {
+  display: none;
+  position: fixed; 
+  padding-top: 50px;
+  left: 0; 
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  position: relative; 
+  background-color: white;
+  padding: 20px; 
+  margin: auto; 
+  width: 75%;  
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+.close-btn {
+  float: right; 
+  color: lightgray; 
+  font-size: 24px;  
+  font-weight: bold;
+}
+.close-btn:hover {
+  color: darkgray;
+}
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
 </style>
 </head>
 <body>
+
+
 {% block content %}
 <h2>Hello  to  {{user.id_no}} + {{user.f_name}} + {{user.l_name}}+ {{user.course}}</h2>
 
-{%for item in exams%}
-    <table style="width:100%">
-      <tr>
-        <th colspan="4"> Exam Number </th>
-      </tr>
-      <tr>
-        <th>Module Name</th>
-        <th>{{item.module_name[0]}}</th>
-        <th>Module Code</th>
-        <th>{{item.module_code}}</th> 
-      </tr>
-      <tr>
-        <td>Day</td>
-	<th>{{item.exam_day[0]}}</th>
-        <th></th>
-        <td>Date</td>
-        <th>{{item.exam_date}}</th>
-      </tr>
-      <tr>
-        <td>Time</td>
-        <th>{{item.time}}</th>
-        <td>Duration</td>
-        <th>{{item.duration}}</th>
-      </tr>
-      <tr>
-        <td>Venue</td>
-        <th>{{item.venue}}</th>
-        <td>Seat Number</td>
-        <th>{{item.seat_no}}</th>
-      </tr>
-      <tr>
-        <td>Exam Percentage</td>
-        <th>{{item.percent}}</th>
-        <td>Lecturer's notes</td>
-        <th>{{item.lecturer_notes[0]}}</th>
-      </tr>
-    </table>
-    {%endfor%}
+<h2>Modal Example</h2>
+
+<button id="modal-btn"> click me, I make a modal</button>
+<div class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <p>this is the text inside the modal</p>
+  </div>
+</div>
+
+<script>
+let modalBtn = document.getElementById("modal-btn")
+let modal = document.querySelector(".modal")
+let closeBtn = document.querySelector(".close-btn")
+
+modalBtn.onclick = function(){
+  modal.style.display = "block"
+}
+closeBtn.onclick = function(){
+  modal.style.display = "none"
+}
+window.onclick = function(e){
+  if(e.target == modal){
+    modal.style.display = "none"
+  }
+}
+</script>
+
+
+  {%for item in exams%}
+      <table border="1">
+        <tr>
+          <th colspan="4"> Exam Number </th>
+        </tr>
+        <tr>
+          <th>Module Name</th>
+          <th>{{item.module_name[0]}}</th>
+          <th>Module Code</th>
+          <th>{{item.module_code}}</th>
+        </tr>
+        <tr>
+          <th>Day</th>
+          <th>{{item.exam_day[0]}}</th>
+          <th>Date</th>
+          <th>{{item.exam_date}}</th>
+        </tr>
+        <tr>
+          <th>Time</th>
+          <th>{{item.time}}</th>
+          <th>Duration</th>
+          <th>{{item.duration}}</th>
+        </tr>
+        <tr>
+          <th>Venue</th>
+          <th>{{item.venue}}</th>
+          <th>Seat Number</th>
+	  <script src="seating_chart.py">
+	  </script>
+	  <form action="http://127.0.0.1:5000/home/seating_chart"  method="post">
+	    <th>{{item.seat_no}}
+	    <input type = "hidden" name = "venue" value={{item.venue}} />
+	    <input type = "hidden" name = "seat_no" value={{item.seat_no}} />
+            <input type = "submit" value = "Seating Chart" />
+	  </th>
+        </tr>
+        <tr>
+          <th>Exam Percentage</th>
+          <th>{{item.percent}}</th>
+          <th>Lecturer notes</th>
+          <th>{{item.lecturer_notes[0]}}</th>
+        </tr>
+      </table>
+      {%endfor%}
 {% endblock %}
+
 </body>
 </html>
