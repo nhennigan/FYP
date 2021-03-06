@@ -33,7 +33,7 @@ def get_data():
 
     DATA['module']=[('EE123','Analogue Designs',2,5,"Ask for log tables"),('EE456','System On Chip Design',2,5,'Bring calulcator'),('CT432','Object Oriented Programming',2,5,'Answer all questions'),('BA234','Irish History',2,5,'Answer any 2 questions'),('BA245','Creative Writing',2,10,'References not reuired'),('BA256','Intoduction to Journalism',2,5,'Answer all questions')]
 
-    DATA['exam']=[('EXAM1','EE123','08:00:00','2021-06-01',120,'The Kingfisher',100),('EXAM2','EE456','08:00:00','2021-06-01',120,'The Kingfisher',70),('EXAM3','CT432','08:00:00','2021-06-01',120,'The Kingfisher',90),('EXAM4','BA234','08:00:00','2021-06-01',120,'The Kingfisher',50),('EXAM5','BA245','08:00:00','2021-06-01',120,'The Kingfisher',40),('EXAM6','BA256','08:00:00','2021-06-01',120,'The Kingfisher',100)]
+    DATA['exam']=[('EXAM1','EE123','08:00:00','2021-06-01',120,'Kingfisher',100),('EXAM2','EE456','08:00:00','2021-06-01',120,'Galway Bay Hotel',70),('EXAM3','CT432','08:00:00','2021-06-01',120,'Leisureland Salthill',90),('EXAM4','BA234','08:00:00','2021-06-01',120,'Bailey Allen Hall',50),('EXAM5','BA245','08:00:00','2021-06-01',120,'Kingfisher',40),('EXAM6','BA256','08:00:00','2021-06-01',120,'Alice Perry Engineering Building',100)]
 
     DATA['student']=[(12345678,'Niamh','Hennigan','pw'),(23456789,'John','Jones','pw'),(34567890,'Mary','OConnor','pw'),(45678901,'Luke','Curran','pw'),(56789012,'Meadhbh','Keane','pw'),(67890123,'Katie','Whelan','pw'),(78901234,'Michael','Talty','pw'),(89012345,'Aine','Ronan','pw'),(90123456,'Rachel','Foxe','pw'),(10000000,'Ray','Goose','pw')]
    

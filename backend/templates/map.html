@@ -13,6 +13,10 @@
 
 {% block content %}
 <h1>Calendar</h1>
+{%for l in locations%}
+	{{ l }}
+{%endfor%}
+
 
 
 <div style="width: 90%; height: 70%" id="mapContainer"></div>
@@ -23,23 +27,58 @@
         'apikey': '5Nxc5Dus3Mmms7nW5XShHhZ9LfhXiez4jS6R4N1yrU8'
       });
 	  
-	   const lat = 53.2819;
-	   const long = -9.0626;
-	   const lat1 = 53.2836;
-           const long1 = -9.0640;
-	   const lat2 = 53.2586;
-           const long2 = -9.0849;
-	
+	   var lat_king = 0;
+	   var long_king = 0;
+	   var lat_eng = 53.2836;
+           var long_eng = -9.0640;
+	   var lat_ba = 53.2586;
+           var long_ba = -9.0849;
+	   var lat_lland = 53.2590;
+           var long_lland = -9.0823;
+	   var lat_nurse = 53.277784;
+           var long_nurse = -9.06186;	
+	   var lat_gbay = 53.2586;
+           var long_gbay = -9.0849;
 	// Obtain the default map types from the platform object
       var maptypes = platform.createDefaultLayers();
+	
+      var locs = {{locations|tojson}}
 
+      for (l=0; l < locs.length; l++){
+	      if (locs[l] === "Kingfisher" ){
+		console.log("here");
+	      	var lat_king = 53.2819
+		var long_king = -9.0626;
+	      }
+	      else if (locs[l] === "Galway Bay Hotel"){
+		var lat_gbay = 53.2586;
+		var long_gbay = -9.0849;
+      	      }
+	      else if (locs[l] === "Leisureland Salthill"){
+                var lat_lland = 53.2590;
+                var long_lland = -9.0823;
+              }
+	      // bailey allen coordinates seem to be wrong
+	      else if (locs[l] === "Bailey Allen Hall"){
+                var lat_ba = 53.2586;
+                var long_ba = -9.0849;
+              }
+	      else if (locs[l] === "Alice Perry Engineering Building"){
+                var lat_eng = 53.2586;
+                var long_eng = -9.0849;
+              }
+	      else if (locs[l] === "Aras Moyola"){
+                var lat_nurse = 53.2586;
+                var long_nures = -9.0849;
+              }
+}
       // Initialize a map:
       var map = new H.Map(
         document.getElementById('mapContainer'),
         maptypes.raster.terrain.map,
         {
           zoom: 12,
-          center: { lat: lat, lng: long }  
+          center: { lat: lat_king, lng: long_king }  
         });
 		
 	// Enable the event system on the map instance:
@@ -55,16 +94,20 @@
 	 var behavior = new H.mapevents.Behavior(mapEvents);
 
 	//window.addEventListener('resize',()=> get.ViewProt().resize())
-	var marker = new H.map.Marker({ lat: lat, lng: long });
+	var marker = new H.map.Marker({ lat: lat_king, lng: long_king });
 		
 	// Add the marker to the map:
 	map.addObject(marker);
 
-	var marker1 = new H.map.Marker({ lat: lat1, lng: long1 });
+	var marker1 = new H.map.Marker({ lat: lat_gbay, lng: long_gbay });
 	map.addObject(marker1);
 
-	var marker2 = new H.map.Marker({ lat: lat2, lng: long2 });
+	var marker2 = new H.map.Marker({ lat: lat_lland, lng: long_lland });
         map.addObject(marker2);
+
+//	var marker3 = new H.map.Marker({ lat: lat_ba, lng: long_ba });
+//        map.addObject(marker3);
+
 
 	// Create the default UI:
 	var ui = H.ui.UI.createDefault(map, maptypes);

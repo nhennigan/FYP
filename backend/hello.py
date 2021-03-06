@@ -59,7 +59,17 @@ class DBManager:
         self.cursor.execute('SELECT course_code FROM course_student WHERE student_id = %s ', (id_no,))
         course = self.cursor.fetchone()
         return f_name,l_name,course
-        
+
+    def get_locations(self,id_no):
+            locations=[]
+            self.cursor.execute('SELECT exam_id FROM student_exam WHERE student_id = %s ', (id_no,))
+            exams = self.cursor.fetchall()
+            for e in exams:
+                self.cursor.execute('SELECT venue FROM exam WHERE exam_id = %s ', (e[0],))
+                venue = self.cursor.fetchone();
+                locations.append(venue[0])
+            return locations
+
     def get_exam_data(self,id_no):
         exam_list_details=[]
 #        cursor2 = self.cursor(buffered=True)
@@ -259,7 +269,8 @@ def calendar_page():
 @server.route('/mapview/')
 @login_required
 def map_page():
-    return render_template('map.html')
+    venues = conn.get_locations(session["username"])
+    return render_template('map.html',locations=venues)
 
 @server.route('/examofficeinfo/')
 @login_required
