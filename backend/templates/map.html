@@ -17,7 +17,7 @@
 	{{ l }}
 {%endfor%}
 
-
+<p id="demo"></p>
 
 <div style="width: 90%; height: 70%" id="mapContainer"></div>
 
@@ -27,51 +27,73 @@
         'apikey': '5Nxc5Dus3Mmms7nW5XShHhZ9LfhXiez4jS6R4N1yrU8'
       });
 	  
-	   var lat_king = 0;
-	   var long_king = 0;
-	   var lat_eng = 53.2836;
+	var lat_king = 53.2819;
+           var long_king = -9.0626;
+           var lat_eng = 53.2836;
            var long_eng = -9.0640;
-	   var lat_ba = 53.2586;
+           var lat_ba = 53.2586;
            var long_ba = -9.0849;
-	   var lat_lland = 53.2590;
-           var long_lland = -9.0823;
-	   var lat_nurse = 53.277784;
-           var long_nurse = -9.06186;	
-	   var lat_gbay = 53.2586;
-           var long_gbay = -9.0849;
+           var lat_lland = 0;
+           var long_lland = 0;
+           var lat_nurse = 53.277784;
+           var long_nurse = -9.06186;   
+           var lat_gbay = 0;
+           var long_gbay = 0;
 	// Obtain the default map types from the platform object
       var maptypes = platform.createDefaultLayers();
 	
       var locs = {{locations|tojson}}
 
+var markers= []
+      pointer = 0;
       for (l=0; l < locs.length; l++){
 	      if (locs[l] === "Kingfisher" ){
 		console.log("here");
 	      	var lat_king = 53.2819
 		var long_king = -9.0626;
+		markers[pointer] = lat_king;
+		markers[pointer+1] = long_king;
+		pointer = pointer +2;
 	      }
 	      else if (locs[l] === "Galway Bay Hotel"){
 		var lat_gbay = 53.2586;
 		var long_gbay = -9.0849;
+		markers[pointer] = lat_gbay;
+	        markers[pointer+1] = long_gbay;
+	        pointer = pointer +2;
       	      }
 	      else if (locs[l] === "Leisureland Salthill"){
                 var lat_lland = 53.2590;
                 var long_lland = -9.0823;
+		markers[pointer] = lat_lland;
+		markers[pointer+1] = long_lland;
+		pointer = pointer +2;
               }
 	      // bailey allen coordinates seem to be wrong
 	      else if (locs[l] === "Bailey Allen Hall"){
-                var lat_ba = 53.2586;
-                var long_ba = -9.0849;
+                var lat_ba = 53.2784;
+                var long_ba = -9.0581;
+		markers[pointer] = lat_ba;
+		markers[pointer+1] = long_ba;
+		pointer = pointer +2;
               }
 	      else if (locs[l] === "Alice Perry Engineering Building"){
-                var lat_eng = 53.2586;
-                var long_eng = -9.0849;
+                var lat_eng = 53.2784;
+                var long_eng = -9.0640;
+		markers[pointer] = lat_eng;
+		markers[pointer+1] = long_eng;
+		pointer = pointer +2;
               }
 	      else if (locs[l] === "Aras Moyola"){
-                var lat_nurse = 53.2586;
-                var long_nures = -9.0849;
+                var lat_nurse = 53.277784;
+                var long_nures = -9.06186;
+		markers[pointer] = lat_nurse;
+		markers[pointer+1] = long_nurse;
+		pointer = pointer +2;
               }
 }
+document.getElementById("demo").innerHTML = markers;
+
       // Initialize a map:
       var map = new H.Map(
         document.getElementById('mapContainer'),
@@ -94,20 +116,25 @@
 	 var behavior = new H.mapevents.Behavior(mapEvents);
 
 	//window.addEventListener('resize',()=> get.ViewProt().resize())
-	var marker = new H.map.Marker({ lat: lat_king, lng: long_king });
-		
-	// Add the marker to the map:
-	map.addObject(marker);
+//	var marker = new H.map.Marker({ lat: lat_king, lng: long_king });
+//		
+//	// Add the marker to the map:
+//	map.addObject(marker);
+//
+//	var marker1 = new H.map.Marker({ lat: lat_gbay, lng: long_gbay });
+//	map.addObject(marker1);
 
-	var marker1 = new H.map.Marker({ lat: lat_gbay, lng: long_gbay });
-	map.addObject(marker1);
-
-	var marker2 = new H.map.Marker({ lat: lat_lland, lng: long_lland });
-        map.addObject(marker2);
+//	var marker2 = new H.map.Marker({ lat: lat_lland, lng: long_lland });
+//        map.addObject(marker2);
 
 //	var marker3 = new H.map.Marker({ lat: lat_ba, lng: long_ba });
 //        map.addObject(marker3);
 
+
+	for (m = 0; m < markers.length; m+=2){
+	    var marker = new H.map.Marker({ lat: markers[m], lng: markers[m+1] });
+	    map.addObject(marker);
+        }
 
 	// Create the default UI:
 	var ui = H.ui.UI.createDefault(map, maptypes);
