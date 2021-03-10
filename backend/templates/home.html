@@ -56,11 +56,29 @@
         </tr>
         <tr>
           <th>Venue</th>
-          <th>{{item.venue}}</th>
+	  <!--make the button an image and leave //{item.venue} with double brackets  -->
+          <th>
+          <!-- Trigger/Open The Modal -->
+	  <button class="myBtn_multi">{{item.venue}}</button>
+
+                  <!-- The Modal -->
+                 <div  class="modal modal_multi">
+
+            <!-- Modal content -->
+                <div class="modal-content">
+                <span class="close close_multi">×</span>
+                <p>Some text in the Modal..2</p>
+            </div>
+
+        </div>
+        </div>
+
+
+	  </th>
           <th>Seat Number</th>
           <th>
 	  <!-- Trigger/Open The Modal -->
-	  <button class="myBtn_multi">2</button>
+	  <button class="myBtn_multi">{{item.seat_no[0]}}</button>
 
 		  <!-- The Modal -->
 	         <div  class="modal modal_multi">
