@@ -4,17 +4,6 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-th, td {
-  padding: 5px;
-}
-th {
-  text-align: left;
-}
-
 
 </style>
 </head>
@@ -41,9 +30,61 @@ th {
 
     </div>
 
-    
 
-    <script>
+  {%for item in exams%}
+      <table border="1">
+        <tr>
+          <th colspan="4"> Exam Number </th>
+        </tr>
+        <tr>
+          <th>Module Name</th>
+          <th>{{item.module_name[0]}}</th>
+          <th>Module Code</th>
+          <th>{{item.module_code}}</th>
+        </tr>
+        <tr>
+          <th>Day</th>
+          <th>{{item.exam_day[0]}}</th>
+          <th>Date</th>
+          <th>{{item.exam_date}}</th>
+        </tr>
+        <tr>
+          <th>Time</th>
+          <th>{{item.time}}</th>
+          <th>Duration</th>
+          <th>{{item.duration}}</th>
+        </tr>
+        <tr>
+          <th>Venue</th>
+          <th>{{item.venue}}</th>
+          <th>Seat Number</th>
+          <th>
+	  <!-- Trigger/Open The Modal -->
+	  <button class="myBtn_multi">2</button>
+
+		  <!-- The Modal -->
+	         <div  class="modal modal_multi">
+
+            <!-- Modal content -->
+        	<div class="modal-content">
+                <span class="close close_multi">×</span>
+                <p>Some text in the Modal..2</p>
+            </div>
+    
+        </div>
+        </div>
+	  </th>
+        </tr>
+        <tr>
+          <th>Exam Percentage</th>
+          <th>{{item.percent}}</th>
+          <th>Lecturer notes</th>
+          <th>{{item.lecturer_notes[0]}}</th>
+        </tr>
+      </table>
+      {%endfor%}
+
+      <script>
         // Get the modal
 
         var modalparent = document.getElementsByClassName("modal_multi");
@@ -95,63 +136,6 @@ th {
         };
 
     </script>
-
-
-  {%for item in exams%}
-      <table border="1">
-        <tr>
-          <th colspan="4"> Exam Number </th>
-        </tr>
-        <tr>
-          <th>Module Name</th>
-          <th>{{item.module_name[0]}}</th>
-          <th>Module Code</th>
-          <th>{{item.module_code}}</th>
-        </tr>
-        <tr>
-          <th>Day</th>
-          <th>{{item.exam_day[0]}}</th>
-          <th>Date</th>
-          <th>{{item.exam_date}}</th>
-        </tr>
-        <tr>
-          <th>Time</th>
-          <th>{{item.time}}</th>
-          <th>Duration</th>
-          <th>{{item.duration}}</th>
-        </tr>
-        <tr>
-          <th>Venue</th>
-          <th>{{item.venue}}</th>
-          <th>Seat Number</th>
-          <th>
-	  <!-- Trigger/Open The Modal -->
-      <button class="myBtn_multi">Open Modal2</button>
-
-		<!-- The Modal -->
-		<div id="seatModal" class="modal">
-
-		  <!-- The Modal -->
-          <div  class="modal modal_multi">
-
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close close_multi">×</span>
-                <p>Some text in the Modal..2</p>
-            </div>
-    
-        </div>
-        </div>
-	  </th>
-        </tr>
-        <tr>
-          <th>Exam Percentage</th>
-          <th>{{item.percent}}</th>
-          <th>Lecturer notes</th>
-          <th>{{item.lecturer_notes[0]}}</th>
-        </tr>
-      </table>
-      {%endfor%}
 {% endblock %}
 
 

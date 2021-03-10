@@ -275,7 +275,7 @@ def map_page():
 @server.route('/examofficeinfo/')
 @login_required
 def info_page():
-    return render_template('info.html')
+    return render_template('modal.html')
 
 @server.route('/login_again')
 def login_again():
