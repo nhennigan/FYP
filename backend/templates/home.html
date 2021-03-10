@@ -3,6 +3,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <script  src="modal.js"> </script> -->
 <style>
 
 </style>
@@ -12,7 +13,7 @@
 
 {% block content %}
 <h2>Hello  to  {{user.id_no}} + {{user.f_name}} + {{user.l_name}}+ {{user.course}}</h2>
-
+<img src="{{url_for('static', filename='clear_chair.PNG')}}">
 <h2>Modal Example</h2>
 
 <!-- Trigger/Open The Modal -->
@@ -59,7 +60,7 @@
 	  <!--make the button an image and leave //{item.venue} with double brackets  -->
           <th>
           <!-- Trigger/Open The Modal -->
-	  <button class="myBtn_multi">{{item.venue}}</button>
+	  <button class="myBtn_multi" id = {{item.venue}}>{{item.venue}}</button>
 
                   <!-- The Modal -->
                  <div  class="modal modal_multi">
@@ -67,7 +68,14 @@
             <!-- Modal content -->
                 <div class="modal-content">
                 <span class="close close_multi">×</span>
-                <p>Some text in the Modal..2</p>
+                <p>
+		<button onclick="msg()">Call the function</button>
+		<img src="~/timetables/backend/static/{{item.venue}}.jpg" >
+		<img src ='{{url_for("static", filename="%s.jpg" % item.venue)}}'>
+		Some text in the Modal..2
+		{{item.venue}}.jpg
+		Kingfisher.jpg
+		</p>
             </div>
 
         </div>
@@ -78,7 +86,7 @@
           <th>Seat Number</th>
           <th>
 	  <!-- Trigger/Open The Modal -->
-	  <button class="myBtn_multi">{{item.seat_no[0]}}</button>
+	  <button class="myBtn_multi" >{{item.seat_no[0]}} </button>
 
 		  <!-- The Modal -->
 	         <div  class="modal modal_multi">
@@ -86,7 +94,9 @@
             <!-- Modal content -->
         	<div class="modal-content">
                 <span class="close close_multi">×</span>
-                <p>Some text in the Modal..2</p>
+                <p>	
+		<img src="{{url_for('static', filename='clear_chair.PNG')}}">
+		</p>
             </div>
     
         </div>
@@ -153,7 +163,11 @@
             }
         };
 
+	function msg(){  
+		 alert("Hello Javatpoint");  
+	}  
     </script>
+
 {% endblock %}
 
 
