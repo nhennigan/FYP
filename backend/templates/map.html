@@ -12,12 +12,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Calendar</h1>
-{%for l in locations%}
-	{{ l }}
-{%endfor%}
-
-<p id="demo"></p>
+<h1>Map</h1>
 
 <div style="width: 90%; height: 70%" id="mapContainer"></div>
 
@@ -82,7 +77,6 @@ var markers= []
 		pointer = pointer +2;
               }
 }
-document.getElementById("demo").innerHTML = markers;
 
       // Initialize a map:
       var map = new H.Map(

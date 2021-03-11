@@ -176,7 +176,7 @@ def init():
 @server.route('/login',methods = ['POST','GET'])
 def login(): 
     msg = '' 
-    global user_in
+#    global user_in
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form: 
         username = request.form['username'] 
         password = request.form['password']
@@ -266,7 +266,7 @@ def calendar_page():
 #def modal():
 #    return render_template('modal.html')
 
-@server.route('/mapview/')
+@server.route('/mapview/',methods = ['POST','GET'])
 @login_required
 def map_page():
     venues = conn.get_locations(session["username"])
