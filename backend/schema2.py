@@ -2,7 +2,7 @@ def get_tables():
     TABLES = {}
     TABLES['module'] = ( "CREATE TABLE `module` (`code` VARCHAR(45) NOT NULL,`name` VARCHAR(45) NULL,`semester` INT NULL,`ECTs` INT NULL,`lecturer_notes` VARCHAR(45),PRIMARY KEY (`code`));")
 
-    TABLES['exam'] = ("CREATE TABLE `exam` (`exam_id` VARCHAR(45) NOT NULL,`module_code` VARCHAR(45) NOT NULL,`time` TIME,`exam_date` DATE,`duration` INT, `venue` VARCHAR(45), `percent` INT, PRIMARY KEY (`exam_id`),FOREIGN KEY (`module_code`) REFERENCES `module`(`code`));")
+    TABLES['exam'] = ("CREATE TABLE `exam` (`exam_id` VARCHAR(45) NOT NULL,`module_code` VARCHAR(45) NOT NULL,`time` TIME,`exam_date` DATE,`duration` INT, `venue` VARCHAR(45), `percent` INT,`start_date` timestamp NOT NULL,`end_date` timestamp NOT NULL, PRIMARY KEY (`exam_id`),FOREIGN KEY (`module_code`) REFERENCES `module`(`code`));")
 
     TABLES['student'] = ("CREATE TABLE `student` (`student_id` INT NOT NULL,`f_name` VARCHAR(45),`l_name` VARCHAR(45),`password` VARCHAR(45), PRIMARY KEY (`student_id`));")
 
@@ -26,6 +26,7 @@ def get_tables():
 
     TABLES['seating'] = ("CREATE TABLE `seating` (`student_id` INT NOT NULL,`exam_id` VARCHAR(45) NOT NULL,`seat_no` INT, FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`),FOREIGN KEY (`exam_id`) REFERENCES `exam`(`exam_id`),PRIMARY KEY (`student_id`,`exam_id`));") 
 
+    TABLES  ['event'] = ("CREATE TABLE `event` (`id` int unsigned NOT NULL AUTO_INCREMENT,`title` varchar(255) NOT NULL,`url` varchar(255) NOT NULL,`type` varchar(255) NOT NULL,`start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,`end_date` timestamp NOT NULL,PRIMARY KEY (`id`))")
     return TABLES
 
 def get_data():
@@ -33,7 +34,7 @@ def get_data():
 
     DATA['module']=[('EE123','Analogue Designs',2,5,"Ask for log tables"),('EE456','System On Chip Design',2,5,'Bring calulcator'),('CT432','Object Oriented Programming',2,5,'Answer all questions'),('BA234','Irish History',2,5,'Answer any 2 questions'),('BA245','Creative Writing',2,10,'References not reuired'),('BA256','Intoduction to Journalism',2,5,'Answer all questions')]
 
-    DATA['exam']=[('EXAM1','EE123','08:00:00','2021-06-01',120,'Kingfisher',100),('EXAM2','EE456','08:00:00','2021-06-01',120,'Galway Bay Hotel',70),('EXAM3','CT432','08:00:00','2021-06-01',120,'Leisureland Salthill',90),('EXAM4','BA234','08:00:00','2021-06-01',120,'Bailey Allen Hall',50),('EXAM5','BA245','08:00:00','2021-06-01',120,'Kingfisher',40),('EXAM6','BA256','08:00:00','2021-06-01',120,'Alice Perry Engineering Building',100)]
+    DATA['exam']=[('EXAM1','EE123','08:00:00','2021-06-01',120,'Kingfisher',100,'2021-03-10 20:00:00','2021-03-10 20:01:02'),('EXAM2','EE456','08:00:00','2021-06-01',120,'Galway Bay Hotel',70,'2021-03-11 20:00:00','2021-03-11 20:01:02'),('EXAM3','CT432','08:00:00','2021-06-01',120,'Leisureland Salthill',90,'2021-03-12 20:00:00','2021-03-12 20:01:02'),('EXAM4','BA234','08:00:00','2021-06-01',120,'Bailey Allen Hall',50,'2021-03-13 20:00:00','2021-03-13 20:01:02'),('EXAM5','BA245','08:00:00','2021-06-01',120,'Kingfisher',40,'2021-03-14 20:00:00','2021-03-14 20:01:02'),('EXAM6','BA256','08:00:00','2021-06-01',120,'Alice Perry Engineering Building',100,'2021-03-15 20:00:00','2021-03-15 20:01:02')]
 
     DATA['student']=[(12345678,'Niamh','Hennigan','pw'),(23456789,'John','Jones','pw'),(34567890,'Mary','OConnor','pw'),(45678901,'Luke','Curran','pw'),(56789012,'Meadhbh','Keane','pw'),(67890123,'Katie','Whelan','pw'),(78901234,'Michael','Talty','pw'),(89012345,'Aine','Ronan','pw'),(90123456,'Rachel','Foxe','pw'),(10000000,'Ray','Goose','pw')]
    
@@ -56,11 +57,13 @@ def get_data():
     DATA['course_student']=[(12345678, 'BP'),(23456789, 'BP'),(34567890, 'BP'),(45678901, 'BP'),(56789012,'BA'),(67890123,'BA'),(78901234,'BA'),(89012345,'BA'),(90123456,'BA')]
 
     DATA['seating']=[('12345678','EXAM1','1'),('12345678','EXAM2','56')]
+
+    DATA['event']=[(1,'Example','http://www.example.com','event-sucess','2021-09-10 20:00:00','2021-09-10 20:01:02'),(2,'Roy Tutorials','https://roytuts.com','event-important','2021-09-15 19:00:00','2021-09-15 19:42:45'),(3,'Roy Tutorial','https://roytuts.com','event-info','2021-09-23 20:03:05','2021-09-24 08:45:53'),(4,'Roy Tutorial','https://roytuts.com','event-error','2021-09-24 20:03:05','2021-09-25 08:45:53')]
     
     return DATA 
 
 def get_instructions():
-    INSTRUCTIONS= ["""INSERT INTO `module`(`code`,`name`,`semester`,`ECTs`,`lecturer_notes`) VALUES (%s,%s,%s,%s,%s);""","""INSERT INTO `exam` (`exam_id`,`module_code`,`time`,`exam_date`, `duration`,`venue`,`percent`) VALUES (%s,%s,%s,%s,%s,%s,%s);""","""INSERT INTO `student`(`student_id`, `f_name`, `l_name`, `password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `lecturer`(`lecturer_id`,`f_name`,`l_name`,`password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `course`(`code`,`name`) VALUES (%s,%s);""","""INSERT INTO `lect_module`(`staff_id`, `mod_code`) VALUES (%s,%s);""","""INSERT INTO `admin`(`staff_id`,`f_name`,`l_name`,`password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `organise`(`staff_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `student_exam`(`student_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `course_module`(`course_code`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `student_module`(`student_id`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `course_student`(`student_id`,`course_code`) VALUES (%s,%s);""","""INSERT INTO `seating`(`student_id`,`exam_id`,`seat_no`)VALUES (%s,%s,%s);"""]
+    INSTRUCTIONS= ["""INSERT INTO `module`(`code`,`name`,`semester`,`ECTs`,`lecturer_notes`) VALUES (%s,%s,%s,%s,%s);""","""INSERT INTO `exam` (`exam_id`,`module_code`,`time`,`exam_date`, `duration`,`venue`,`percent`,`start_date`,`end_date`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s);""","""INSERT INTO `student`(`student_id`, `f_name`, `l_name`, `password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `lecturer`(`lecturer_id`,`f_name`,`l_name`,`password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `course`(`code`,`name`) VALUES (%s,%s);""","""INSERT INTO `lect_module`(`staff_id`, `mod_code`) VALUES (%s,%s);""","""INSERT INTO `admin`(`staff_id`,`f_name`,`l_name`,`password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `organise`(`staff_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `student_exam`(`student_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `course_module`(`course_code`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `student_module`(`student_id`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `course_student`(`student_id`,`course_code`) VALUES (%s,%s);""","""INSERT INTO `seating`(`student_id`,`exam_id`,`seat_no`)VALUES (%s,%s,%s);""","""INSERT INTO `event`(`id`,`title`,`url`,`type`,`start_date`,`end_date`)VALUES (%s,%s,%s,%s,%s,%s);"""]
     return INSTRUCTIONS
 
 def get_names():

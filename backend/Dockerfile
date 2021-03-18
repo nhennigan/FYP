@@ -5,7 +5,7 @@ COPY requirements.txt /code/
 
 RUN apk update  
 #RUN apk add python3-dev 
-
+RUN pip install Flask-Datepicker
 
 RUN pip install -r requirements.txt
 #RUN apk add gcc

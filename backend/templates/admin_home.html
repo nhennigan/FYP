@@ -2,7 +2,51 @@
 
 {% block content %}
       <h1>Home</h1>
+      {{user.f_name}} {{user.l_name}}
+        {%for item in user.exam_list%}
+	<table border="1">
+        <tr>
+          <th colspan="4"> Exam Number </th>
+        </tr>
+        <tr>
+          <th>Module Name</th>
+          <th>{{item.module_name[0]}}</th>
+          <th>Module Code</th>
+          <th>{{item.module_code}}</th>
+        </tr>
+        <tr>
+          <th>Day</th>
+          <th>{{item.exam_day[0]}}</th>
+          <th>Date</th>
+          <th>{{item.exam_date}}</th>
+        </tr>
+        <tr>
+          <th>Time</th>
+          <th>{{item.time}}</th>
+          <th>Duration</th>
+          <th>{{item.duration}}</th>
+        </tr>
+        <tr>
+          <th>Venue</th>
+          <th> {{item.venue}}</th>
+          <th>Seat Number</th>
+          <th> Need to alter </th>
+        </tr>
+        <tr>
+          <th>Exam Percentage</th>
+          <th>{{item.percent}}</th>
+          <th>Lecturer notes</th>
+          <th>{{item.lecturer_notes[0]}}</th>
+        </tr>
+      </table>
 
+	{%endfor%}
+	        <form action = "http://127.0.0.1:5000/admin_updates" method = "post">
+		<input type = "text" name = "module_code" />
+		<input type = "text" name = "attributes" />
+		<input type = "text" name = "updated info" />
+                <input type = "submit" value = "submit" />
+              </form>
 {% endblock %}
 
 

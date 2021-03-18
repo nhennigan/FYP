@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template,request,session,redirect,url_for
+from flask import Flask, render_template,request,session,redirect,url_for,jsonify
 import mysql.connector
 import schema2
 from mysql.connector import errorcode
@@ -70,6 +70,11 @@ class DBManager:
                 locations.append(venue[0])
             return locations
 
+    def get_calendar_date(self,id_no):
+        self.cursor.execute('SELECT exam_id FROM student_exam WHERE student_id = %s ', (id_no,))
+        exams = self.cursor.fetchall()
+
+
     def get_exam_data(self,id_no):
         exam_list_details=[]
 #        cursor2 = self.cursor(buffered=True)
@@ -123,6 +128,32 @@ class DBManager:
         print('In lecturer object')
         return lecturer_object
 
+    def get_admin_data(self,id_no):
+        admin_exam_list=[]
+        self.cursor.execute('SELECT f_name,l_name FROM admin where staff_id = %s ', (id_no,))
+        f_name,l_name = self.cursor.fetchone()
+        self.cursor.execute('SELECT exam_id FROM organise WHERE staff_id = %s ', (id_no,))
+        try:
+            exams = self.cursor.fetchall()
+        except mysql.connector.errors.InterfaceError as ie:
+            if ie.msg == 'No result set to fetch from.':
+        # no problem, we were just at the end of the result set
+                pass
+            else:
+                raise
+        for e in exams:
+            self.cursor.execute('SELECT module_code,time,exam_date,duration,venue,percent FROM exam WHERE exam_id = %s ', (e[0],))
+            code,time,exam_date,duration,venue,percent = self.cursor.fetchone()
+            self.cursor.execute('SELECT DAYNAME(%s)',(exam_date,))
+            exam_day = self.cursor.fetchone()
+            self.cursor.execute('SELECT name FROM module WHERE code = %s ', (code,))
+            name = self.cursor.fetchone()
+            self.cursor.execute('SELECT lecturer_notes FROM module WHERE code = %s ', (code,))
+            notes = self.cursor.fetchone()
+            exam_object = Exam(code,time,exam_date,exam_day,duration,name,venue,percent,notes,0)
+            admin_exam_list.append(exam_object)
+        return admin_exam_list
+
     def update_lecturer_notes(self,notes,module_code):
         self.cursor.execute('UPDATE module SET lecturer_notes = %s WHERE code=%s', (notes,module_code))
         self.connection.commit()
@@ -148,12 +179,17 @@ class Exam:
         self.lecturer_notes = lecturer_notes
         self.seat_no = seat_no
 
-#class Admin:
-#    def __init__(self):
 
 class Lecturer:
     def __init__(self,lecturer_id,f_name,l_name,exam_list):
         self.lecturer_id = lecturer_id
+        self.f_name = f_name
+        self.l_name = l_name
+        self.exam_list = exam_list
+
+class Admin:
+    def __init__(self,staff_id,f_name,l_name,exam_list):
+        self.staff_id = staff_id
         self.f_name = f_name
         self.l_name = l_name
         self.exam_list = exam_list
@@ -241,7 +277,20 @@ def plot_seating_chart():
 @server.route('/admin_home/', methods = ['POST','GET'])
 @login_required
 def admin_home_page():
-    return render_template('admin_home.html')
+    conn.cursor.execute('SELECT f_name,l_name FROM admin WHERE staff_id = %s', (session["username"],))    
+    f_name,l_name = conn.cursor.fetchone()
+    exams = conn.get_admin_data(session["username"])
+    admin = Admin(session["username"],f_name,l_name,exams)
+    return render_template('admin_home.html',user = admin)
+
+@server.route('/admin_updates/', methods = ['POST','GET'])
+@login_required
+def admin_updates():
+    if request.method == 'POST' and 'notes' in request.form and 'attributes' in request.form:
+#        conn.update_lecturer_notes(request.form['notes'],request.form['module_code'])
+        return redirect(url_for('admin_home'))
+    return redirect(url_for('admin_home'))
+
 
 @server.route('/lect_home/')
 @login_required
@@ -260,7 +309,24 @@ def update_lect_notes():
 @server.route('/calendarview/')
 @login_required
 def calendar_page():
-    return render_template('calendar.html')
+    conn.cursor.execute("SELECT id, title, url, type, UNIX_TIMESTAMP(start_date)*1000 as start, UNIX_TIMESTAMP(end_date)*1000 as end FROM event")
+    id, title, url,type,start,end = conn.cursor.fetchone()
+    js = [{'success' : 1, 'result': {'id': id, 'title':title,'url':url,'class':type,'start':start,'end':end}}]
+    #rows = conn.cursor.fetchone()
+    resp = jsonify({'success' : 1, 'result' : rows})
+    resp.status_code = 200
+    r = {      
+            "id": 293,
+            "title": "Event 1",
+            "url": "http://example.com",
+            "class": "event-important",
+            "start": 12039485678000,
+            "end": 1234576967000
+        }
+    jr = jsonify({'success' : 1, 'result' : r})
+    return js
+ 
+#    return render_template('calendar.html',r=rows)
 
 #@server.route('/modal/')
 #def modal():
@@ -276,6 +342,30 @@ def map_page():
 @login_required
 def info_page():
     return render_template('modal.html')
+
+
+@server.route('/calendar_events/')
+@login_required
+def calendar_events():
+    try:
+        conn.cursor.execute("SELECT id, title, url, type, UNIX_TIMESTAMP(start_date)*1000 as start,UNIX_TIMESTAMP(end_date)*1000 as end FROM event")
+        rows = conn.cursor.fetchall()
+        resp = jsonify({'success' : 1, 'result' : rows})
+        resp.status_code = 200
+#        r = {
+#		"id": 293,
+#		"title": "Event 1",
+#		"url": "http://example.com",
+#		"class": "event-important",
+#		"start": 12039485678000, 
+#		"end": 1234576967000 
+#	}
+#        jr = jsonify({'success' : 1, 'result' : r})
+#        jr.status_code = 200
+
+        return resp
+    except Exception as e:
+        print(e)
 
 @server.route('/login_again')
 def login_again():
