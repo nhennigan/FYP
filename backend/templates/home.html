@@ -9,9 +9,23 @@
 </style>
 </head>
 <body>
-
-
 {% block content %}
+
+<div>
+  <input type="checkbox" id="morning" name="morning"
+         checked>
+  <label for="morning">9:30</label>
+</div>
+
+<div>
+  <input type="checkbox" id="afternoon" name="afternoon">
+  <label for="afternoon">1:00</label>
+</div>
+<div>
+	<input type="checkbox" id="evening" name="evening">
+  <label for="evening">4:30</label>
+</div>
+
 <h2>Hello  to  {{user.id_no}} + {{user.f_name}} + {{user.l_name}}+ {{user.course}}</h2>
 <img src="{{url_for('static', filename='clear_chair.PNG')}}">
 <h2>Modal Example</h2>
@@ -75,6 +89,7 @@
 		<img src ='{{url_for("static", filename="%s.jpg" % item.venue)}}'>
 		<input type="submit" class="button" value=" View on map"> 
 		</p>
+		</form>
 		</div>
             </div>
 
@@ -88,14 +103,35 @@
 	  <!-- Trigger/Open The Modal -->
 	  <button class="myBtn_multi" >{{item.seat_no[0]}} </button>
 
-		  <!-- The Modal -->
+		 <!-- The Modal -->
 	         <div  class="modal modal_multi">
 
-            <!-- Modal content -->
+	        <!-- Modal content -->
         	<div class="modal-content">
                 <span class="close close_multi">×</span>
-                <p>	
+                <form action="http://127.0.0.1:5000/seating_chart"  method="post"> 
+		<p>
+		<input type="submit" class="button" value=" View on chart">
+		</form>
 		<img src="{{url_for('static', filename='clear_chair.PNG')}}">
+		<table>
+			<tr>
+				<th > Front of exam hall </th>
+		        </tr>
+		        <tr>
+		          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
+		          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
+		          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
+		          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
+		        </tr>
+			<tr>
+                          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
+                          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
+                          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
+                          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
+                        </tr>
+
+		</table>
 		</p>
             </div>
     
@@ -111,8 +147,59 @@
         </tr>
       </table>
       {%endfor%}
-{% endblock %}
+      <script>
+        // Get the modal
 
+        var modalparent = document.getElementsByClassName("modal_multi");
+
+        // Get the button that opens the modal
+
+        var modal_btn_multi = document.getElementsByClassName("myBtn_multi");
+
+        // Get the <span> element that closes the modal
+        var span_close_multi = document.getElementsByClassName("close_multi");
+
+        // When the user clicks the button, open the modal
+        function setDataIndex() {
+
+            for (i = 0; i < modal_btn_multi.length; i++)
+            {
+                modal_btn_multi[i].setAttribute('data-index', i);
+                modalparent[i].setAttribute('data-index', i);
+                span_close_multi[i].setAttribute('data-index', i);
+            }
+        }
+
+
+
+        for (i = 0; i < modal_btn_multi.length; i++)
+        {
+            modal_btn_multi[i].onclick = function() {
+                var ElementIndex = this.getAttribute('data-index');
+                modalparent[ElementIndex].style.display = "block";
+            };
+
+            // When the user clicks on <span> (x), close the modal
+            span_close_multi[i].onclick = function() {
+                var ElementIndex = this.getAttribute('data-index');
+                modalparent[ElementIndex].style.display = "none";
+            };
+
+        }
+
+        window.onload = function() {
+
+            setDataIndex();
+        };
+
+        window.onclick = function(event) {
+            if (event.target === modalparent[event.target.getAttribute('data-index')]) {
+                modalparent[event.target.getAttribute('data-index')].style.display = "none";
+            }
+        };
+
+    </script>
+{% endblock %}
 
 </body>
 </html>

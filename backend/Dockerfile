@@ -5,8 +5,8 @@ COPY requirements.txt /code/
 
 RUN apk update  
 #RUN apk add python3-dev 
-RUN pip install Flask-Datepicker
-
+#RUN pip install Flask-Datepicker
+RUN pip install Flask-Mail
 RUN pip install -r requirements.txt
 #RUN apk add gcc
 #RUN pip install flask-googlemaps
@@ -16,6 +16,6 @@ RUN pip install -r requirements.txt
 #RUN ln -s /usr/include/locale.h /usr/include/xlocale.h
 #RUN pip install numpy==1.14.3
 COPY . /code/
-ENV FLASK_APP hello.py
+ENV FLASK_APP main.py
 CMD flask run --host=0.0.0.0
 #CMD ["site.py"] 
