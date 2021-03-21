@@ -8,7 +8,7 @@
 
 </style>
 </head>
-<body>
+<body onload="document.seating.submit()">
 {% block content %}
 
 <div>
@@ -28,7 +28,6 @@
 
 <h2>Hello  to  {{user.id_no}} + {{user.f_name}} + {{user.l_name}}+ {{user.course}}</h2>
 <img src="{{url_for('static', filename='clear_chair.PNG')}}">
-<h2>Modal Example</h2>
 
 <!-- Trigger/Open The Modal -->
 <button class="myBtn_multi">Open Modal</button>
@@ -100,6 +99,11 @@
 	  </th>
           <th>Seat Number</th>
           <th>
+	    <form action="http://127.0.0.1:5000/seating_chart" name="seating" id="seating"  method="post">
+                 <input type = "hidden" name = "venue" value={{item.venue}} />
+                 <input type = "hidden" name = "seat_no" value={{item.seat_no[0]}} />
+		<input type="submit" class="btn" value=" View on chart">
+	    </form>
 	  <!-- Trigger/Open The Modal -->
 	  <button class="myBtn_multi" >{{item.seat_no[0]}} </button>
 
@@ -109,29 +113,17 @@
 	        <!-- Modal content -->
         	<div class="modal-content">
                 <span class="close close_multi">×</span>
-                <form action="http://127.0.0.1:5000/seating_chart"  method="post"> 
 		<p>
-		<input type="submit" class="button" value=" View on chart">
-		</form>
-		<img src="{{url_for('static', filename='clear_chair.PNG')}}">
-		<table>
-			<tr>
-				<th > Front of exam hall </th>
-		        </tr>
-		        <tr>
-		          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
-		          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
-		          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
-		          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
-		        </tr>
-			<tr>
-                          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
-                          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
-                          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
-                          <th><img src="{{url_for('static', filename='clear_chair.PNG')}}"></th>
-                        </tr>
-
-		</table>
+		<h1>Front of exam hall</h1>
+		{% for row in m %}
+			<div class="row">
+		        {% for value in row%}
+				<div class="column">
+			        <img src="{{url_for('static', filename='%s' % value)}}" style="width:100%">
+				</div>
+		        {% endfor %}
+			</div>
+		{% endfor %}
 		</p>
             </div>
     

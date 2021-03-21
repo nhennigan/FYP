@@ -288,7 +288,7 @@ def home_page():
     f_name,l_name,course = conn.get_student_data(session["username"])
     exam_list = conn.get_exam_data(session["username"])
     user_in = User(session["username"],f_name,l_name,course)
-    return render_template('home.html',user=user_in,exams=exam_list,m=0)
+    return render_template('home.html',user=user_in,exams=exam_list,m="")
 #    elif user_in == 'admin':
 #        conn.cursor.execute('SELECT f_name,l_name FROM admin WHERE staff_id = %s', (session["username"],))
 #        f_name,l_name = conn.cursor.fetchone()
@@ -297,30 +297,52 @@ def home_page():
 #        return render_template('admin_home.html',user = admin)
 #    return render_template('home.html',user=user_in,exams=exam_list)
 
-@server.route('/home/seating_chart',methods = ['POST','GET'])
+@server.route('/seating_chart',methods = ['POST','GET'])
 @login_required
 def plot_seating_chart():
+    mat = []
     if request.method == 'POST' and 'venue' in request.form and 'seat_no' in request.form:
 #        seating_chart.plot_seating(request.form['venue'],request.form['seat_no'])
         kingfisher_length =3
         kingfisher_breadth = 4
         bailey_allen_length = 20
-        bailet_allen_breadth = 30
-        if venue == "Kingfisher":
+        bailey_allen_breadth = 30
+
+        if request.form['venue'] == "Kingfisher":
             length = kingfisher_length
             breadth = kingfisher_breadth
         else:
             length = bailey_allen_length
-            breadth = bailet_allen_breadth
+            breadth = bailey_allen_breadth
  
         mat = []
         for i in range(length):
             rowList = []
             for j in range(breadth):
                 # you need to increment through dataList here, like this:
-                rowList.append(1)
+                rowList.append('clear_chair.PNG')
             mat.append(rowList)
-    return render_template('seat.html', m= mat)
+ 
+    counter=0
+    x_count=-1
+    for x in mat:
+        x_count +=1
+        y_count=-1
+        for y in x:
+            y_count+=1
+            counter +=1
+            if counter == int(request.form['seat_no']):
+                mat[x_count][y_count]='highlighted_chair.png'
+    
+    mat_t = list(zip(*mat))
+
+    f_name,l_name,course = conn.get_student_data(session["username"])
+    exam_list = conn.get_exam_data(session["username"])
+    user_in = User(session["username"],f_name,l_name,course)
+    
+    return render_template('home.html',user=user_in,exams=exam_list,m=mat_t)
+
+    #return render_template('seat.html', m= mat_t)
 #   return redirect(url_for(home_page))
 
 
