@@ -70,6 +70,14 @@ class DBManager:
                 self.cursor.execute('SELECT venue FROM exam WHERE exam_id = %s ', (e[0],))
                 venue = self.cursor.fetchone();
                 locations.append(venue[0])
+
+            if not exams:
+                self.cursor.execute('SELECT mod_code FROM lect_module WHERE staff_id = %s ', (id_no,))
+                modules = self.cursor.fetchall()
+                for m in modules:
+                    self.cursor.execute('SELECT venue FROM exam WHERE module_code  = %s ', (m[0],))
+                    venue = self.cursor.fetchone();
+                    locations.append(venue[0])
             return locations
 
     def get_calendar_date(self,id_no):

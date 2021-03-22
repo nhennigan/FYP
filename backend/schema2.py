@@ -38,7 +38,7 @@ def get_data():
 
     DATA['student']=[(12345678,'Niamh','Hennigan','pw'),(23456789,'John','Jones','pw'),(34567890,'Mary','OConnor','pw'),(45678901,'Luke','Curran','pw'),(56789012,'Meadhbh','Keane','pw'),(67890123,'Katie','Whelan','pw'),(78901234,'Michael','Talty','pw'),(89012345,'Aine','Ronan','pw'),(90123456,'Rachel','Foxe','pw'),(10000000,'Ray','Goose','pw')]
    
-    DATA['lecturer']=[(87654321,'Sinead','Grimes','pw'),(89012345,'Martin','Meere','pw'),(86420864,'Fearghal','Morgan','pw'),(88888888,'Liam','Kilmartin','pw'),(87777777,'Desmond','Chambers','pw'),(86666666,'John','Kearney','pw')]
+    DATA['lecturer']=[(87654321,'Sinead','Grimes','pw'),(89999999,'Martin','Meere','pw'),(86420864,'Fearghal','Morgan','pw'),(88888888,'Liam','Kilmartin','pw'),(87777777,'Desmond','Chambers','pw'),(86666666,'John','Kearney','pw')]
 
     DATA['course']=[('BP','Computer and Electronic Engineering'),('BA','Bachelor of Arts')]
 
