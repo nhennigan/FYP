@@ -286,10 +286,13 @@ def logout():
 def home_page():
 #    global user_in
 #    if user_in == 'student':
-    f_name,l_name,course = conn.get_student_data(session["username"])
-    exam_list = conn.get_exam_data(session["username"])
-    user_in = User(session["username"],f_name,l_name,course)
-    return render_template('home.html',user=user_in,exams=exam_list,m="")
+    try:
+        f_name,l_name,course = conn.get_student_data(session["username"])
+        exam_list = conn.get_exam_data(session["username"])
+        user_in = User(session["username"],f_name,l_name,course)
+        return render_template('home.html',user=user_in,exams=exam_list,m="")
+    except Exception:
+        return redirect(url_for('lect_home_page'))
 #    elif user_in == 'admin':
 #        conn.cursor.execute('SELECT f_name,l_name FROM admin WHERE staff_id = %s', (session["username"],))
 #        f_name,l_name = conn.cursor.fetchone()
@@ -302,11 +305,14 @@ def home_page():
 @server.route('/admin_home/', methods = ['POST','GET'])
 @login_required
 def admin_home_page():
-    conn.cursor.execute('SELECT f_name,l_name FROM admin WHERE staff_id = %s', (session["username"],))    
-    f_name,l_name = conn.cursor.fetchone()
-    exams = conn.get_admin_data(session["username"])
-    admin = Admin(session["username"],f_name,l_name,exams)
-    return render_template('admin_home.html',user = admin)
+    try:
+        conn.cursor.execute('SELECT f_name,l_name FROM admin WHERE staff_id = %s', (session["username"],))    
+        f_name,l_name = conn.cursor.fetchone()
+        exams = conn.get_admin_data(session["username"])
+        admin = Admin(session["username"],f_name,l_name,exams)
+        return render_template('admin_home.html',user = admin)
+    except Exception:
+        print("Error finding home page")
 
 @server.route('/admin_updates/', methods = ['POST','GET'])
 @login_required
@@ -323,8 +329,11 @@ def admin_updates():
 @server.route('/lect_home/')
 @login_required
 def lect_home_page():
-    lecturer_info = conn.get_lecturer_data(session["username"])
-    return render_template('lect_home.html',lecturer = lecturer_info)
+    try:
+        lecturer_info = conn.get_lecturer_data(session["username"])
+        return render_template('lect_home.html',lecturer = lecturer_info)
+    except Exception:
+        return redirect(url_for('admin_home_page'))
 
 @server.route('/lecturer_updates/', methods = ['POST','GET'])
 @login_required
