@@ -56,7 +56,7 @@ def get_data():
 
     DATA['course_student']=[(12345678, 'BP'),(23456789, 'BP'),(34567890, 'BP'),(45678901, 'BP'),(56789012,'BA'),(67890123,'BA'),(78901234,'BA'),(89012345,'BA'),(90123456,'BA')]
 
-    DATA['seating']=[('12345678','EXAM1','2'),('12345678','EXAM2','56')]
+    DATA['seating']=[('12345678','EXAM1','2'),('12345678','EXAM2','56'),('12345678','EXAM3','48'),('89012345','EXAM4','23'),('89012345','EXAM5','5'),('89012345','EXAM6','9')]
 
     DATA['event']=[(1,'Example','http://www.example.com','event-sucess','2021-09-10 20:00:00','2021-09-10 20:01:02'),(2,'Roy Tutorials','https://roytuts.com','event-important','2021-09-15 19:00:00','2021-09-15 19:42:45'),(3,'Roy Tutorial','https://roytuts.com','event-info','2021-09-23 20:03:05','2021-09-24 08:45:53'),(4,'Roy Tutorial','https://roytuts.com','event-error','2021-09-24 20:03:05','2021-09-25 08:45:53')]
     
