@@ -99,6 +99,7 @@
 	  </th>
           <th>Seat Number</th>
           <th>
+		  
 	    <form action="http://127.0.0.1:5000/seating_chart" name="seating" id="seating"  method="post">
                  <input type = "hidden" name = "venue" value={{item.venue}} />
                  <input type = "hidden" name = "seat_no" value={{item.seat_no[0]}} />
@@ -115,6 +116,7 @@
                 <span class="close close_multi">×</span>
 		<p>
 		<h1>Front of exam hall</h1>
+		<!--
 		{% for row in m %}
 			<div class="row">
 		        {% for value in row%}
@@ -124,6 +126,17 @@
 		        {% endfor %}
 			</div>
 		{% endfor %}
+		-->
+		{% for row in item.seat_matrix %}
+                        <div class="row">
+                        {% for value in row%}
+                                <div class="column">
+                                <img src="{{url_for('static', filename='%s' % value)}}" style="width:100%">
+                                </div>
+                        {% endfor %}
+                        </div>
+                {% endfor %}
+
 		</p>
             </div>
     

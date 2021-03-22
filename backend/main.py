@@ -6,7 +6,7 @@ import schema2
 from mysql.connector import errorcode
 import functools
 #import seating_chart
-
+import seating_matrix
 
 class DBManager:
     def __init__(self, database='example', host="db", user="root", password_file=None):
@@ -100,8 +100,8 @@ class DBManager:
             notes = self.cursor.fetchone()
             self.cursor.execute('SELECT seat_no FROM seating WHERE student_id = %s AND exam_id = %s ', (id_no,e[0],))
             seat_no = self.cursor.fetchone()
-
-            exam_object = Exam(code,time,exam_date,exam_day,duration,name,venue,percent,notes,seat_no) 
+            m = seating_matrix.plot_seating_chart(venue,seat_no[0])
+            exam_object = Exam(code,time,exam_date,exam_day,duration,name,venue,percent,notes,seat_no,m)
             exam_list_details.append(exam_object)
         return exam_list_details
         
@@ -125,7 +125,7 @@ class DBManager:
             name,notes = self.cursor.fetchone()
             self.cursor.execute('SELECT DAYNAME(%s)',(exam_date,))
             exam_day = self.cursor.fetchone()
-            exam = Exam(m,time,exam_date,exam_day,duration,name,venue,percent,notes,0)
+            exam = Exam(m,time,exam_date,exam_day,duration,name,venue,percent,notes,0,"")
             lecturer_exam_list.append(exam)
         lecturer_object = Lecturer(id_no,f_name,l_name,lecturer_exam_list)        
         print('In lecturer object')
@@ -153,7 +153,7 @@ class DBManager:
             name = self.cursor.fetchone()
             self.cursor.execute('SELECT lecturer_notes FROM module WHERE code = %s ', (code,))
             notes = self.cursor.fetchone()
-            exam_object = Exam(code,time,exam_date,exam_day,duration,name,venue,percent,notes,0)
+            exam_object = Exam(code,time,exam_date,exam_day,duration,name,venue,percent,notes,0,"")
             admin_exam_list.append(exam_object)
         return admin_exam_list
 
@@ -355,10 +355,10 @@ def plot_seating_chart():
     f_name,l_name,course = conn.get_student_data(session["username"])
     exam_list = conn.get_exam_data(session["username"])
     user_in = User(session["username"],f_name,l_name,course)
-    return mat_t   
+#    return mat_t   
     #return render_template('home.html',user=user_in,exams=exam_list,m=mat_t)
 #    return redirect(url_for('home_page',seating = mat_t))
-#    return render_template('seat.html', m= mat_t,v= request.form['venue'])
+    return render_template('seat.html', m= mat_t,v = "")
 #   return redirect(url_for(home_page))
 
 
