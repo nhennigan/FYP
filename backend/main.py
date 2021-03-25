@@ -98,10 +98,14 @@ class DBManager:
             else:
                 raise
         for e in exams:
-            self.cursor.execute('SELECT module_code,time,exam_date,duration,venue,percent FROM exam WHERE exam_id = %s ', (e[0],))
-            code,time,exam_date,duration,venue,percent = self.cursor.fetchone()
-            self.cursor.execute('SELECT DAYNAME(%s)',(exam_date,))
+            self.cursor.execute('SELECT module_code,start_date,duration,venue,percent FROM exam WHERE exam_id = %s ', (e[0],))
+            code,start_date,duration,venue,percent = self.cursor.fetchone()
+            self.cursor.execute('SELECT DAYNAME(%s)',(start_date,))
             exam_day = self.cursor.fetchone()
+            self.cursor.execute('SELECT TIME_FORMAT(%s,"%H:%i")',(start_date,))
+            time = self.cursor.fetchone()
+            self.cursor.execute('SELECT DATE_FORMAT(%s,"%d-%m-%Y")',(start_date,))
+            exam_date = self.cursor.fetchone()
             self.cursor.execute('SELECT name FROM module WHERE code = %s ', (code,))
             name = self.cursor.fetchone()
             self.cursor.execute('SELECT lecturer_notes FROM module WHERE code = %s ', (code,))
@@ -109,7 +113,7 @@ class DBManager:
             self.cursor.execute('SELECT seat_no FROM seating WHERE student_id = %s AND exam_id = %s ', (id_no,e[0],))
             seat_no = self.cursor.fetchone()
             m = seating_matrix.plot_seating_chart(venue,seat_no[0])
-            exam_object = Exam(code,time,exam_date,exam_day,duration,name,venue,percent,notes,seat_no,m)
+            exam_object = Exam(code,time,exam_date,start_date,exam_day,duration,name,venue,percent,notes,seat_no,m)
             exam_list_details.append(exam_object)
         return exam_list_details
         
@@ -127,13 +131,17 @@ class DBManager:
             else:
                 raise
         for m in modules:
-            self.cursor.execute('SELECT time,exam_date,duration,venue,percent FROM exam WHERE module_code = %s ', (m[0],))
-            time,exam_date,duration,venue,percent = self.cursor.fetchone()
+            self.cursor.execute('SELECT start_date,duration,venue,percent FROM exam WHERE module_code = %s ', (m[0],))
+            start_date,duration,venue,percent = self.cursor.fetchone()
             self.cursor.execute('SELECT name,lecturer_notes FROM module WHERE code = %s ', (m[0],))
             name,notes = self.cursor.fetchone()
-            self.cursor.execute('SELECT DAYNAME(%s)',(exam_date,))
+            self.cursor.execute('SELECT DAYNAME(%s)',(start_date,))
             exam_day = self.cursor.fetchone()
-            exam = Exam(m,time,exam_date,exam_day,duration,name,venue,percent,notes,0,"")
+            self.cursor.execute('SELECT DATE_FORMAT(%s,"%d-%m-%Y")',(start_date,))
+            exam_date = self.cursor.fetchone()
+            self.cursor.execute('SELECT TIME_FORMAT(%s,"%H:%i")',(start_date,))
+            time = self.cursor.fetchone()
+            exam = Exam(m,time,exam_date,start_date,exam_day,duration,name,venue,percent,notes,0,"")
             lecturer_exam_list.append(exam)
         lecturer_object = Lecturer(id_no,f_name,l_name,lecturer_exam_list)        
         print('In lecturer object')
@@ -153,15 +161,19 @@ class DBManager:
             else:
                 raise
         for e in exams:
-            self.cursor.execute('SELECT module_code,time,exam_date,duration,venue,percent FROM exam WHERE exam_id = %s ', (e[0],))
-            code,time,exam_date,duration,venue,percent = self.cursor.fetchone()
-            self.cursor.execute('SELECT DAYNAME(%s)',(exam_date,))
+            self.cursor.execute('SELECT module_code,start_date,duration,venue,percent FROM exam WHERE exam_id = %s ', (e[0],))
+            code,start_date,duration,venue,percent = self.cursor.fetchone()
+            self.cursor.execute('SELECT DAYNAME(%s)',(start_date,))
             exam_day = self.cursor.fetchone()
+            self.cursor.execute('SELECT TIME_FORMAT(%s,"%H:%i")',(start_date,))
+            time = self.cursor.fetchone()
+            self.cursor.execute('SELECT DATE_FORMAT(%s,"%d-%m-%Y")',(start_date,))
+            exam_date = self.cursor.fetchone()
             self.cursor.execute('SELECT name FROM module WHERE code = %s ', (code,))
             name = self.cursor.fetchone()
             self.cursor.execute('SELECT lecturer_notes FROM module WHERE code = %s ', (code,))
             notes = self.cursor.fetchone()
-            exam_object = Exam(code,time,exam_date,exam_day,duration,name,venue,percent,notes,0,"")
+            exam_object = Exam(code,time,exam_date,start_date,exam_day,duration,name,venue,percent,notes,0,"")
             admin_exam_list.append(exam_object)
         return admin_exam_list
 
@@ -178,10 +190,11 @@ class User:
         self.course = course
 
 class Exam:
-    def __init__(self,module_code, time, exam_date,exam_day, duration,module_name,venue,percent,lecturer_notes,seat_no,seat_matrix):
+    def __init__(self,module_code, time, exam_date,start_date,exam_day, duration,module_name,venue,percent,lecturer_notes,seat_no,seat_matrix):
         self.module_code = module_code
         self.time = time
         self.exam_date = exam_date
+        self.start_date = start_date
         self.exam_day = exam_day
         self.duration = duration
         self.module_name = module_name
@@ -386,20 +399,20 @@ def calendar_events():
     try:
         conn.cursor.execute("SELECT id, title, url, class, UNIX_TIMESTAMP(start_date)*1000 as start,UNIX_TIMESTAMP(end_date)*1000 as end FROM event")
         rows = conn.cursor.fetchall()
-#        resp = jsonify({'success' : 1, 'result' : rows})
-#        resp.status_code = 200
-        r = [{
-		"id": 293,
-		"title": "Event 1",
-		"url": "http://example.com",
-		"class": "event-important",
-		"start": 12039485678000, 
-		"end": 1234576967000 
-	}]
-        jr = jsonify({'success' : 1, 'result' : r})
-        jr.status_code = 200
+        resp = jsonify({'success' : 1, 'result' : rows})
+        resp.status_code = 200
+#        r = [{
+#		"id": 293,
+#		"title": "Event 1",
+#		"url": "http://example.com",
+#		"class": "event-important",
+#		"start": 12039485678000, 
+#		"end": 1234576967000 
+#	}]
+#        jr = jsonify({'success' : 1, 'result' : r})
+#        jr.status_code = 200
 
-        return jr
+        return resp
     except Exception as e:
         print(e)
 
@@ -411,33 +424,14 @@ def login_again():
 def return_data():
     start_date = request.args.get('start', '')
     end_date = request.args.get('end', '')
-    # You'd normally use the variables above to limit the data returned
-    # you don't want to return ALL events like in this code
-    # but since no db or any real storage is implemented I'm just
-    # returning data from a text file that contains json elements
     events = []
     exam_list = conn.get_exam_data(session["username"])
     for e in exam_list:
-        events.append({'title': e.module_name[0], 'start': e.exam_date})
-    i = [{'title' : 'hard', 'start' : '2014-09-02'}, {'title' : 'add', 'start' : '2014-09-03'}]
-    i.append({'title' : 'hard', 'start' : '2014-09-04'})
-#    add = i + j 
+        events.append({'title': e.module_name[0], 'start': e.start_date})
+#    i = [{'title' : 'hard', 'start' : '2014-09-02'}, {'title' : 'add', 'start' : '2014-09-03'}]
+#    i.append({'title' : 'hard', 'start' : '2014-09-04'})
     hard_c = jsonify(events)
-    #hard_c = jsonify([i,j])
-#    hard_c = jsonify([{'title' : "hard", 'start' : "2014-09-02"}])
-#    js_obj = hard_c['']
-#    js_obj.append({'title' : "add", 'start' : "2014-09-03"})
-#    hard_c = 
     return hard_c
-#    with open("events.json", "r") as input_data:
-#        # you should use something else here than just plaintext
-#        # check out jsonfiy method or the built in json module
-#        # http://flask.pocoo.org/docs/0.10/api/#module-flask.json
-#        return input_data.read()
-
-#@server.route('/cal')
-#def calendar():
-#    return render_template("json.html")
 
 if __name__ == '__main__':
     server.run(debug= True)
