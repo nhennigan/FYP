@@ -354,10 +354,10 @@ def update_lect_notes():
 @server.route('/calendarview/')
 @login_required
 def calendar_page():
-    conn.cursor.execute("SELECT id, title, url, type, UNIX_TIMESTAMP(start_date)*1000 as start, UNIX_TIMESTAMP(end_date)*1000 as end FROM event")
-    id, title, url,type,start,end = conn.cursor.fetchone()
-    js = [{'success' : 1, 'result': {'id': id, 'title':title,'url':url,'class':type,'start':start,'end':end}}]
-    #rows = conn.cursor.fetchone()
+    conn.cursor.execute("SELECT id, title, url, class, UNIX_TIMESTAMP(start_date)*1000 as start, UNIX_TIMESTAMP(end_date)*1000 as end FROM event")
+#    id, title, url,clss,start,end = conn.cursor.fetchone()
+#    js = [{'success' : 1, 'result': {'id': id, 'title':title,'url':url,'class':clss,'start':start,'end':end}}]
+    rows = conn.cursor.fetchall()
     resp = jsonify({'success' : 1, 'result' : rows})
     resp.status_code = 200
     r = {      
@@ -369,7 +369,7 @@ def calendar_page():
             "end": 1234576967000
         }
     jr = jsonify({'success' : 1, 'result' : r})
-    return js
+    return jr
  
 #    return render_template('calendar.html',r=rows)
 
@@ -389,26 +389,26 @@ def info_page():
     return render_template('modal.html')
 
 
-@server.route('/calendar_events/')
+@server.route('/calendar_events')
 @login_required
 def calendar_events():
     try:
-        conn.cursor.execute("SELECT id, title, url, type, UNIX_TIMESTAMP(start_date)*1000 as start,UNIX_TIMESTAMP(end_date)*1000 as end FROM event")
+        conn.cursor.execute("SELECT id, title, url, class, UNIX_TIMESTAMP(start_date)*1000 as start,UNIX_TIMESTAMP(end_date)*1000 as end FROM event")
         rows = conn.cursor.fetchall()
-        resp = jsonify({'success' : 1, 'result' : rows})
-        resp.status_code = 200
-#        r = {
-#		"id": 293,
-#		"title": "Event 1",
-#		"url": "http://example.com",
-#		"class": "event-important",
-#		"start": 12039485678000, 
-#		"end": 1234576967000 
-#	}
-#        jr = jsonify({'success' : 1, 'result' : r})
-#        jr.status_code = 200
+#        resp = jsonify({'success' : 1, 'result' : rows})
+#        resp.status_code = 200
+        r = {
+		"id": 293,
+		"title": "Event 1",
+		"url": "http://example.com",
+		"class": "event-important",
+		"start": 12039485678000, 
+		"end": 1234576967000 
+	}
+        jr = jsonify({'success' : 1, 'result' : r})
+        jr.status_code = 200
 
-        return resp
+        return jr
     except Exception as e:
         print(e)
 

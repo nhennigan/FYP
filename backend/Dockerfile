@@ -3,7 +3,7 @@ WORKDIR /code
 COPY requirements.txt /code/
 #RUN pip install -r requirements.txt
 
-RUN apk update  
+#RUN apk update  
 #RUN apk add python3-dev 
 #RUN pip install Flask-Datepicker
 RUN pip install Flask-Mail

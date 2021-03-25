@@ -11,6 +11,7 @@
 	<div class="container">
 		<div>
 			<h4>Bootstrap Calendar Events Demo using Python Flask MySQL</h4>
+			<h5>"The value for number is: " <span id="myText"></span></h5>
 		</div>
 
 		<div class="page-header">
@@ -86,9 +87,9 @@
 			(function($) {
 				"use strict";
 				var options = {
-					events_source: 'http://localhost:5000/calendar_events',
+					events_source: 'http://localhost:5000/calendar-events/',
 					view: 'month',
-					tmpl_path: '../static/tmpls/',
+					tmpl_path: '../../static/tmpls/',
 					tmpl_cache: false,
 					onAfterViewLoad: function(view) {
 						$('.page-header h3').text(this.getTitle());
@@ -101,6 +102,7 @@
 						}
 					}
 				};
+				document.getElementById("myText").innerHTML = options;
 
 				var calendar = $('#calendar').calendar(options);
 
