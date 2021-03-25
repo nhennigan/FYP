@@ -397,14 +397,14 @@ def calendar_events():
         rows = conn.cursor.fetchall()
 #        resp = jsonify({'success' : 1, 'result' : rows})
 #        resp.status_code = 200
-        r = {
+        r = [{
 		"id": 293,
 		"title": "Event 1",
 		"url": "http://example.com",
 		"class": "event-important",
 		"start": 12039485678000, 
 		"end": 1234576967000 
-	}
+	}]
         jr = jsonify({'success' : 1, 'result' : r})
         jr.status_code = 200
 
@@ -415,6 +415,34 @@ def calendar_events():
 @server.route('/login_again')
 def login_again():
     return render_template('login2.html',msg="Please Log In")
+
+@server.route('/data')
+def return_data():
+    start_date = request.args.get('start', '')
+    end_date = request.args.get('end', '')
+    # You'd normally use the variables above to limit the data returned
+    # you don't want to return ALL events like in this code
+    # but since no db or any real storage is implemented I'm just
+    # returning data from a text file that contains json elements
+    i = [{'title' : 'hard', 'start' : '2014-09-02'}, {'title' : 'add', 'start' : '2014-09-03'}]
+    i.append({'title' : 'hard', 'start' : '2014-09-04'})
+#    add = i + j 
+    hard_c = jsonify(i)
+    #hard_c = jsonify([i,j])
+#    hard_c = jsonify([{'title' : "hard", 'start' : "2014-09-02"}])
+#    js_obj = hard_c['']
+#    js_obj.append({'title' : "add", 'start' : "2014-09-03"})
+#    hard_c = 
+    return hard_c
+#    with open("events.json", "r") as input_data:
+#        # you should use something else here than just plaintext
+#        # check out jsonfiy method or the built in json module
+#        # http://flask.pocoo.org/docs/0.10/api/#module-flask.json
+#        return input_data.read()
+
+@server.route('/cal')
+def calendar():
+    return render_template("json.html")
 
 if __name__ == '__main__':
     server.run(debug= True)
