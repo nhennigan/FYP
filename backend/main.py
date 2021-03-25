@@ -278,7 +278,7 @@ def login_required(func):
     @functools.wraps(func)
     def secure_function(*args, **kwargs):
         if "username" not in session:
-            return redirect(url_for("login_again"))
+            return redirect(url_for("login"))
         return func()
     return secure_function
 
@@ -287,13 +287,11 @@ def login_required(func):
 def logout():
     #this may need to be session.pop()
     session.clear()
-    return redirect(url_for("login_again"))
+    return redirect(url_for("login"))
 
 @server.route('/home/', methods = ['POST','GET'])
 @login_required
 def home_page():
-#    global user_in
-#    if user_in == 'student':
     try:
         f_name,l_name,course = conn.get_student_data(session["username"])
         exam_list = conn.get_exam_data(session["username"])
@@ -301,14 +299,6 @@ def home_page():
         return render_template('home.html',user=user_in,exams=exam_list,m="")
     except Exception:
         return redirect(url_for('lect_home_page'))
-#    elif user_in == 'admin':
-#        conn.cursor.execute('SELECT f_name,l_name FROM admin WHERE staff_id = %s', (session["username"],))
-#        f_name,l_name = conn.cursor.fetchone()
-#        exams = conn.get_admin_data(session["username"])
-#        admin = Admin(session["username"],f_name,l_name,exams)
-#        return render_template('admin_home.html',user = admin)
-#    return render_template('home.html',user=user_in,exams=exam_list)
-
 
 @server.route('/admin_home/', methods = ['POST','GET'])
 @login_required
@@ -353,25 +343,27 @@ def update_lect_notes():
 
 @server.route('/calendarview/')
 @login_required
-def calendar_page():
-    conn.cursor.execute("SELECT id, title, url, class, UNIX_TIMESTAMP(start_date)*1000 as start, UNIX_TIMESTAMP(end_date)*1000 as end FROM event")
-#    id, title, url,clss,start,end = conn.cursor.fetchone()
-#    js = [{'success' : 1, 'result': {'id': id, 'title':title,'url':url,'class':clss,'start':start,'end':end}}]
-    rows = conn.cursor.fetchall()
-    resp = jsonify({'success' : 1, 'result' : rows})
-    resp.status_code = 200
-    r = {      
-            "id": 293,
-            "title": "Event 1",
-            "url": "http://example.com",
-            "class": "event-important",
-            "start": 12039485678000,
-            "end": 1234576967000
-        }
-    jr = jsonify({'success' : 1, 'result' : r})
-    return jr
+def calendar():
+#    conn.cursor.execute("SELECT id, title, url, class, UNIX_TIMESTAMP(start_date)*1000 as start, UNIX_TIMESTAMP(end_date)*1000 as end FROM event")
+##    id, title, url,clss,start,end = conn.cursor.fetchone()
+##    js = [{'success' : 1, 'result': {'id': id, 'title':title,'url':url,'class':clss,'start':start,'end':end}}]
+#    rows = conn.cursor.fetchall()
+#    resp = jsonify({'success' : 1, 'result' : rows})
+#    resp.status_code = 200
+#    r = {      
+#            "id": 293,
+#            "title": "Event 1",
+#            "url": "http://example.com",
+#            "class": "event-important",
+#            "start": 12039485678000,
+#            "end": 1234576967000
+#        }
+#    jr = jsonify({'success' : 1, 'result' : r})
+#    return jr
  
 #    return render_template('calendar.html',r=rows)
+    return render_template("json.html")
+
 
 #@server.route('/modal/')
 #def modal():
@@ -386,8 +378,7 @@ def map_page():
 @server.route('/examofficeinfo/')
 @login_required
 def info_page():
-    return render_template('modal.html')
-
+    return render_template("info.html")
 
 @server.route('/calendar_events')
 @login_required
@@ -416,7 +407,7 @@ def calendar_events():
 def login_again():
     return render_template('login2.html',msg="Please Log In")
 
-@server.route('/data')
+@server.route('/calendar_view/data')
 def return_data():
     start_date = request.args.get('start', '')
     end_date = request.args.get('end', '')
@@ -424,10 +415,14 @@ def return_data():
     # you don't want to return ALL events like in this code
     # but since no db or any real storage is implemented I'm just
     # returning data from a text file that contains json elements
+    events = []
+    exam_list = conn.get_exam_data(session["username"])
+    for e in exam_list:
+        events.append({'title': e.module_name[0], 'start': e.exam_date})
     i = [{'title' : 'hard', 'start' : '2014-09-02'}, {'title' : 'add', 'start' : '2014-09-03'}]
     i.append({'title' : 'hard', 'start' : '2014-09-04'})
 #    add = i + j 
-    hard_c = jsonify(i)
+    hard_c = jsonify(events)
     #hard_c = jsonify([i,j])
 #    hard_c = jsonify([{'title' : "hard", 'start' : "2014-09-02"}])
 #    js_obj = hard_c['']
@@ -440,9 +435,9 @@ def return_data():
 #        # http://flask.pocoo.org/docs/0.10/api/#module-flask.json
 #        return input_data.read()
 
-@server.route('/cal')
-def calendar():
-    return render_template("json.html")
+#@server.route('/cal')
+#def calendar():
+#    return render_template("json.html")
 
 if __name__ == '__main__':
     server.run(debug= True)
