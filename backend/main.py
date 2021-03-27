@@ -175,7 +175,8 @@ class DBManager:
             notes = self.cursor.fetchone()
             exam_object = Exam(code,time,exam_date,start_date,exam_day,duration,name,venue,percent,notes,0,"")
             admin_exam_list.append(exam_object)
-        return admin_exam_list
+        admin_object = Admin(id_no,f_name,l_name,admin_exam_list)
+        return admin_object
 
     def update_lecturer_notes(self,notes,module_code):
         self.cursor.execute('UPDATE module SET lecturer_notes = %s WHERE code=%s', (notes,module_code))
@@ -317,10 +318,7 @@ def home_page():
 @login_required
 def admin_home_page():
     try:
-        conn.cursor.execute('SELECT f_name,l_name FROM admin WHERE staff_id = %s', (session["username"],))    
-        f_name,l_name = conn.cursor.fetchone()
-        exams = conn.get_admin_data(session["username"])
-        admin = Admin(session["username"],f_name,l_name,exams)
+        admin = conn.get_admin_data(session["username"])
         return render_template('admin_home.html',user = admin)
     except Exception:
         print("Error finding home page")
@@ -354,7 +352,7 @@ def update_lect_notes():
         return redirect(url_for('lect_home_page'))
     return redirect(url_for('lect_home_page'))
 
-@server.route('/calendarview/')
+@server.route('/calendarview/', methods = ['POST','GET'])
 @login_required
 def calendar():
 #    conn.cursor.execute("SELECT id, title, url, class, UNIX_TIMESTAMP(start_date)*1000 as start, UNIX_TIMESTAMP(end_date)*1000 as end FROM event")
@@ -425,11 +423,26 @@ def return_data():
     start_date = request.args.get('start', '')
     end_date = request.args.get('end', '')
     events = []
-    exam_list = conn.get_exam_data(session["username"])
-    for e in exam_list:
-        events.append({'title': e.module_name[0], 'start': e.start_date})
-#    i = [{'title' : 'hard', 'start' : '2014-09-02'}, {'title' : 'add', 'start' : '2014-09-03'}]
-#    i.append({'title' : 'hard', 'start' : '2014-09-04'})
+    try:
+        exam_list = conn.get_exam_data(session["username"])
+        for e in exam_list:
+            events.append({'title': e.module_name[0], 'start': e.start_date})
+    except Exception:
+        pass
+    try:
+        lecturer = conn.get_lecturer_data(session["username"])
+        for e in lecturer.exam_list:
+                events.append({'title': e.module_name, 'start': e.start_date})
+    except Exception:
+        pass
+#    try:
+#        admin = conn.get_admin_data(session["username"])
+#        for e in admin.exam_list:
+#            events.append({'title': e.module_name, 'start': e.start_date})
+#        if not admin.exam_list:
+#            return redirect(url_for('info_page'))
+#    except Exception:
+#        return redirect(url_for('info_page'))
     hard_c = jsonify(events)
     return hard_c
 
