@@ -14,6 +14,14 @@ services:
     environment:
       - MYSQL_DATABASE=example
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+  setup:
+    build: init
+    restart: on-failure
+    secrets:
+      - db-password
+    networks:
+      - backnet
+      - frontnet
   backend:
     build: backend
     restart: always
@@ -24,6 +32,7 @@ services:
     networks:
       - backnet
       - frontnet
+
         #  proxy:
         #    build: proxy
         #    restart: always

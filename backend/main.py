@@ -247,8 +247,8 @@ def init():
     global conn
     if not conn:
         conn = DBManager(password_file='/run/secrets/db-password')
-        conn.create_database_tables()
-        conn.sample_data()
+       # conn.create_database_tables()
+       # conn.sample_data()
     return render_template('login2.html',msg="start")
 
 @server.route('/login',methods = ['POST','GET'])

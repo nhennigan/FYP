@@ -4,6 +4,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--    <script  src="modal.js"> </script> -->
+
+    <link href="https://bootswatch.com/4/minty/bootstrap.min.css" rel="stylesheet" type="text/css">
 <style>
 
 </style>
@@ -26,30 +28,12 @@
   <label for="evening">4:30</label>
 </div>
 
-<h2>Hello  to  {{user.id_no}} + {{user.f_name}} + {{user.l_name}}+ {{user.course}}</h2>
-<img src="{{url_for('static', filename='clear_chair.PNG')}}">
-
-<!-- Trigger/Open The Modal -->
-<button class="myBtn_multi">Open Modal</button>
-
-
-    <!-- The Modal -->
-    <div class="modal modal_multi">
-
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close close_multi">×</span>
-            <p>Some text in the Modal..</p>
-        </div>
-
-    </div>
+<h2>Hello  {{user.id_no}}  {{user.f_name}}  {{user.l_name}} {{user.course[0]}}</h2>
+<!-- <img src="{{url_for('static', filename='clear_chair.PNG')}}"> -->
 
 
   {%for item in exams%}
       <table border="1">
-        <tr>
-          <th colspan="4"> Exam Number </th>
-        </tr>
         <tr>
           <th>Module Name</th>
           <th>{{item.module_name[0]}}</th>
@@ -59,8 +43,12 @@
         <tr>
           <th>Day</th>
           <th>{{item.exam_day[0]}}</th>
-          <th>Date</th>
-          <th>{{item.exam_date[0]}}</th>
+	  <th>Date</th>
+          <th>{{item.exam_date[0]}}
+	  <form action="http://127.0.0.1:5000/calendarview"  method="post">
+	  <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" width="48" height="48">
+	  </form>
+	  </th>
         </tr>
         <tr>
           <th>Time</th>
