@@ -423,28 +423,31 @@ def return_data():
     start_date = request.args.get('start', '')
     end_date = request.args.get('end', '')
     events = []
-    try:
-        exam_list = conn.get_exam_data(session["username"])
+    exam_list = conn.get_exam_data(session["username"])
+    if exam_list:
         for e in exam_list:
             events.append({'title': e.module_name[0], 'start': e.start_date})
-    except Exception:
-        pass
-    try:
-        lecturer = conn.get_lecturer_data(session["username"])
-        for e in lecturer.exam_list:
-                events.append({'title': e.module_name, 'start': e.start_date})
-    except Exception:
-        pass
-#    try:
-#        admin = conn.get_admin_data(session["username"])
-#        for e in admin.exam_list:
-#            events.append({'title': e.module_name, 'start': e.start_date})
-#        if not admin.exam_list:
-#            return redirect(url_for('info_page'))
-#    except Exception:
-#        return redirect(url_for('info_page'))
-    hard_c = jsonify(events)
-    return hard_c
+        hard_c = jsonify(events)
+        return hard_c
+
+    else:
+        try:
+            lecturer = conn.get_lecturer_data(session["username"])
+            for e in lecturer.exam_list:
+                    events.append({'title': e.module_name, 'start': e.start_date})
+            hard_c = jsonify(events)
+            return hard_c
+        except Exception:
+            pass
+    
+        try:
+            admin = conn.get_admin_data(session["username"])
+            for e in admin.exam_list:
+                    events.append({'title': e.module_name, 'start': e.start_date})
+            hard_c = jsonify(events)
+            return hard_c
+        except Exception:
+            pass
 
 if __name__ == '__main__':
     server.run(debug= True)
