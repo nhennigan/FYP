@@ -6,6 +6,7 @@
     <!--    <script  src="modal.js"> </script> -->
 
     <link href="https://bootswatch.com/4/minty/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <title>NUI Galway Exam Timetables </title>
 <style>
 
 </style>
@@ -13,7 +14,7 @@
 <body>
 {% block content %}
 
-<div>
+<!-- <div>
   <input type="checkbox" id="morning" name="morning"
          checked>
   <label for="morning">9:30</label>
@@ -26,7 +27,7 @@
 <div>
 	<input type="checkbox" id="evening" name="evening">
   <label for="evening">4:30</label>
-</div>
+</div> -->
 
 <h2>Hello  {{user.id_no}}  {{user.f_name}}  {{user.l_name}} {{user.course[0]}}</h2>
 <!-- <img src="{{url_for('static', filename='clear_chair.PNG')}}"> -->
@@ -46,7 +47,7 @@
 	  <th>Date</th>
           <th>{{item.exam_date[0]}}
 	  <form action="http://127.0.0.1:5000/calendarview"  method="post">
-	  <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" width="48" height="48">
+	  <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" width="20" height="20">
 	  </form>
 	  </th>
         </tr>

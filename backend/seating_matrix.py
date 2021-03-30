@@ -3,8 +3,8 @@ def plot_seating_chart(venue,seat_no):
     mat = []
 #    if request.method == 'POST' and 'venue' in request.form and 'seat_no' in request.form:
 #        seating_chart.plot_seating(request.form['venue'],request.form['seat_no'])
-    kingfisher_length =3
-    kingfisher_breadth = 4
+    kingfisher_length =25
+    kingfisher_breadth = 25
     bailey_allen_length = 20
     bailey_allen_breadth = 30
     engineering_length = 10

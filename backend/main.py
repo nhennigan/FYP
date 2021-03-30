@@ -7,6 +7,7 @@ from mysql.connector import errorcode
 import functools
 #import seating_chart
 import seating_matrix
+import new_mail
 
 class DBManager:
     def __init__(self, database='example', host="db", user="root", password_file=None):
@@ -226,7 +227,7 @@ conn = None
 user_in = None
 
 server.config['MAIL_SERVER']='smtp.gmail.com'
-server.config['MAIL_PORT'] = 465
+server.config['MAIL_PORT'] = 587
 server.config['MAIL_USERNAME'] = 'exam.timetable.updates@gmail.com'
 #server.config['MAIL_PASSWORD'] = 'fmjoukhqqbliejbw'
 server.config['MAIL_PASSWORD'] = 'Examtimetable'
@@ -236,10 +237,12 @@ server.config['MAIL_DEBUG'] = True
 
 @server.route("/mail")
 def index():
-   msg = Message('Hello', sender = 'exam.timetable.updates@gmail.com', recipients = ['niamhhennigan@gmail.com'])
-   msg.body = "Hello Flask message sent from Flask-Mail"
-   mail.send(msg)
-   return "Sent"
+#    msg = Message('Hello', sender = 'exam.timetable.updates@gmail.com', recipients = ['niamhhennigan@gmail.com'])
+#    msg.body = "Hello Flask message sent from Flask-Mail"
+#    mail.send(msg)
+#    return "Sent"
+    new_mail.sendmail()
+    return redirect(url_for('admin_home_page'))
 
 @server.route('/',methods = ['POST','GET'])
 def init():
@@ -355,30 +358,7 @@ def update_lect_notes():
 @server.route('/calendarview/', methods = ['POST','GET'])
 @login_required
 def calendar():
-#    conn.cursor.execute("SELECT id, title, url, class, UNIX_TIMESTAMP(start_date)*1000 as start, UNIX_TIMESTAMP(end_date)*1000 as end FROM event")
-##    id, title, url,clss,start,end = conn.cursor.fetchone()
-##    js = [{'success' : 1, 'result': {'id': id, 'title':title,'url':url,'class':clss,'start':start,'end':end}}]
-#    rows = conn.cursor.fetchall()
-#    resp = jsonify({'success' : 1, 'result' : rows})
-#    resp.status_code = 200
-#    r = {      
-#            "id": 293,
-#            "title": "Event 1",
-#            "url": "http://example.com",
-#            "class": "event-important",
-#            "start": 12039485678000,
-#            "end": 1234576967000
-#        }
-#    jr = jsonify({'success' : 1, 'result' : r})
-#    return jr
- 
-#    return render_template('calendar.html',r=rows)
     return render_template("json.html")
-
-
-#@server.route('/modal/')
-#def modal():
-#    return render_template('modal.html')
 
 @server.route('/mapview/',methods = ['POST','GET'])
 @login_required
@@ -390,29 +370,6 @@ def map_page():
 @login_required
 def info_page():
     return render_template("info.html")
-
-@server.route('/calendar_events')
-@login_required
-def calendar_events():
-    try:
-        conn.cursor.execute("SELECT id, title, url, class, UNIX_TIMESTAMP(start_date)*1000 as start,UNIX_TIMESTAMP(end_date)*1000 as end FROM event")
-        rows = conn.cursor.fetchall()
-        resp = jsonify({'success' : 1, 'result' : rows})
-        resp.status_code = 200
-#        r = [{
-#		"id": 293,
-#		"title": "Event 1",
-#		"url": "http://example.com",
-#		"class": "event-important",
-#		"start": 12039485678000, 
-#		"end": 1234576967000 
-#	}]
-#        jr = jsonify({'success' : 1, 'result' : r})
-#        jr.status_code = 200
-
-        return resp
-    except Exception as e:
-        print(e)
 
 @server.route('/login_again')
 def login_again():
