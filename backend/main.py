@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template,request,session,redirect,url_for,jsonify
-from flask_mail import Mail, Message
+#from flask_mail import Mail, Message
 import mysql.connector
 import schema2
 from mysql.connector import errorcode
@@ -8,6 +8,7 @@ import functools
 #import seating_chart
 import seating_matrix
 import new_mail
+#import DBManager
 
 class DBManager:
     def __init__(self, database='example', host="db", user="root", password_file=None):
@@ -221,19 +222,19 @@ class Admin:
         self.exam_list = exam_list
 
 server = Flask(__name__)
-mail= Mail(server)
+#mail= Mail(server)
 server.secret_key = 'super secret key'
 conn = None
 user_in = None
 
-server.config['MAIL_SERVER']='smtp.gmail.com'
-server.config['MAIL_PORT'] = 587
-server.config['MAIL_USERNAME'] = 'exam.timetable.updates@gmail.com'
-#server.config['MAIL_PASSWORD'] = 'fmjoukhqqbliejbw'
-server.config['MAIL_PASSWORD'] = 'Examtimetable'
-server.config['MAIL_USE_TLS'] = False
-server.config['MAIL_USE_SSL'] = True
-server.config['MAIL_DEBUG'] = True
+#server.config['MAIL_SERVER']='smtp.gmail.com'
+#server.config['MAIL_PORT'] = 587
+#server.config['MAIL_USERNAME'] = 'exam.timetable.updates@gmail.com'
+##server.config['MAIL_PASSWORD'] = 'fmjoukhqqbliejbw'
+#server.config['MAIL_PASSWORD'] = 'Examtimetable'
+#server.config['MAIL_USE_TLS'] = False
+#server.config['MAIL_USE_SSL'] = True
+#server.config['MAIL_DEBUG'] = True
 
 @server.route("/mail")
 def index():
@@ -250,19 +251,21 @@ def init():
     global conn
     if not conn:
         conn = DBManager(password_file='/run/secrets/db-password')
-       # conn.create_database_tables()
-       # conn.sample_data()
+#        conn.create_database_tables()
+#        conn.sample_data()
     return render_template('login2.html',msg="start")
 
 @server.route('/login',methods = ['POST','GET'])
 def login(): 
-    msg = '' 
+    msg = ''
+    global conn
 #    global user_in
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form: 
         username = request.form['username'] 
         password = request.form['password']
         conn.cursor.execute('SELECT * FROM student WHERE student_id = %s AND password = %s', (username, password, )) 
         student_account = conn.cursor.fetchone() 
+#        student_account = conn.login_student(username,password)
         if student_account:
             create_session(username,password)
             user_in = 'student'
@@ -320,11 +323,13 @@ def home_page():
 @server.route('/admin_home/', methods = ['POST','GET'])
 @login_required
 def admin_home_page():
-    try:
-        admin = conn.get_admin_data(session["username"])
-        return render_template('admin_home.html',user = admin)
-    except Exception:
-        print("Error finding home page")
+#    try:
+   admin = conn.get_admin_data(session["username"])
+   table_names = schema2.get_names()
+   attributes = schema2.get_attributes()
+   return render_template('admin_home.html',user = admin,table_names = table_names, attributes = attributes)
+ #   except Exception:
+ #       print("Error finding home page")
 
 @server.route('/admin_updates/', methods = ['POST','GET'])
 @login_required

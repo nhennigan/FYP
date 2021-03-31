@@ -8,11 +8,11 @@ def sendmail():
     #The mail addresses and password
     sender_address = 'exam.timetable.updates@gmail.com'
     sender_pass = 'Examtimetable'
-    receiver_address = 'niamhhennigan@gmail.com'
+    receiver_address = ['niamhhennigan@gmail.com','n.hennigan3@nuigalway.ie']
     #Setup the MIME
     message = MIMEMultipart()
     message['From'] = sender_address
-    message['To'] = receiver_address
+    message['To'] = ", ".join(receiver_address)
     message['Subject'] = 'A test mail sent by Python. It has an attachment.'   #The subject line
     #The body and the attachments for the mail
     message.attach(MIMEText(mail_content, 'plain'))

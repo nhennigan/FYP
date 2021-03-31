@@ -4,7 +4,7 @@ def get_tables():
 
     TABLES['exam'] = ("CREATE TABLE `exam` (`exam_id` VARCHAR(45) NOT NULL,`module_code` VARCHAR(45) NOT NULL,`duration` INT, `venue` VARCHAR(45), `percent` INT,`start_date` timestamp NOT NULL,`end_date` timestamp NOT NULL, PRIMARY KEY (`exam_id`),FOREIGN KEY (`module_code`) REFERENCES `module`(`code`));")
 
-    TABLES['student'] = ("CREATE TABLE `student` (`student_id` INT NOT NULL,`f_name` VARCHAR(45),`l_name` VARCHAR(45),`password` VARCHAR(45), PRIMARY KEY (`student_id`));")
+    TABLES['student'] = ("CREATE TABLE `student` (`student_id` INT NOT NULL,`f_name` VARCHAR(45),`l_name` VARCHAR(45),`password` VARCHAR(45),`email` VARCHAR(45), PRIMARY KEY (`student_id`));")
 
     TABLES['lecturer'] = ("CREATE TABLE `lecturer` (`lecturer_id` INT NOT NULL,`f_name` VARCHAR(45),`l_name` VARCHAR(45), `password` VARCHAR(45), PRIMARY KEY (`lecturer_id`));")
  
@@ -26,7 +26,6 @@ def get_tables():
 
     TABLES['seating'] = ("CREATE TABLE `seating` (`student_id` INT NOT NULL,`exam_id` VARCHAR(45) NOT NULL,`seat_no` INT, FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`),FOREIGN KEY (`exam_id`) REFERENCES `exam`(`exam_id`),PRIMARY KEY (`student_id`,`exam_id`));") 
 
-    TABLES  ['event'] = ("CREATE TABLE `event` (`id` int unsigned NOT NULL AUTO_INCREMENT,`title` varchar(255) NOT NULL,`url` varchar(255) NOT NULL,`class` varchar(255) NOT NULL,`start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,`end_date` timestamp NOT NULL,PRIMARY KEY (`id`))")
     return TABLES
 
 def get_data():
@@ -36,7 +35,7 @@ def get_data():
 
     DATA['exam']=[('EXAM1','EE123',120,'Kingfisher',100,'2021-06-01 09:30:00','2021-03-10 20:01:02'),('EXAM2','EE456',120,'Galway Bay Hotel',70,'2021-06-02 13:00:00','2021-03-11 20:01:02'),('EXAM3','CT432',120,'Leisureland Salthill',90,'2021-06-03 13:00:00','2021-03-12 20:01:02'),('EXAM4','BA234',120,'Bailey Allen Hall',50,'2021-06-04 16:30:00','2021-03-13 20:01:02'),('EXAM5','BA245',120,'Kingfisher',40,'2021-06-01 09:30:00','2021-03-14 20:01:02'),('EXAM6','BA256',120,'Alice Perry Engineering Building',100,'2021-06-03 13:00:00','2021-03-15 20:01:02')]
 
-    DATA['student']=[(12345678,'Niamh','Hennigan','pw'),(23456789,'John','Jones','pw'),(34567890,'Mary','OConnor','pw'),(45678901,'Luke','Curran','pw'),(56789012,'Meadhbh','Keane','pw'),(67890123,'Katie','Whelan','pw'),(78901234,'Michael','Talty','pw'),(89012345,'Aine','Ronan','pw'),(90123456,'Rachel','Foxe','pw'),(10000000,'Ray','Goose','pw')]
+    DATA['student']=[(12345678,'Niamh','Hennigan','pw','n.hennigan3@nuigalway.ie'),(23456789,'John','Jones','pw',"niamhhennigan@gmail.com"),(34567890,'Mary','OConnor','pw',"niamhhennigan@gmail.com"),(45678901,'Luke','Curran','pw',"niamhhennigan@gmail.com"),(56789012,'Meadhbh','Keane','pw',"niamhhennigan@gmail.com"),(67890123,'Katie','Whelan','pw',"niamhhennigan@gmail.com"),(78901234,'Michael','Talty','pw',"niamhhennigan@gmail.com"),(89012345,'Aine','Ronan','pw',"niamhhennigan@gmail.com"),(90123456,'Rachel','Foxe','pw',"niamhhennigan@gmail.com"),(10000000,'Ray','Goose','pw',"niamhhennigan@gmail.com")]
    
     DATA['lecturer']=[(87654321,'Sinead','Grimes','pw'),(89999999,'Martin','Meere','pw'),(86420864,'Fearghal','Morgan','pw'),(88888888,'Liam','Kilmartin','pw'),(87777777,'Desmond','Chambers','pw'),(86666666,'John','Kearney','pw')]
 
@@ -58,13 +57,17 @@ def get_data():
 
     DATA['seating']=[('12345678','EXAM1','2'),('12345678','EXAM2','56'),('12345678','EXAM3','48'),('89012345','EXAM4','23'),('89012345','EXAM5','5'),('89012345','EXAM6','9')]
 
-    DATA['event']=[(1,'Example','http://www.example.com','event-sucess','2021-09-10 20:00:00','2021-09-10 20:01:02'),(2,'Roy Tutorials','https://roytuts.com','event-important','2021-09-15 19:00:00','2021-09-15 19:42:45'),(3,'Roy Tutorial','https://roytuts.com','event-info','2021-09-23 20:03:05','2021-09-24 08:45:53'),(4,'Roy Tutorial','https://roytuts.com','event-error','2021-09-24 20:03:05','2021-09-25 08:45:53')]
-    
     return DATA 
 
 def get_instructions():
-    INSTRUCTIONS= ["""INSERT INTO `module`(`code`,`name`,`semester`,`ECTs`,`lecturer_notes`) VALUES (%s,%s,%s,%s,%s);""","""INSERT INTO `exam` (`exam_id`,`module_code`, `duration`,`venue`,`percent`,`start_date`,`end_date`) VALUES (%s,%s,%s,%s,%s,%s,%s);""","""INSERT INTO `student`(`student_id`, `f_name`, `l_name`, `password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `lecturer`(`lecturer_id`,`f_name`,`l_name`,`password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `course`(`code`,`name`) VALUES (%s,%s);""","""INSERT INTO `lect_module`(`staff_id`, `mod_code`) VALUES (%s,%s);""","""INSERT INTO `admin`(`staff_id`,`f_name`,`l_name`,`password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `organise`(`staff_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `student_exam`(`student_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `course_module`(`course_code`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `student_module`(`student_id`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `course_student`(`student_id`,`course_code`) VALUES (%s,%s);""","""INSERT INTO `seating`(`student_id`,`exam_id`,`seat_no`)VALUES (%s,%s,%s);""","""INSERT INTO `event`(`id`,`title`,`url`,`class`,`start_date`,`end_date`)VALUES (%s,%s,%s,%s,%s,%s);"""]
+    INSTRUCTIONS= ["""INSERT INTO `module`(`code`,`name`,`semester`,`ECTs`,`lecturer_notes`) VALUES (%s,%s,%s,%s,%s);""","""INSERT INTO `exam` (`exam_id`,`module_code`, `duration`,`venue`,`percent`,`start_date`,`end_date`) VALUES (%s,%s,%s,%s,%s,%s,%s);""","""INSERT INTO `student`(`student_id`, `f_name`, `l_name`, `password`,`email`) VALUES (%s,%s,%s,%s,%s);""","""INSERT INTO `lecturer`(`lecturer_id`,`f_name`,`l_name`,`password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `course`(`code`,`name`) VALUES (%s,%s);""","""INSERT INTO `lect_module`(`staff_id`, `mod_code`) VALUES (%s,%s);""","""INSERT INTO `admin`(`staff_id`,`f_name`,`l_name`,`password`) VALUES (%s,%s,%s,%s);""","""INSERT INTO `organise`(`staff_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `student_exam`(`student_id`,`exam_id`) VALUES (%s,%s);""","""INSERT INTO `course_module`(`course_code`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `student_module`(`student_id`,`mod_code`) VALUES (%s,%s);""","""INSERT INTO `course_student`(`student_id`,`course_code`) VALUES (%s,%s);""","""INSERT INTO `seating`(`student_id`,`exam_id`,`seat_no`)VALUES (%s,%s,%s);"""]
     return INSTRUCTIONS
 
 def get_names():
     NAMES=["module","exam","student","lecturer","course","lect_module","admin","organise","student_exam","course_module","student_module","course_student"]
+    return NAMES
+
+def get_attributes():
+    ATTRIBUTES =[{'module':['code','name','semester','ECTs','lecturer_notes']},{'exam':['exam_id','module_code', 'duration','venue','percent','start_date','end_date']},{'student':['student_id', 'f_name', 'l_name', 'password','email']},{'lecturer':['lecturer_id','f_name','l_name','password']},{'course':['code','name']},{'lect_module':['staff_id', 'mod_code']},{'admin':['staff_id','f_name','l_name','password']},{'organise':['staff_id','exam_id']},{'student_exam':['student_id','exam_id']},{'course_module':['course_code','mod_code']},{'student_module':['student_id','mod_code']},{'course_student':['student_id','course_code']},{'seating':['student_id','exam_id','seat_no']}]
+    return ATTRIBUTES
+

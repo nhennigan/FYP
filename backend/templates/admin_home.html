@@ -2,6 +2,7 @@
 
 {% block content %}
       <h1>Home</h1>
+
       {{user.f_name}} {{user.l_name}}
         {%for item in user.exam_list%}
 	<table border="1">
@@ -49,26 +50,43 @@
 	    <option value="UPDATE" selected>Update an entry in a table</option>
 	  </select>
 
-	 <label for="tables">Choose a table or tpye your own:</label>
-          <select id="tables" name="tables">
-            <option value="student">Student</option>
-            <option value="admin">Admin</option>
-            <option value="lecturer" selected>Exam</option>
-            <option value="module">Module</option>
-            <option value="exam" selected>Exam</option>
-            <option value="course" >Course</option>
-            <option value="lect_module">Lect_module</option>
-            <option value="organise" >Organise</option>
-            <option value="student_exam">Student_exam</option>
-            <option value="course_module">Course_module</option>
-            <option value="student_module">Student_module</option>
-            <option value="course_student">Course_student</option>
-          </select>
- 
+	 <label for="tables">Choose a table or type your own:</label>
+          <select id="tables" name="tables" onchange="showfield(this.options[this.selectedIndex].value)">
+        
+	{% for table in table_names %}
+	<option value={{table}}>{{table}}</option>
+	{% endfor %}
+	<option value="Other">Other</option>
+	  </select>
+	<div id="div1"></div>
+
+         <label for="attributes">Choose a attribute to update</label>
+          <select id="attributes" name="attributes">
+
+		  {% for attribute in attributes %}
+        <option value={{attribute}}>{{attribute}}</option>
+        {% endfor %}
+      <p> {{attributes}}
+       {% for a in attributes %}
+                  <br> {{a["exam"]}}
+                  {% endfor %}
+                  </p>
 	 <label for="updated info">New Value(s)</label>
 		<input id="updated_info" type = "text" name = "updated_info" />
                 <input type = "submit" value = "submit" />
               </form>
+<p id="p1">Hello World!</p>
+
+	      <script type="text/javascript">
+		function showfield(name){
+		  if(name=='Other')document.getElementById('div1').innerHTML='Other: <input type="text" name="other" />';
+		  else document.getElementById('div1').innerHTML='';
+		}
+		function myFunction() {
+ 		 var x = document.getElementById("tables");
+		 document.getElementById("p1").innerHTML = document.getElementById("tables");
+		}
+		</script>
 {% endblock %}
 
 
