@@ -53,34 +53,91 @@
 	 <label for="tables">Choose a table or type your own:</label>
           <select id="tables" name="tables" onchange="showfield(this.options[this.selectedIndex].value)">
         
-	{% for table in table_names %}
-	<option value={{table}}>{{table}}</option>
-	{% endfor %}
-	<option value="Other">Other</option>
+		{% for table in table_names %}
+			<option value={{table}}>{{table}}</option>
+		{% endfor %}
+		<option value="Other">Other</option>
 	  </select>
-	<div id="div1"></div>
+	  <div id="div1"></div>
 
-         <label for="attributes">Choose a attribute to update</label>
-          <select id="attributes" name="attributes">
+
+	 <div id="attributes_label"></div>
+	 <div id="div2"></div>
+<!--          <select id="attributes" name="attributes">
 
 		  {% for attribute in attributes %}
-        <option value={{attribute}}>{{attribute}}</option>
-        {% endfor %}
-      <p> {{attributes}}
-       {% for a in attributes %}
-                  <br> {{a["exam"]}}
+		        <option value={{attribute}}>{{attribute}}</option>
+		  {% endfor %}
+		      <p> {{attributes}}
+		       {% for a in attributes %}
+	                  <br> {{a["exam"]}}
                   {% endfor %}
-                  </p>
-	 <label for="updated info">New Value(s)</label>
+        	       </p>
+-->
+<div id="key_label"></div>
+<div id="div3"></div>
+<div id="key_value_label"></div>
+<div id="div4"></div>
+	<label for="updated info">New Value(s)</label>
 		<input id="updated_info" type = "text" name = "updated_info" />
                 <input type = "submit" value = "submit" />
               </form>
-<p id="p1">Hello World!</p>
+
+
 
 	      <script type="text/javascript">
 		function showfield(name){
-		  if(name=='Other')document.getElementById('div1').innerHTML='Other: <input type="text" name="other" />';
-		  else document.getElementById('div1').innerHTML='';
+			var attributes = '{{attrinbutes}}';
+			var a = attributes[name];
+			document.getElementById('attributes_label').innerHTML='<label for="attributes">Choose a attribute to update</label>';
+			document.getElementById('key_label').innerHTML='<label for="update key">Update Key</label>';
+			document.getElementById('key_value_label').innerHTML='<label for="key_value_label">Value of key</label>';
+			document.getElementById('div4').innerHTML='<input type="text" name="key value" id="key_value" />';
+			if(name=='Other'){
+				document.getElementById('div1').innerHTML='Other: <input type="text" name="other" />';
+				document.getElementById('div2').innerHTML='Other: <input type="text" name="other" />';
+			}else if(name=='exam'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="exam_id">exam_id</option><option value="module_code">module_code</option><option value="duration">duration</option><option value="venue">venue</option><option value="percent">percent</option><option value="start_date">start_date</option><option value="end_date">end_date</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="exam_id">exam_id</option><option value="module_code">module_code</option><option value="duration">duration</option><option value="venue">venue</option><option value="percent">percent</option><option value="start_date">start_date</option><option value="end_date">end_date</option>';
+			}else if(name=='lecturer'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="lecturer_id">lecturer_id</option><option value="f_name">f_name</option><option value="l_name">l_name</option><option value="password">password</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="lecturer_id">lecturer_id</option><option value="f_name">f_name</option><option value="l_name">l_name</option><option value="password">password</option>';
+			}else if(name=='admin'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="staff_id">staff_id</option><option value="f_name">f_name</option><option value="l_name">l_name</option><option value="password">password</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="staff_id">staff_id</option><option value="f_name">f_name</option><option value="l_name">l_name</option><option value="password">password</option>';
+			}else if(name=='student'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="student_id">student_id</option><option value="f_name">f_name</option><option value="l_name">l_name</option><option value="password">password</option><option value="email">email</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="student_id">student_id</option><option value="f_name">f_name</option><option value="l_name">l_name</option><option value="password">password</option><option value="email">email</option>';
+			}else if(name=='course'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="code">code</option><option value="name">name</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="code">code</option><option value="name">name</option>';
+			}else if(name=='lect_module'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="staff_id">staff_id</option><option value="mod_code">mod_code</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="staff_id">staff_id</option><option value="mod_code">mod_code</option>';
+			}else if(name=='module'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="code">code</option><option value="name">name</option><option value="semester">semester</option><option value="ECTs">ECTs</option><option value="lecturer_notes">lecturer_notes</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="code">code</option><option value="name">name</option><option value="semester">semester</option><option value="ECTs">ECTs</option><option value="lecturer_notes">lecturer_notes</option>';
+			}else if(name=='organise'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="staff_id">staff_id</option><option value="exam_id">exam_id</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="staff_id">staff_id</option><option value="exam_id">exam_id</option>';
+			}else if(name=='student_exam'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="student_id">student_id</option><option value="exam_id">exam_id</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="student_id">student_id</option><option value="exam_id">exam_id</option>';
+			}else if(name=='stuednt_module'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="student_id">student_id</option><option value="mod_code">mod_code</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="student_id">student_id</option><option value="mod_code">mod_code</option>';
+			}else if(name=='course_module'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="course_code">course_cde</option><option value="mod_code">mod_code</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="course_code">course_cde</option><option value="mod_code">mod_code</option>';
+			}else if(name=='seating'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="student_id">student_id</option><option value="exam_id">exam_id</option><option value="seat_no">seat_no</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="student_id">student_id</option><option value="exam_id">exam_id</option><option value="seat_no">seat_no</option>';
+			}else if(name=='course_student'){
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="course_code">course_code</option><option value="student_id">student_id</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="course_code">course_code</option><option value="student_id">student_id</option>';
+			}else{
+				document.getElementById('div1').innerHTML='';
+		}
 		}
 		function myFunction() {
  		 var x = document.getElementById("tables");

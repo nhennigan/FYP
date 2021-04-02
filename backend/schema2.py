@@ -64,7 +64,7 @@ def get_instructions():
     return INSTRUCTIONS
 
 def get_names():
-    NAMES=["module","exam","student","lecturer","course","lect_module","admin","organise","student_exam","course_module","student_module","course_student"]
+    NAMES=["module","exam","student","lecturer","course","lect_module","admin","organise","student_exam","course_module","student_module","course_student","seating"]
     return NAMES
 
 def get_attributes():

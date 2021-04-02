@@ -334,10 +334,12 @@ def admin_home_page():
 @server.route('/admin_updates/', methods = ['POST','GET'])
 @login_required
 def admin_updates():
-    if request.method == 'POST' and 'actions' in request.form and 'tables' in request.form :
+    if request.method == 'POST' and 'actions' in request.form and 'tables' in request.form:
 #        return render_template('info.html',u=request.form["actions"])
-        if request.form["actions"] == "UPDATE" and 'updated_attribute' in request.form and 'updated_info' in request.form:
-            conn.cursor.execute('UPDATE %s SET %s=%s where ')
+        if request.form["actions"] == "UPDATE" and 'attributes' in request.form:
+            return render_template('info.html',u=request.form["actions"])
+        #and 'attributes' in request.form and 'key' in request.form and 'updated_info' in request.form and 'key_value' in request.form:
+            conn.cursor.execute('UPDATE %s SET %s=%s where %s=%s',(request.form["tables"],request.form["attributes"],request.form["updated_info"],request.form["key"],request.form["key_value"],))
 #        conn.update_lecturer_notes(request.form['notes'],request.form['module_code'])
             return redirect(url_for('admin_home_page'))
     return redirect(url_for('admin_home_page'))
