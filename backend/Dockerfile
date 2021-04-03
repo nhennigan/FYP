@@ -7,6 +7,7 @@ COPY requirements.txt /code/
 #RUN apk add python3-dev 
 #RUN pip install Flask-Datepicker
 #RUN pip install Flask-Mail
+EXPOSE 5000
 RUN pip install -r requirements.txt
 #RUN apk add gcc
 #RUN pip install flask-googlemaps
