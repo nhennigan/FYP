@@ -63,21 +63,11 @@
 
 	 <div id="attributes_label"></div>
 	 <div id="div2"></div>
-<!--          <select id="attributes" name="attributes">
 
-		  {% for attribute in attributes %}
-		        <option value={{attribute}}>{{attribute}}</option>
-		  {% endfor %}
-		      <p> {{attributes}}
-		       {% for a in attributes %}
-	                  <br> {{a["exam"]}}
-                  {% endfor %}
-        	       </p>
--->
 <div id="key_label"></div>
 <div id="div3"></div>
 <div id="key_value_label"></div>
-<div id="div4"></div>
+<div id="key_value"></div>
 	<label for="updated info">New Value(s)</label>
 		<input id="updated_info" type = "text" name = "updated_info" />
                 <input type = "submit" value = "submit" />
@@ -92,7 +82,7 @@
 			document.getElementById('attributes_label').innerHTML='<label for="attributes">Choose a attribute to update</label>';
 			document.getElementById('key_label').innerHTML='<label for="update key">Update Key</label>';
 			document.getElementById('key_value_label').innerHTML='<label for="key_value_label">Value of key</label>';
-			document.getElementById('div4').innerHTML='<input type="text" name="key value" id="key_value" />';
+			document.getElementById('key_value').innerHTML='<input type="text" name="key_value" id="key_value" />';
 			if(name=='Other'){
 				document.getElementById('div1').innerHTML='Other: <input type="text" name="other" />';
 				document.getElementById('div2').innerHTML='Other: <input type="text" name="other" />';

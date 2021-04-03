@@ -336,15 +336,15 @@ def admin_home_page():
 def admin_updates():
     if request.method == 'POST' and 'actions' in request.form and 'tables' in request.form:
         if request.form["actions"] == "UPDATE" and 'attributes' in request.form and 'key' in request.form and 'key_value' in request.form:
-            tables = (request.form["tables"].replace("'", ''))
-            tables = (request.form["tables"].replace("\"", ''))
-            attributes = (request.form["attributes"].replace("'", ''))
-            updated_info = (request.form["updated_info"].replace("'", ''))
-            key = (request.form["key"].replace("'", ''))
-            key_value = (request.form["key_value"].replace("'", ''))
+#            tables = (request.form["tables"].replace("'", ''))
+#            tables = (request.form["tables"].replace("\"", ''))
+#            attributes = (request.form["attributes"].replace("'", ''))
+#            updated_info = (request.form["updated_info"].replace("'", ''))
+#            key = (request.form["key"].replace("'", ''))
+#            key_value = (request.form["key_value"].replace("'", ''))
             
-            query = "UPDATE " + request.form["tables"] + " SET " +attributes +"=%s WHERE " + key+ " =%s" 
-            conn.cursor.execute(query, (updated_info,key_value,))
+            query = "UPDATE " + request.form["tables"] + " SET " +request.form["attributes"] +"=%s WHERE " + request.form["key"]+ " =%s" 
+            conn.cursor.execute(query, (request.form["updated_info"],request.form["key_value"],))
             conn.connection.commit()
             return redirect(url_for('admin_home_page'))
     return redirect(url_for('admin_home_page'))
