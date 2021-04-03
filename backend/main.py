@@ -184,6 +184,15 @@ class DBManager:
         self.cursor.execute('UPDATE module SET lecturer_notes = %s WHERE code=%s', (notes,module_code))
         self.connection.commit()
 
+    def get_email_addresses(self, exam_id):
+        self.cursor.execute('SELECT student_id FROM student_exam WHERE exam_id = %s',(request.form["exam_id"],))
+        ids = self.cursor.fetchall();
+        emails = []
+        for i in ids:
+            self.cursor.execute('SELECT email FROM student WHERE student_id = %s',(i[0],))
+            email = self.cursor.fetchone()
+            emails.append(email)
+        return emails
 
 class User:
     def __init__(self,id_no,f_name,l_name,course):
@@ -236,13 +245,15 @@ user_in = None
 #server.config['MAIL_USE_SSL'] = True
 #server.config['MAIL_DEBUG'] = True
 
-@server.route("/mail")
-def index():
+@server.route("/mail",methods = ['POST','GET'])
+def send_emails():
 #    msg = Message('Hello', sender = 'exam.timetable.updates@gmail.com', recipients = ['niamhhennigan@gmail.com'])
 #    msg.body = "Hello Flask message sent from Flask-Mail"
 #    mail.send(msg)
 #    return "Sent"
-    new_mail.sendmail()
+    if request.method == 'POST' and 'exam_id' in request.form:
+        emails = conn.get_email_addresses(request.form["exam_id"])
+        new_mail.sendmail(emails)
     return redirect(url_for('admin_home_page'))
 
 @server.route('/',methods = ['POST','GET'])
@@ -344,6 +355,16 @@ def admin_updates():
                 return redirect(url_for('admin_home_page'))
             query = "UPDATE " + request.form["tables"] + " SET " +request.form["attributes"] +"=%s WHERE " + request.form["key"]+ " =%s" 
             conn.cursor.execute(query, (request.form["updated_info"],request.form["key_value"],))
+            conn.connection.commit()
+            return redirect(url_for('admin_home_page'))
+        if request.form["actions"] == "DELETE"  and 'key' in request.form and 'key_value' in request.form:
+            if 'second_key' in request.form:
+                query = "DELETE from " + request.form["tables"] +" WHERE " + request.form["key"]+ " =%s AND " + request.form["second_key"]+" =%s"
+                conn.cursor.execute(query, (request.form["key_value"],request.form["second_key_value"],))
+                conn.connection.commit()
+                return redirect(url_for('admin_home_page'))
+            query = "DELETE FROM " + request.form["tables"] + " WHERE " + request.form["key"]+ " =%s"
+            conn.cursor.execute(query, (request.form["key_value"],))
             conn.connection.commit()
             return redirect(url_for('admin_home_page'))
     return redirect(url_for('admin_home_page'))

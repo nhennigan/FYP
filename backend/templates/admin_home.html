@@ -73,6 +73,7 @@
 <div id="second_key_value_label"></div>
 <div id="second_key_value"></div>
 
+
 <label for="updated info">New Value</label><br>
 		<input id="updated_info" type = "text" name = "updated_info" />
 		<br>
@@ -80,6 +81,15 @@
               </form>
 
 
+<div>
+        <form action = "http://127.0.0.1:5000/mail" method = "post">
+	<label for="exam_id">Enter exam id to send update email:</label>
+        <input type="text" name="exam_id" id="exam_id" />
+        <br>
+        <input type = "submit" value = "submit" />
+	</form>
+
+</div>
 
 	      <script type="text/javascript">
 		function showfield(name){
