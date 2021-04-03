@@ -128,30 +128,58 @@
 			}else if(name=='module'){
 				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="code">code</option><option value="name">name</option><option value="semester">semester</option><option value="ECTs">ECTs</option><option value="lecturer_notes">lecturer_notes</option>';
 				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="code">code</option><option value="name">name</option><option value="semester">semester</option><option value="ECTs">ECTs</option><option value="lecturer_notes">lecturer_notes</option>';
+				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second update Key</label>';
+				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="code">code</option><option value="name">name</option><option value="semester">semester</option><option value="ECTs">ECTs</option><option value="lecturer_notes">lecturer_notes</option>';
+				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
+                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 			}else if(name=='organise'){
 				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="staff_id">staff_id</option><option value="exam_id">exam_id</option>';
 				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="staff_id">staff_id</option><option value="exam_id">exam_id</option>';
+				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second update Key</label>';
+				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="staff_id">staff_id</option><option value="exam_id">exam_id</option>';
+				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
+                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 			}else if(name=='student_exam'){
 				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="student_id">student_id</option><option value="exam_id">exam_id</option>';
 				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="student_id">student_id</option><option value="exam_id">exam_id</option>';
-			}else if(name=='stuednt_module'){
+				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second update Key</label>';
+				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="student_id">student_id</option><option value="exam_id">exam_id</option>';
+				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
+                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
+			}else if(name=='student_module'){
 				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="student_id">student_id</option><option value="mod_code">mod_code</option>';
 				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="student_id">student_id</option><option value="mod_code">mod_code</option>';
+				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second update Key</label>';
+				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="student_id">student_id</option><option value="mod_code">mod_code</option>';
+				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
+                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 			}else if(name=='course_module'){
-				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="course_code">course_cde</option><option value="mod_code">mod_code</option>';
-				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="course_code">course_cde</option><option value="mod_code">mod_code</option>';
+				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="course_code">course_code</option><option value="mod_code">mod_code</option>';
+				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="course_code">course_code</option><option value="mod_code">mod_code</option>';
+				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second update Key</label>';
+				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="course_code">course_code</option><option value="mod_code">mod_code</option>';
+				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
+                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 			}else if(name=='seating'){
 				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="student_id">student_id</option><option value="exam_id">exam_id</option><option value="seat_no">seat_no</option>';
 				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="student_id">student_id</option><option value="exam_id">exam_id</option><option value="seat_no">seat_no</option>';
+				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second update Key</label>';
+				document.getElementById('second_key').innerHTML='<select id="second_key" name="key"><option value="student_id">student_id</option><option value="exam_id">exam_id</option><option value="seat_no">seat_no</option>';
+				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
+                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 			}else if(name=='course_student'){
 				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="course_code">course_code</option><option value="student_id">student_id</option>';
 				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="course_code">course_code</option><option value="student_id">student_id</option>';
+				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second update Key</label>';
+				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="course_code">course_code</option><option value="student_id">student_id</option>';
+				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
+                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 			}else{
 				document.getElementById('div1').innerHTML='';
 				document.getElementById('second_key_value').innerHTML='';
                                 document.getElementById('second_key').innerHTML='';
 
-		}
+			}
 		}
 		function myFunction() {
  		 var x = document.getElementById("tables");
