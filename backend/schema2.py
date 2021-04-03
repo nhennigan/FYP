@@ -24,7 +24,7 @@ def get_tables():
 
     TABLES['course_student'] = ("CREATE TABLE `course_student` (`student_id` INT NOT NULL,`course_code` VARCHAR(45) NOT NULL,FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`),FOREIGN KEY (`course_code`) REFERENCES `course`(`code`));")
 
-    TABLES['seating'] = ("CREATE TABLE `seating` (`student_id` INT NOT NULL,`exam_id` VARCHAR(45) NOT NULL,`seat_no` INT, FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`),FOREIGN KEY (`exam_id`) REFERENCES `exam`(`exam_id`),PRIMARY KEY (`student_id`,`exam_id`));") 
+    TABLES['seating'] = ("CREATE TABLE `seating` (`student_id` INT NOT NULL,`exam_id` VARCHAR(45) NOT NULL,`seat_no` INT, FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`),FOREIGN KEY (`exam_id`) REFERENCES `exam`(`exam_id`),PRIMARY KEY(`student_id`,`exam_id`));") 
 
     return TABLES
 
@@ -55,7 +55,7 @@ def get_data():
 
     DATA['course_student']=[(12345678, 'BP'),(23456789, 'BP'),(34567890, 'BP'),(45678901, 'BP'),(56789012,'BA'),(67890123,'BA'),(78901234,'BA'),(89012345,'BA'),(90123456,'BA')]
 
-    DATA['seating']=[('12345678','EXAM1','2'),('12345678','EXAM2','56'),('12345678','EXAM3','48'),('89012345','EXAM4','23'),('89012345','EXAM5','5'),('89012345','EXAM6','9')]
+    DATA['seating']=[('12345678','EXAM1','2'),('12345678','EXAM2','56'),('12345678','EXAM3','48'),('89012345','EXAM4','23'),('89012345','EXAM5','5'),('89012345','EXAM6','9'),('23456789','EXAM1','29'),('23456789','EXAM2','57'),('23456789','EXAM3','6')]
 
     return DATA 
 

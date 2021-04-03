@@ -68,8 +68,14 @@
 <div id="div3"></div>
 <div id="key_value_label"></div>
 <div id="key_value"></div>
-	<label for="updated info">New Value(s)</label>
+<div id="second_key_label"></div>
+<div id="second_key"></div>
+<div id="second_key_value_label"></div>
+<div id="second_key_value"></div>
+
+<label for="updated info">New Value</label><br>
 		<input id="updated_info" type = "text" name = "updated_info" />
+		<br>
                 <input type = "submit" value = "submit" />
               </form>
 
@@ -104,6 +110,11 @@
 			}else if(name=='lect_module'){
 				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="staff_id">staff_id</option><option value="mod_code">mod_code</option>';
 				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="staff_id">staff_id</option><option value="mod_code">mod_code</option>';
+				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second update Key</label>';
+				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="staff_id">staff_id</option><option value="mod_code">mod_code</option>';
+				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
+                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
+
 			}else if(name=='module'){
 				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="code">code</option><option value="name">name</option><option value="semester">semester</option><option value="ECTs">ECTs</option><option value="lecturer_notes">lecturer_notes</option>';
 				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="code">code</option><option value="name">name</option><option value="semester">semester</option><option value="ECTs">ECTs</option><option value="lecturer_notes">lecturer_notes</option>';
@@ -127,6 +138,9 @@
 				document.getElementById('div3').innerHTML='<select id="key" name="key"><option value="course_code">course_code</option><option value="student_id">student_id</option>';
 			}else{
 				document.getElementById('div1').innerHTML='';
+				document.getElementById('second_key_value').innerHTML='';
+                                document.getElementById('second_key').innerHTML='';
+
 		}
 		}
 		function myFunction() {

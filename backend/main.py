@@ -251,24 +251,25 @@ def init():
     global conn
     if not conn:
         conn = DBManager(password_file='/run/secrets/db-password')
-#        conn.create_database_tables()
-#        conn.sample_data()
+        conn.create_database_tables()
+        conn.sample_data()
     return render_template('login2.html',msg="start")
 
 @server.route('/login',methods = ['POST','GET'])
 def login(): 
-    msg = ''
-    global conn
+    msg = '' 
 #    global user_in
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form: 
         username = request.form['username'] 
         password = request.form['password']
         conn.cursor.execute('SELECT * FROM student WHERE student_id = %s AND password = %s', (username, password, )) 
         student_account = conn.cursor.fetchone() 
-#        student_account = conn.login_student(username,password)
         if student_account:
+#            return render_template('check.html')
+ 
             create_session(username,password)
-            user_in = 'student'
+#            return render_template('check.html')
+#            user_in = 'student'
             return redirect(url_for('home_page'))
         else:
             conn.cursor.execute('SELECT * FROM lecturer WHERE lecturer_id = %s AND password = %s', (username, password, ))
@@ -288,7 +289,6 @@ def login():
         else:
            msg = 'Incorrect username / password !'
     return redirect(url_for('login_again', msg = msg))
-
 def create_session(username,password):
     session['loggedin'] = True
     session['id'] = password
@@ -315,6 +315,7 @@ def home_page():
     try:
         f_name,l_name,course = conn.get_student_data(session["username"])
         exam_list = conn.get_exam_data(session["username"])
+    #    return render_template('check.html')
         user_in = User(session["username"],f_name,l_name,course)
         return render_template('home.html',user=user_in,exams=exam_list,m="")
     except Exception:
@@ -336,13 +337,11 @@ def admin_home_page():
 def admin_updates():
     if request.method == 'POST' and 'actions' in request.form and 'tables' in request.form:
         if request.form["actions"] == "UPDATE" and 'attributes' in request.form and 'key' in request.form and 'key_value' in request.form:
-#            tables = (request.form["tables"].replace("'", ''))
-#            tables = (request.form["tables"].replace("\"", ''))
-#            attributes = (request.form["attributes"].replace("'", ''))
-#            updated_info = (request.form["updated_info"].replace("'", ''))
-#            key = (request.form["key"].replace("'", ''))
-#            key_value = (request.form["key_value"].replace("'", ''))
-            
+            if 'second_key' in request.form:
+                query = "UPDATE " + request.form["tables"] + " SET " +request.form["attributes"] +"=%s WHERE " + request.form["key"]+ " =%s AND " + request.form["second_key"]+" =%s"
+                conn.cursor.execute(query, (request.form["updated_info"],request.form["key_value"],request.form["second_key_value"],))
+                conn.connection.commit()
+                return redirect(url_for('admin_home_page'))
             query = "UPDATE " + request.form["tables"] + " SET " +request.form["attributes"] +"=%s WHERE " + request.form["key"]+ " =%s" 
             conn.cursor.execute(query, (request.form["updated_info"],request.form["key_value"],))
             conn.connection.commit()
