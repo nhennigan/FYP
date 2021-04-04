@@ -42,7 +42,7 @@
       </table>
 
 	{%endfor%}
-	<form action = "http://127.0.0.1:5000/admin_updates" method = "post">
+	<form action = "/admin_updates" method = "post">
 	<label for="actions">Choose an action:</label>
 	  <select id="actions" name="actions">
 	    <option value="CREATE">Create new entry in a table</option>
@@ -82,7 +82,7 @@
 
 
 <div>
-        <form action = "http://127.0.0.1:5000/mail" method = "post">
+        <form action = "/mail" method = "post">
 	<label for="exam_id">Enter exam id to send update email:</label>
         <input type="text" name="exam_id" id="exam_id" />
         <br>

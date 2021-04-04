@@ -54,7 +54,7 @@ th {
               <th>{{item.lecturer_notes}}</th>
               <td>Add notes</td>
               <th>
-	        <form action = "http://127.0.0.1:5000/lecturer_updates" method = "post">
+	        <form action = "/lecturer_updates" method = "post">
 		<input type = "hidden" name = "module_code" value={{item.module_code[0]}} />
 		<input type = "text" name = "notes" />
                 <input type = "submit" value = "submit" />

@@ -46,7 +46,7 @@
           <th>{{item.exam_day[0]}}</th>
 	  <th>Date</th>
           <th>{{item.exam_date[0]}}
-	  <form action="http://127.0.0.1:5000/calendarview"  method="post">
+	  <form action="/calendarview"  method="post">
 	  <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" width="20" height="20">
 	  </form>
 	  </th>
@@ -71,7 +71,7 @@
                 <div class="modal-content">
                 <span class="close close_multi">×</span>
 		<div id="img_container">
-		<form action="http://127.0.0.1:5000/mapview"  method="post"> 
+		<form action="/mapview"  method="post"> 
                 <p>
 		<!-- <button onclick="msg()">Call the function</button> -->
 		<img src ='{{url_for("static", filename="%s.jpg" % item.venue)}}'>

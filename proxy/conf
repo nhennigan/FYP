@@ -1,6 +1,6 @@
 server {
     listen       80;
-    server_name  localhost;
+    server_name  138.68.141.90;
     location / {
         proxy_pass   http://backend:5000;
     }
