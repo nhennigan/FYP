@@ -11,6 +11,7 @@ import new_mail
 #import DBManager
 
 class DBManager:
+    #create connction to database
     def __init__(self, database='example', host="db", user="root", password_file=None):
         pf = open(password_file, 'r')
         self.connection = mysql.connector.connect(
@@ -24,6 +25,7 @@ class DBManager:
         self.cursor = self.connection.cursor(buffered=True)
 #        self.cursor(buffered=True)
     
+    #create tables in database
     def create_database_tables(self):
         tables = schema2.get_tables()
         data = schema2.get_data()
@@ -42,6 +44,7 @@ class DBManager:
                 self.connection.commit()
                 print("OK")
 
+    #insert data from schema into tables
     def sample_data(self):
         data = schema2.get_data()
         instructions = schema2.get_instructions()
@@ -57,6 +60,7 @@ class DBManager:
             except mysql.connector.Error as err:
                     print(err.msg)
     
+    #return information about student
     def get_student_data(self,id_no):
         self.cursor.execute('SELECT f_name,l_name FROM student WHERE student_id = %s ', (id_no,))
         f_name,l_name = self.cursor.fetchone()
@@ -64,15 +68,18 @@ class DBManager:
         course = self.cursor.fetchone()
         return f_name,l_name,course
 
+    #return locations for map page
     def get_locations(self,id_no):
             locations=[]
+            #first attempt to get student exam venues
             self.cursor.execute('SELECT exam_id FROM student_exam WHERE student_id = %s ', (id_no,))
             exams = self.cursor.fetchall()
             for e in exams:
                 self.cursor.execute('SELECT venue FROM exam WHERE exam_id = %s ', (e[0],))
                 venue = self.cursor.fetchone();
                 locations.append(venue[0])
-
+            
+            #if no venues returned - assume lecturer user
             if not exams:
                 self.cursor.execute('SELECT mod_code FROM lect_module WHERE staff_id = %s ', (id_no,))
                 modules = self.cursor.fetchall()
@@ -82,11 +89,12 @@ class DBManager:
                     locations.append(venue[0])
             return locations
 
+    #get calendar dates
     def get_calendar_date(self,id_no):
         self.cursor.execute('SELECT exam_id FROM student_exam WHERE student_id = %s ', (id_no,))
         exams = self.cursor.fetchall()
 
-
+    #gets all exams for students and returns a list of exam objects 
     def get_exam_data(self,id_no):
         exam_list_details=[]
 #        cursor2 = self.cursor(buffered=True)
