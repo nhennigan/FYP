@@ -193,7 +193,7 @@ class DBManager:
         self.connection.commit()
 
     def get_email_addresses(self, exam_id):
-        self.cursor.execute('SELECT student_id FROM student_exam WHERE exam_id = %s',(request.form["exam_id"],))
+        self.cursor.execute('SELECT student_id FROM student_exam WHERE exam_id = %s',(exam_id,))
         ids = self.cursor.fetchall();
         emails = []
         for i in ids:
