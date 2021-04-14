@@ -2,35 +2,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!--    <script  src="modal.js"> </script> 
-  <link href="https://bootswatch.com/4/minty/bootstrap.min.css" rel="stylesheet" type="text/css"> -->
-  <link href="styles.css" rel="stylesheet">
-
-  <title>NUI Galway Exam Timetables </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <script  src="modal.js"> </script> 
+    <link href="https://bootswatch.com/4/minty/bootstrap.min.css" rel="stylesheet" type="text/css">-->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+    <title>NUI Galway Exam Timetables </title>
 <style>
-
-  .header{
-    padding: 60px;
-    text-align: left;
-    background-color: plum;
-    color: white;
-    font-size: 30px;
-  }
 </style>
 </head>
-
-
 <body>
-  <div class= "container-fluid">
-  {% block content %}
-
+{% block content %}
 <!-- <div>
   <input type="checkbox" id="morning" name="morning"
          checked>
   <label for="morning">9:30</label>
 </div>
-
 <div>
   <input type="checkbox" id="afternoon" name="afternoon">
   <label for="afternoon">1:00</label>
@@ -39,18 +25,13 @@
 	<input type="checkbox" id="evening" name="evening">
   <label for="evening">4:30</label>
 </div> -->
-  <div class="row">
-    <div class = "header">
+<div class = "header">
       <p> NUIG Exam Timetables</p>
     </div>
-    <h2>Hello  {{user.id_no}}  {{user.f_name}}  {{user.l_name}} {{user.course[0]}}</h2>
-    <!-- <img src="{{url_for('static', filename='clear_chair.PNG')}}"> -->
-  </div>
-
-  <div class="row">
-    {%for item in exams%}
-      <table class = "table" border="1">
-        
+<h2>Hello  {{user.id_no}}  {{user.f_name}}  {{user.l_name}} {{user.course[0]}}</h2>
+<!-- <img src="{{url_for('static', filename='clear_chair.PNG')}}"> -->
+  {%for item in exams%}
+      <table border="1">
         <tr>
           <th>Module Name</th>
           <th>{{item.module_name[0]}}</th>
@@ -60,12 +41,12 @@
         <tr>
           <th>Day</th>
           <th>{{item.exam_day[0]}}</th>
-	        <th>Date</th>
+	  <th>Date</th>
           <th>{{item.exam_date[0]}}
-	          <form action="/calendarview"  method="post">
-	          <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" width="20" height="20">
-	          </form>
-	        </th>
+<form action="/calendarview"  method="post">
+	  <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" width="20" height="20">
+	  </form>
+	  </th>
         </tr>
         <tr>
           <th>Time</th>
@@ -75,56 +56,54 @@
         </tr>
         <tr>
           <th>Venue</th>
-	        <!--make the button an image and leave //{item.venue} with double brackets  -->
+	  <!--make the button an image and leave //{item.venue} with double brackets  -->
           <th>
           <!-- Trigger/Open The Modal -->
-	          <button class="myBtn_multi" id = {{item.venue}}>{{item.venue}}</button>
-
+	  <button class="myBtn_multi" id = {{item.venue}}>{{item.venue}}</button>
                   <!-- The Modal -->
-              <div  class="modal modal_multi">
-
+                 <div  class="modal modal_multi">
             <!-- Modal content -->
-                 <div class="modal-content">
-                 <span class="close close_multi">×</span>
-		                <div id="img_container">
-	                  	<form action="/mapview"  method="post"> 
-                       <p>
-	                      <!-- <button onclick="msg()">Call the function</button> -->
-	                      <img src ='{{url_for("static", filename="%s.jpg" % item.venue)}}'>
-	                      <input type="submit" class="button" value=" View on map"> 
-	                    </p>
-	                    </form>
-	                  </div>
-                  </div>
-                </div>
-              </div>
-	        </th>
+                <div class="modal-content">
+                <span class="close close_multi">×</span>
+		<div id="img_container">
+<form action="/mapview"  method="post"> 
+		<p>
+		<!-- <button onclick="msg()">Call the function</button> -->
+		<img src ='{{url_for("static", filename="%s.jpg" % item.venue)}}'>
+		<input type="submit" class="button" value=" View on map"> 
+		</p>
+		</form>
+		</div>
+            </div>
+        </div>
+        </div>
+	  </th>
           <th>Seat Number</th>
           <th>
-	          <!-- Trigger/Open The Modal -->
-	          <button class="myBtn_multi" >{{item.seat_no[0]}} </button>
-
-		         <!-- The Modal -->
-	          <div  class="modal modal_multi">
-
-	            <!-- Modal content -->
-        	    <div class="modal-content">
+	  <!-- Trigger/Open The Modal -->
+	  <button class="myBtn_multi" >{{item.seat_no[0]}} </button>
+		 <!-- The Modal -->
+	         <div  class="modal modal_multi">
+	        <!-- Modal content -->
+        	<div class="modal-content">
                 <span class="close close_multi">×</span>
-		              <p>
-	              	<h1>Front of exam hall</h1>
-	                {% for row in item.seat_matrix %}
-                    <div class="rows">
-                      {% for value in row%}
-                        <div class="column">
-                          <img src="{{url_for('static', filename='%s' % value)}}" style="width:100%">
+		<p>
+		<h1>Front of exam hall</h1>
+		{% for row in item.seat_matrix %}
+                        <div class="row">
+                        {% for value in row%}
+                                <div class="column">
+                                <img src="{{url_for('static', filename='%s' % value)}}" style="width:100%">
+                                </div>
+                        {% endfor %}
                         </div>
-                      {% endfor %}
-                    </div>
-                  {% endfor %}
-		              </p>
-              </div>
+                {% endfor %}
+		</p>
             </div>
-	        </th>
+    
+        </div>
+        </div>
+	  </th>
         </tr>
         <tr>
           <th>Exam Percentage</th>
@@ -133,52 +112,44 @@
           <th>{{item.lecturer_notes[0]}}</th>
         </tr>
       </table>
-    {%endfor%}
-  </div>
-  <script>
+      {%endfor%}
+      <script>
         // Get the modal
-
-    var modalparent = document.getElementsByClassName("modal_multi")
-    // Get the button that opens the moda
-    var modal_btn_multi = document.getElementsByClassName("myBtn_multi")
-    // Get the <span> element that closes the modal
-    var span_close_multi = document.getElementsByClassName("close_multi")
-    // When the user clicks the button, open the modal
-    function setDataIndex() 
+        var modalparent = document.getElementsByClassName("modal_multi");
+        // Get the button that opens the modal
+        var modal_btn_multi = document.getElementsByClassName("myBtn_multi");
+        // Get the <span> element that closes the modal
+        var span_close_multi = document.getElementsByClassName("close_multi");
+        // When the user clicks the button, open the modal
+        function setDataIndex() {
+            for (i = 0; i < modal_btn_multi.length; i++)
+            {
+                modal_btn_multi[i].setAttribute('data-index', i);
+                modalparent[i].setAttribute('data-index', i);
+                span_close_multi[i].setAttribute('data-index', i);
+            }
+        }
         for (i = 0; i < modal_btn_multi.length; i++)
         {
-            modal_btn_multi[i].setAttribute('data-index', i);
-            modalparent[i].setAttribute('data-index', i);
-            span_close_multi[i].setAttribute('data-index', i);
+            modal_btn_multi[i].onclick = function() {
+                var ElementIndex = this.getAttribute('data-index');
+                modalparent[ElementIndex].style.display = "block";
+            };
+            // When the user clicks on <span> (x), close the modal
+            span_close_multi[i].onclick = function() {
+                var ElementIndex = this.getAttribute('data-index');
+                modalparent[ElementIndex].style.display = "none";
+            };
         }
-    
-
-
-    for (i = 0; i < modal_btn_multi.length; i++)
-    {
-        modal_btn_multi[i].onclick = function() {
-            var ElementIndex = this.getAttribute('data-index');
-            modalparent[ElementIndex].style.display = "block";
-        }
-        // When the user clicks on <span> (x), close the modal
-        span_close_multi[i].onclick = function() {
-            var ElementIndex = this.getAttribute('data-index');
-            modalparent[ElementIndex].style.display = "none";
-        }
-    
-    window.onload = function() 
-        setDataIndex();
-    }
-    window.onclick = function(event) {
-        if (event.target === modalparent[event.target.getAttribute('data-index')]) {
-            modalparent[event.target.getAttribute('data-index')].style.display = "none";
-        }
-    };
-
-  </script>
-  <div>
+        window.onload = function() {
+            setDataIndex();
+        };
+        window.onclick = function(event) {
+            if (event.target === modalparent[event.target.getAttribute('data-index')]) {
+                modalparent[event.target.getAttribute('data-index')].style.display = "none";
+            }
+        };
+    </script>
 {% endblock %}
-
 </body>
 </html>
-
