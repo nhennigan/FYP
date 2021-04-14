@@ -375,6 +375,91 @@ def admin_updates():
             conn.cursor.execute(query, (request.form["key_value"],))
             conn.connection.commit()
             return redirect(url_for('admin_home_page'))
+        if request.form["actions"] == "CREATE":
+            if request.form["tables"] == "admin":
+                attributes = "(staff_id,f_name,l_name,password)"
+                number = "(%s,%s,%s,%s)"
+            elif request.form["tables"] == "module":
+                attributes = "code,name,semester,ECTs,lecturer_notes)"
+                number = "(%s,%s,%s,%s,%s)"
+            elif request.form["tables"] == "exam":
+                attributes = "(exam_id,module_code,duration,venue,percent,start_date,end_date)"
+                number = "(%s,%s,%s,%s,%s,%s,%s)"
+            elif request.form["tables"] == "student":
+                attributes = "(student_id,f_name,l_name,password,email)"
+                number = "(%s,%s,%s,%s,%s)"
+            elif request.form["tables"] == "lecturer":
+                attributes = "(lecturer_id,f_name,l_name,password)"
+                number = "(%s,%s,%s,%s)"
+            elif request.form["tables"] == "course":
+                attributes = "(code,name)"
+                number = "(%s,%s)"
+            elif request.form["tables"] == "lect_module":
+                attributes = "(staff_id,mod_code)"
+                number = "(%s,%s)"
+            elif request.form["tables"] == "organise":
+                attributes = "(staff_id,exam_id)"
+                number = "(%s,%s)"
+            elif request.form["tables"] == "student_exam":
+                attributes = "(student_id,exam_id)"
+                number = "(%s,%s)"
+            elif request.form["tables"] == "course_module":
+                attributes = "(course_code,mod_code)"
+                number = "(%s,%s)"
+            elif request.form["tables"] == "student_module":
+                attributes = "(student_id,mod_code)"
+                number = "(%s,%s)"
+            elif request.form["tables"] == "course_student":
+                attributes = "(course_code,student_id)"
+                number = "(%s,%s)"
+            elif request.form["tables"] == "seating":
+                attributes = "(student_id,exam_id,seat_no)"
+                number = "(%s,%s,%s)"
+
+            query = "INSERT INTO "+request.form["tables"]+" "+attributes+" VALUES "+number
+
+            if request.form["tables"] == "module" or request.form["tables"] == "student":
+                input1= request.form["input1"]
+                input2= request.form["input2"]
+                input3= request.form["input3"]
+                input4= request.form["input4"]
+                input5= request.form["input5"]
+                conn.cursor.execute(query,(input1,input2,input3,input4,input5,))
+
+            elif request.form["tables"] == "course" or request.form["tables"] == "lect_module" or request.form["tables"] == "organise" or request.form["tables"] == "student_exam" or request.form["tables"] == "course_module" or request.form["tables"] == "student_module" or request.form["tables"] == "course_student":
+                input1= request.form["input1"]
+                input2= request.form["input2"]
+                conn.cursor.execute(query,(input1,input2,))
+
+            elif request.form["tables"] == "lecturer" or request.form["tables"] == "admin":
+                input1= request.form["input1"]
+                input2= request.form["input2"]
+                input3= request.form["input3"]
+                input4= request.form["input4"]
+                conn.cursor.execute(query,(input1,input2,input3,input4,))
+
+            elif request.form["tables"] == "seating":
+                input1= request.form["input1"]
+                input2= request.form["input2"]
+                input3= request.form["input3"]
+                conn.cursor.execute(query,(input1,input2,input3,))
+
+            elif request.form["tables"] == "exam":
+                input1= request.form["input1"]
+                input2= request.form["input2"]
+                input3= request.form["input3"]
+                input4= request.form["input4"]
+                input5= request.form["input5"]
+                input6= request.form["input6"]
+                input7= request.form["input7"]
+                conn.cursor.execute(query,(input1,input2,input3,input4,input5,input6,input7,))
+#            data1 = "33333333"
+#            data2 = 'n'
+#            data3 = 'h'
+#            data4 = "pw"
+#            data = "'33333333','n','h','pw'"
+#            conn.cursor.execute(query,(data1,data2,data3,data4,))
+            conn.connection.commit()
     return redirect(url_for('admin_home_page'))
 
 
