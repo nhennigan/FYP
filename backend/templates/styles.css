@@ -1,0 +1,11 @@
+h2{
+    color: red;
+}
+
+.header{
+    padding: 60px;
+    text-align: left;
+    background-color: #611f60;
+    color: white;
+    font-size: 30px;
+  }
