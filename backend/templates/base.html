@@ -11,6 +11,24 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
 <style>
+.banner{
+    padding: 10px;
+    padding-top: 10px;
+    text-align: left;
+    background-color: #611f60;
+    color: white;
+    font-size: 40px;
+    width: 100%;
+  }
+.banner img{
+  display: inline-block;
+  size: 20%;
+}
+
+.container-fluid{
+  width:100%;
+  padding:0px;
+}
 
 .modal {
   display: none; /* Hidden by default */
@@ -87,7 +105,12 @@ th {
   display: table;
 }
 </style>
-
+  <div class="container-fluid">
+	<div class="banner">
+		<img id=crest src="{{url_for('static', filename='crest_only.png')}}">
+		<span>NUI Galway Exam Timetable </span>
+	</div>
+  </div>
   <div class="container-fluid"> 
 	  <nav>
 	    <a href="/home">Home</a>
@@ -97,7 +120,7 @@ th {
 	    <a href="/logout">Logout </a>
 	  </nav>
 	</div>
-  <div class="container">
+  <div class="container-fluid">
         {% block content %}{% endblock %}
   </div>
   </body>

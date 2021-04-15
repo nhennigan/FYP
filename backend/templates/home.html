@@ -1,13 +1,20 @@
 {% extends "base.html" %}
 <!DOCTYPE html>
-<html>
-<head>
+	<html>
+	<head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--    <script  src="modal.js"> </script> 
-    <link href="https://bootswatch.com/4/minty/bootstrap.min.css" rel="stylesheet" type="text/css">-->
+    <!--    <script  src="modal.js"> </script> -->
+    <link href="https://bootswatch.com/4/minty/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
     <title>NUI Galway Exam Timetables </title>
 <style>
+header{
+    padding: 60px;
+    text-align: left;
+    background-color: #611f60;
+    color: white;
+    font-size: 40px;
+  }
 </style>
 </head>
 <body>
@@ -25,9 +32,9 @@
 	<input type="checkbox" id="evening" name="evening">
   <label for="evening">4:30</label>
 </div> -->
-<div class = "header">
+<!-- <div class = "header">
       <p> NUIG Exam Timetables</p>
-    </div>
+</div> -->
 <h2>Hello  {{user.id_no}}  {{user.f_name}}  {{user.l_name}} {{user.course[0]}}</h2>
 <!-- <img src="{{url_for('static', filename='clear_chair.PNG')}}"> -->
   {%for item in exams%}
