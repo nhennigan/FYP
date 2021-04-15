@@ -1,24 +1,68 @@
 <html> 
     <head> 
-        <meta charset="UTF-8"> 
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"> 
         <title> Login </title> 
         <link rel="stylesheet" href="./css/style.css">            
+<style>
+.body{
+  width:100%;
+}
+.hero-image {
+  width:100%;
+  height:100%;
+  background-image: url("../static/login2_background.PNG") ;
+  background-color: #cccccc;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  padding:0;
+}
+
+.hero-text {
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #1f4366;
+}
+.footer_class{
+	background-color:#333;
+	color: white;
+	text-align: center;
+	padding: 10px;
+}
+.header{
+	display:none;
+}
+.centre-text{
+  display: table-cell;
+  vertical-align:middle;  
+  text-align: center;
+}
+
+</style>
     </head> 
-    <body></br></br></br></br></br> 
-        <div align="center"> 
-          <div align="center" class="border"> 
-             <div class="header"> 
-                <h1 class="word">Login</h1> 
-             </div></br></br></br> 
-            <h2 class="word"> 
+
+<body> 
+        <div class="hero-image" align="center"> 
+		<div class="c">
+			<br><br><br><br><br><br><br><br><br>
+		<h1 style="color:white;">Login</h1> 
+             </br> 
+            <h2> 
                 <form action="/login"  method="post"> 
-                  <div class="msg">{{ msg }}</div> 
                     <input id="username" name="username" type="text" placeholder="Enter Your Username" class="textbox"/></br></br> 
                     <input id="password" name="password" type="password" placeholder="Enter Your Password" class="textbox"/></br></br></br> 
                     <input type="submit" class="btn" value="Sign In"></br></br> 
                 </form> 
             </h2> 
-          </div> 
-        </div> 
+		</div>
+         </div> 
     </body> 
+    <footer>
+	    <div class = "footer_class">
+		    <p>Niamh Hennigan FYP</p>
+	    </div>
+    </footer>
 </html> 

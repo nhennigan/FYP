@@ -20,14 +20,40 @@
     font-size: 40px;
     width: 100%;
   }
-.banner img{
+.banner #crest{
   display: inline-block;
-  size: 20%;
+  size: 10%;
 }
-
+.responsive{
+  width:10%;
+  height: auto;
+}
+.banner 
 .container-fluid{
   width:100%;
   padding:0px;
+  margin:0;
+}
+.container-fluid nav{
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.container-fluid nav a{
+  float:left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+.container-fluid nav a:hover:not(.active){
+  background-color: #111;
+}
+.active{
+  background-color:#111;
 }
 
 .modal {
@@ -67,7 +93,10 @@
   text-decoration: none;
   cursor: pointer;
 }
-	table, th, td {
+table{
+	width:85%
+}
+table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
 }
@@ -76,6 +105,11 @@ th, td {
 }
 th {
   text-align: left;
+  width:22%;
+}
+table_class{
+  width: 85%;
+  margin: auto;
 }
 #img_container {
     position:relative;
@@ -107,7 +141,7 @@ th {
 </style>
   <div class="container-fluid">
 	<div class="banner">
-		<img id=crest src="{{url_for('static', filename='crest_only.png')}}">
+		<img alt="Crest" class="responsive" id=crest src="{{url_for('static', filename='crest_only.png')}}">
 		<span>NUI Galway Exam Timetable </span>
 	</div>
   </div>
@@ -117,7 +151,7 @@ th {
 	    <a href="/calendarview">Calendar View</a>
 	    <a href="/mapview">Map</a>
 	    <a href="/examofficeinfo">Exam Office Information</a>
-	    <a href="/logout">Logout </a>
+	    <a style="float:right" href="/logout">Logout </a>
 	  </nav>
 	</div>
   <div class="container-fluid">

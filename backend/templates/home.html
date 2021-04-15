@@ -8,37 +8,15 @@
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
     <title>NUI Galway Exam Timetables </title>
 <style>
-header{
-    padding: 60px;
-    text-align: left;
-    background-color: #611f60;
-    color: white;
-    font-size: 40px;
-  }
 </style>
 </head>
 <body>
 {% block content %}
-<!-- <div>
-  <input type="checkbox" id="morning" name="morning"
-         checked>
-  <label for="morning">9:30</label>
-</div>
-<div>
-  <input type="checkbox" id="afternoon" name="afternoon">
-  <label for="afternoon">1:00</label>
-</div>
-<div>
-	<input type="checkbox" id="evening" name="evening">
-  <label for="evening">4:30</label>
-</div> -->
-<!-- <div class = "header">
-      <p> NUIG Exam Timetables</p>
-</div> -->
 <h2>Hello  {{user.id_no}}  {{user.f_name}}  {{user.l_name}} {{user.course[0]}}</h2>
 <!-- <img src="{{url_for('static', filename='clear_chair.PNG')}}"> -->
+<div class="table_class">
   {%for item in exams%}
-      <table border="1">
+      <table border="1" align="center">
         <tr>
           <th>Module Name</th>
           <th>{{item.module_name[0]}}</th>
@@ -118,7 +96,9 @@ header{
           <th>Lecturer notes</th>
           <th>{{item.lecturer_notes[0]}}</th>
         </tr>
+	<br><br>
       </table>
+      </div>
       {%endfor%}
       <script>
         // Get the modal
