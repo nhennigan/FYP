@@ -17,6 +17,11 @@
 <div class="table_class">
   {%for item in exams%}
       <table border="1" align="center">
+	      <thead>
+	      <tr>
+			<th colspan=4></th>
+		</tr>
+	      </thead>
         <tr>
           <th>Module Name</th>
           <th>{{item.module_name[0]}}</th>
@@ -96,7 +101,7 @@
           <th>Lecturer notes</th>
           <th>{{item.lecturer_notes[0]}}</th>
         </tr>
-	<br><br>
+	
       </table>
       </div>
       {%endfor%}

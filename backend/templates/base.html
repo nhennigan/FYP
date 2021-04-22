@@ -52,10 +52,14 @@
 .container-fluid nav a:hover:not(.active){
   background-color: #111;
 }
+
 .active{
   background-color:#111;
 }
 
+.contents{
+	background-color: red;
+}
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -94,7 +98,8 @@
   cursor: pointer;
 }
 table{
-	width:85%
+	width:70%;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 table, th, td {
   border: 1px solid black;
@@ -105,7 +110,11 @@ th, td {
 }
 th {
   text-align: left;
-  width:22%;
+  width:10%;
+}
+thead{
+  background-color:#72b8c6;
+  padding: 5px;
 }
 table_class{
   width: 85%;
@@ -155,6 +164,7 @@ table_class{
 	  </nav>
 	</div>
   <div class="container-fluid">
+
         {% block content %}{% endblock %}
   </div>
   </body>
