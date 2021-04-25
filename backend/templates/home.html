@@ -1,22 +1,8 @@
 {% extends "base.html" %}
-<!DOCTYPE html>
-	<html>
-	<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--    <script  src="modal.js"> </script> -->
-    <link href="https://bootswatch.com/4/minty/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
-    <title>NUI Galway Exam Timetables </title>
-<style>
-</style>
-</head>
-<body>
 {% block content %}
 <h2>Hello  {{user.id_no}}  {{user.f_name}}  {{user.l_name}} {{user.course[0]}}</h2>
-<!-- <img src="{{url_for('static', filename='clear_chair.PNG')}}"> -->
-<div class="table_class">
   {%for item in exams%}
-      <table border="1" align="center">
+      <table align="center">
 	      <thead>
 	      <tr>
 			<th colspan=4></th>
@@ -59,8 +45,8 @@
 <form action="/mapview"  method="post"> 
 		<p>
 		<!-- <button onclick="msg()">Call the function</button> -->
-		<img src ='{{url_for("static", filename="%s.jpg" % item.venue)}}'>
-		<input type="submit" class="button" value=" View on map"> 
+		<img src ='{{url_for("static", filename="%s.jpg" % item.venue)}}' width="95%">
+		<input type="submit" class="button" value="Map view"> 
 		</p>
 		</form>
 		</div>
@@ -77,10 +63,10 @@
 	        <!-- Modal content -->
         	<div class="modal-content">
                 <span class="close close_multi">×</span>
-		<p>
+		<div class="seating" align="center">
 		<h1>Front of exam hall</h1>
 		{% for row in item.seat_matrix %}
-                        <div class="row">
+		<div class="row" width="100%">
                         {% for value in row%}
                                 <div class="column">
                                 <img src="{{url_for('static', filename='%s' % value)}}" style="width:100%">
@@ -88,9 +74,8 @@
                         {% endfor %}
                         </div>
                 {% endfor %}
-		</p>
             </div>
-    
+		</div>
         </div>
         </div>
 	  </th>
@@ -103,8 +88,8 @@
         </tr>
 	
       </table>
-      </div>
       {%endfor%}
+      
       <script>
         // Get the modal
         var modalparent = document.getElementsByClassName("modal_multi");
@@ -143,5 +128,3 @@
         };
     </script>
 {% endblock %}
-</body>
-</html>

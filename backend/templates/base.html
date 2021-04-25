@@ -11,13 +11,24 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
 <style>
+.myBtn_multi{
+border: none;
+    background-color: inherit;
+    padding: 14px 0px;
+    font-size: 16px;
+    font: inherit;
+    text-align: left;
+}
+.myBtn_multi:hover{
+  background-color: #eee;
+}
 .banner{
     padding: 10px;
     padding-top: 10px;
     text-align: left;
     background-color: #611f60;
     color: white;
-    font-size: 40px;
+    font-size: 35px;
     width: 100%;
   }
 .banner #crest{
@@ -28,11 +39,14 @@
   width:10%;
   height: auto;
 }
-.banner 
 .container-fluid{
   width:100%;
   padding:0px;
-  margin:0;
+  margin:0px;
+  padding-right: 0px;
+padding-left: 0px;
+margin-right: 0px;
+margin-left: 0;
 }
 .container-fluid nav{
   margin: 0;
@@ -48,6 +62,7 @@
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  font-size:1.5vw;
 }
 .container-fluid nav a:hover:not(.active){
   background-color: #111;
@@ -57,9 +72,6 @@
   background-color:#111;
 }
 
-.contents{
-	background-color: red;
-}
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -79,8 +91,17 @@
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  width: 75%;
+  padding-left:auto;
+  padding-right:auto;
+}
+.modal-content h1{
+  text-align:"center";
+}
+.venue img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* The Close Button */
@@ -97,34 +118,32 @@
   text-decoration: none;
   cursor: pointer;
 }
+thead{
+  background-color:#72b8c6;
+  padding: 5px;
+}
+
 table{
-	width:70%;
+	width:80%;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	font-size:1vw;
 }
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
+  background-color: white;
 }
 th, td {
   padding: 5px;
 }
 th {
   text-align: left;
-  width:10%;
-}
-thead{
-  background-color:#72b8c6;
-  padding: 5px;
-}
-table_class{
-  width: 85%;
-  margin: auto;
+  width:25%;
 }
 #img_container {
     position:relative;
     display:inline-block;
     text-align:center;
-    border:1px solid red;
 }
 
 .button {
@@ -133,21 +152,64 @@ table_class{
     right:10px;
     width:100px;
     height:30px;
+    background-color:#93bd59;
+    text-align:centre;
+    border-radius:1em;
+    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+    transition: all 0.2s;
 }
+        .button:hover{
+                background-color:#6d8749;
+        }
+
 /* Three image containers (use 25% for four, and 50% for two, etc) */
 .column {
-  float: left;
-  width: 1%;
   padding: 5px;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
 }
-
+.row{
+	display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
 /* Clear floats after image containers */
 .row::after {
   content: "";
   clear: both;
   display: table;
 }
+.seating{
+	margin-left:auto;
+	margin-right:auto;
+}
+.footer_class{
+        background-color:#333;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        width:100%;
+}
+	.hero-image {
+  width:100%;
+  height:100%;
+  background-image: url("../static/login2_background.PNG") ;
+  background-color: #cccccc;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  padding:0;
+}
+html,body {
+	height: 95vh;
+  margin: 0;
+}
 </style>
+
   <div class="container-fluid">
 	<div class="banner">
 		<img alt="Crest" class="responsive" id=crest src="{{url_for('static', filename='crest_only.png')}}">
@@ -164,10 +226,17 @@ table_class{
 	  </nav>
 	</div>
   <div class="container-fluid">
-
+	<div class="hero-image">
         {% block content %}{% endblock %}
+	</div>
   </div>
-  </body>
+  <div class="container-fluid">
+<footer>
+  <div class = "footer_class">
+    <p>Niamh Hennigan FYP</p>
+  </div>
+</footer>
+  </div>
 
 
 </html>
