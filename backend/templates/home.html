@@ -17,11 +17,12 @@
         <tr>
           <th>Day</th>
           <th>{{item.exam_day[0]}}</th>
-	  <th>Date</th>
+	  <th>Date
+		  <form action="/calendarview"  method="post">
+          <input class="cal" type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" width="20" height="20">
+          </form>
+	  </th>
           <th>{{item.exam_date[0]}}
-<form action="/calendarview"  method="post">
-	  <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" width="20" height="20">
-	  </form>
 	  </th>
         </tr>
         <tr>
@@ -89,7 +90,7 @@
 	
       </table>
       {%endfor%}
-      
+      <br><br> 
       <script>
         // Get the modal
         var modalparent = document.getElementsByClassName("modal_multi");
