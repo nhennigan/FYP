@@ -34,7 +34,9 @@
           <th>{{item.duration}}</th>
         </tr>
         <tr>
-          <th>Venue</th>
+          <th>Venue
+		<img alt="venue icon" src="{{url_for('static', filename='venue.png')}}">
+	  </th>
 	  <!--make the button an image and leave //{item.venue} with double brackets  -->
           <th>
           <!-- Trigger/Open The Modal -->
@@ -57,7 +59,9 @@
         </div>
         </div>
 	  </th>
-          <th>Seat Number</th>
+          <th>Seat Number
+		<img alt="seat icon" src="{{url_for('static', filename='seat_no.png')}}">
+	  </th>
           <th>
 	  <!-- Trigger/Open The Modal -->
 	  <button class="myBtn_multi" >{{item.seat_no[0]}} </button>
@@ -66,13 +70,13 @@
 	        <!-- Modal content -->
         	<div class="modal-content">
                 <span class="close close_multi">×</span>
-		<div class="seating" align="center" style="overflow:scroll">
+		<div class="seating" align="center" >
 		<h1>Front of exam hall</h1>
 		{% for row in item.seat_matrix %}
-		<div class="row" width="100%">
+		<div class="row" width="100%" >
                         {% for value in row%}
                                 <div class="column">
-                                <img src="{{url_for('static', filename='%s' % value)}}" style="width:100%">
+                                <img src="{{url_for('static', filename='%s' % value)}}" style="width:100%" id="chair">
                                 </div>
                         {% endfor %}
                         </div>
@@ -80,13 +84,16 @@
             </div>
 		</div>
         </div>
-        </div>
 	  </th>
         </tr>
         <tr>
-          <th>Exam Percentage</th>
+          <th>Exam Percentage
+		<img alt="percent icon" src="{{url_for('static', filename='percent.png')}}">
+	  </th>
           <th>{{item.percent}}</th>
-          <th>Lecturer notes</th>
+          <th>Lecturer notes
+		<img alt="notes icon" src="{{url_for('static', filename='lecturer_notes.png')}}">
+	  </th>
           <th>{{item.lecturer_notes[0]}}</th>
         </tr>
 	
