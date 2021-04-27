@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+<br>
 <h2>Hello  {{user.id_no}}  {{user.f_name}}  {{user.l_name}} {{user.course[0]}}</h2>
   {%for item in exams%}
       <table align="center">
-	      <thead>
+	      <thead style="background-color:#72b8c6">
 	      <tr>
 			<th colspan=4></th>
 		</tr>
@@ -17,10 +18,11 @@
         <tr>
           <th>Day</th>
           <th>{{item.exam_day[0]}}</th>
-	  <th>Date
-		  <form action="/calendarview"  method="post">
-          <input class="cal" type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" width="20" height="20">
+	  <th>
+<form action="/calendarview"  method="post">
+          <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" width="20" height="20" id="cal_icon">
           </form>
+		  Date
 	  </th>
           <th>{{item.exam_date[0]}}
 	  </th>
@@ -64,7 +66,7 @@
 	        <!-- Modal content -->
         	<div class="modal-content">
                 <span class="close close_multi">×</span>
-		<div class="seating" align="center">
+		<div class="seating" align="center" style="overflow:scroll">
 		<h1>Front of exam hall</h1>
 		{% for row in item.seat_matrix %}
 		<div class="row" width="100%">

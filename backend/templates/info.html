@@ -1,25 +1,48 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="infopage">
-      <h1>Info</h1>
-	<p>
+<div class="infopage" style="padding-left: 30px;border-left-width: 10px;">
+	<br>
+	<h1>Information Page</h1>
+	<p> Below are some common questions in relation to NUI Galway examinations. If you have any further questions here is the link to the universities official website frequently asked quesitons - <a href="http://www.nuigalway.ie/exams/timetable-advice/examinations_faqs/day_of_the_exam_faq/#" >FAQ</a>
+        </p>
+	<div class="row" width="100%">
+		<div class="column" style="padding-left: 30px;">
+			<div class="pink" style="background-color:#ba9fc2; padding-left:5px;box-shadow: 5px 5px 10px; border-radius: 25px;">
 	<h2>Questions about your timetable?</h2>
-	<p>Any queries regarding the timetable should be addressed to the Student Information Desk 091-495999 (direct telephone number) or via email to : sid@nuigalway.ie</p>
+	<p>Any queries regarding the timetable should be addressed to the Student Information Desk 091-495999 (direct telephone number) or via email to : sid@nuigalway.ie</p></div><br><br><br>
+	<h2>What to do if you are sick the day of an exam?</h2>
+	<p>If you don't feel well the day of the exam and feel like you will be unable to complete it, you must go to the college doctor the day of the exam in order to be allowed to defer that exam until the August exam period without capping. The university no longer forces you to defer all remaining exams if you have to defer one so please do contact the college health unit if you are unwell. Call (091) 492 604. More information regarding deferrals is available <a href="https://www.nuigalway.ie/exams/timetable-advice/deferrals/">here</a></p>
+	<div class="blue"style="background-color:#6eceeb; padding-left:5px;box-shadow: 5px 5px 10px; border-radius: 25px;">
+<h2>What to do if you cannot find your student card?</h2>
+<p>There is a 25 euro fine for each exam that you fail to present your student card in. To get another student card printed you must go to Student Information Desk (SID) and there is 20 euro reprint fee. SID opens early during the exam period to ensure students can have a valid student card before the first exam. <a href= "http://www.nuigalway.ie/student-registry-helpdesk/">More information about SID </a></p></div>
+	 <h2>Exam day checklist</h2>
+        <ul>
+        <li>Student card</li>
+        <li>Pen</li>
+        <li>Calculator</li>
+</ul>
 
+        <h2>Past Exam Papers<h2>
+        <p>Link to past exam papers available <a href="https://www.mis.nuigalway.ie/regexam/paper_index_search_main_menu.asp">here</a>
+
+        <h2>How to do an MCQ</h2>
+        <p>In order for the MCQ correcting machine to be able to read the MCQ students must use a black pen. If you have time, fill in the MCQ first with pencil and then go over the answers again with black pen. If you are unsure of an answer be sure to check if your exam has negaitve marking before hazarding a guess. It may be best to leave answers blank if you have no idea which answer(s) are correct.
+                Here is an image to give you an idea of what to expect on the day. If you make a mistake on the MCQ script be sure to ask for another script from the invigilators.
+        <br><input type="image" src="{{url_for('static', filename='mcq.png')}}" alt="MCQ image" width="40%" height="40%" style="margin-left: auto;  margin-right: auto;"></p>
+        <h2> Exam Techniques</h2>
+        <p> NUI Galway advised exam techniques <a href="https://www.nuigalway.ie/academic-skills/assignmentsexams/examtechniques/">Link to exam techniqes</a>
+</div>
+
+	<div class="column" style="padding-left: 30px;">
 	<h2>Salthill</h2>
 		<h3>How to get to Salthill?</h3>
 		<p>The walk to Sathill is approximately 27 minutes from the university which could be a good option if the day is nice and you want to clear your head before the exam. The drive to Salthill is only apporximatley 7 minutes without traffic. You can use the map provided in on the map page of this website or Google maps to help find your way. The Students Union does provide a bus service that is 2 euro each way from opposite the main gates of the university. The timetable is included below. </p>
 	<h3>SU Bus schedule</h3>
-	<input type="image" src="{{url_for('static', filename='bus times.jpg')}}" alt="SU Bus Timetable" width="20%" height="20%">
+	<input type="image" src="{{url_for('static', filename='bus times.jpg')}}" alt="SU Bus Timetable" width="40%" height="40%"   style="margin-left: auto;  margin-right: auto;">
 	<h3>Parking in Salthill</h3>
 	<p>	Parking should not be an issue if you do decide to drive to an exam in Salthill. The Galway Bay Hotel has an underground car park that can be accessed via the back of the building and is free to use for students during their exams. Leisureland also has free on site parking.</p>
 
-	<h2>What to do if you are sick the day of an exam?</h2>
-	<p>If you don't feel well the day of the exam and feel like you will be unable to complete it, you must go to the college doctor the day of the exam in order to be allowed to defer that exam until the August exam period without capping. The university no longer forces you to defer all remaining exams if you have to defer one so please do contact the college health unit if you are unwell. Call (091) 492 604. More information regarding deferrals is available <a href="https://www.nuigalway.ie/exams/timetable-advice/deferrals/">here</a></p>
-
-	<h2>What to do if you cannot find your student card?</h2>
-	<p>There is a 25 euro fine for each exam that you fail to present your student card in. To get another student card printed you must go to Student Information Desk (SID) and there is 20 euro reprint fee. SID opens early during the exam period to ensure students can have a valid student card before the first exam. <a href= "http://www.nuigalway.ie/student-registry-helpdesk/">More information about SID </a></p>
 
 	<h2>What to do if you are feeling overwhelmed?</h2>
 	<p>	If you are feeling stressed or overwhelmed please know that there are people here to help.
@@ -48,32 +71,11 @@
 				Cognitive behavioural therapy (CBT) has been found to be effective in helping people manage anxiety.
 				CBT helps you manage problems by thinking more positively. It frees you from unhelpful patterns of behaviour.
 				People like your local GP or a clinical or counselling psychologist can help you. If they can't, then they may refer you to a specialist.</li>
-
 			<br> For more information visit the HSE website <a href="https://www2.hse.ie/conditions/mental-health/anxiety.html?gclid=Cj0KCQjwsLWDBhCmARIsAPSL3_393uOsUnC6U3YaLUO2aUi-LbL46xmK6ZgA7PBWJxLdXSbFtt75efsaAto5EALw_wcB&gclsrc=aw.ds">here</a>
 		</ul>
 	<br> If you are ever feeling helpless please call the Samaritans helpline 116 123</p>
-	
-	<h2>Exam day checklist</h2>
-	<ul>
-	<li>Student card</li>
-	<li>Pen</li>
-	<li>Calculator</li>
-</ul>
-
-	<h2>Past Exam Papers<h2>
-	<p>Link to past exam papers available <a href="https://www.mis.nuigalway.ie/regexam/paper_index_search_main_menu.asp">here</a>
-
-	<h2>How to do an MCQ</h2>
-	<p>In order for the MCQ correcting machine to be able to read the MCQ students must use a black pen. If you have time, fill in the MCQ first with pencil and then go over the answers again with black pen. If you are unsure of an answer be sure to check if your exam has negaitve marking before hazarding a guess. It may be best to leave answers blank if you have no idea which answer(s) are correct. 
-		Here is an image to give you an idea of what to expect on the day. If you make a mistake on the MCQ script be sure to ask for another script from the invigilators. 
-	<br><input type="image" src="{{url_for('static', filename='mcq.png')}}" alt="MCQ image" width="20%" height="20%"></p>
-	<h2> Exam Techniques</h2>
-	<p> NUI Galway advised exam techniques <a href="https://www.nuigalway.ie/academic-skills/assignmentsexams/examtechniques/">Link to exam techniqes</a>
-	<h2>Link to NUI Galway FAQ </h2>
-	<p><a href="http://www.nuigalway.ie/exams/timetable-advice/examinations_faqs/day_of_the_exam_faq/#" >FAQ</a>
-	</p>
-
-	<br>
-</div>
+	</div>
+	</div>
+	</div>	
 {% endblock %}
 
