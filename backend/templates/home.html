@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <br>
-<h2>Hello  {{user.id_no}}  {{user.f_name}}  {{user.l_name}} {{user.course[0]}}</h2>
+<h3><b>Logged in user: </b>{{user.f_name}}  {{user.l_name}}</h3>
+<h3><b>Student ID: </b>{{user.id_no}}</h3>
+<h3><b>Course Code: </b>{{user.course[0]}}</h3>
   {%for item in exams%}
       <table align="center">
 	      <thead style="background-color:#72b8c6">
@@ -16,11 +18,13 @@
           <th>{{item.module_code}}</th>
         </tr>
         <tr>
-          <th>Day</th>
+          <th>Day
+		<img alt="day icon" id="cal_icon" src="{{url_for('static', filename='day.png')}}">
+	  </th>
           <th>{{item.exam_day[0]}}</th>
 	  <th>
 <form action="/calendarview"  method="post">
-          <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" width="20" height="20" id="cal_icon">
+          <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" id="cal_icon">
           </form>
 		  Date
 	  </th>
@@ -28,14 +32,18 @@
 	  </th>
         </tr>
         <tr>
-          <th>Time</th>
+          <th>Time
+		<img alt="time icon" id="cal_icon" src="{{url_for('static', filename='time.png')}}">
+	  </th>
           <th>{{item.time[0]}}</th>
-          <th>Duration</th>
+          <th>Duration
+		<img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='duration.png')}}">
+	  </th>
           <th>{{item.duration}}</th>
         </tr>
         <tr>
           <th>Venue
-		<img alt="venue icon" src="{{url_for('static', filename='venue.png')}}">
+		<img alt="venue icon" id="cal_icon" src="{{url_for('static', filename='venue.png')}}">
 	  </th>
 	  <!--make the button an image and leave //{item.venue} with double brackets  -->
           <th>
@@ -48,11 +56,9 @@
                 <span class="close close_multi">×</span>
 		<div id="img_container">
 <form action="/mapview"  method="post"> 
-		<p>
 		<!-- <button onclick="msg()">Call the function</button> -->
-		<img src ='{{url_for("static", filename="%s.jpg" % item.venue)}}' width="95%">
+		<img src ='{{url_for("static", filename="%s.jpg" % item.venue)}}'>
 		<input type="submit" class="button" value="Map view"> 
-		</p>
 		</form>
 		</div>
             </div>
@@ -60,7 +66,7 @@
         </div>
 	  </th>
           <th>Seat Number
-		<img alt="seat icon" src="{{url_for('static', filename='seat_no.png')}}">
+		<img alt="seat icon" id="cal_icon" src="{{url_for('static', filename='seat_no.png')}}">
 	  </th>
           <th>
 	  <!-- Trigger/Open The Modal -->
@@ -88,11 +94,11 @@
         </tr>
         <tr>
           <th>Exam Percentage
-		<img alt="percent icon" src="{{url_for('static', filename='percent.png')}}">
+		<img alt="percent icon" id="cal_icon" src="{{url_for('static', filename='percent.png')}}">
 	  </th>
           <th>{{item.percent}}</th>
           <th>Lecturer notes
-		<img alt="notes icon" src="{{url_for('static', filename='lecturer_notes.png')}}">
+		<img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='lecturer_notes.png')}}">
 	  </th>
           <th>{{item.lecturer_notes[0]}}</th>
         </tr>
