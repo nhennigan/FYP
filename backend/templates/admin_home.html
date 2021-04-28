@@ -1,47 +1,68 @@
 {% extends "base.html" %}
 
 {% block content %}
-      <h1>Home</h1>
+<br>
+<h3><b>Logged in user: </b>{{user.f_name}}  {{user.l_name}}</h3>
+<h3><b>Administration ID: </b>{{user.staff_id}}</h3>
+      
 
-      {{user.f_name}} {{user.l_name}}
-        {%for item in user.exam_list%}
+      {%for item in user.exam_list%}
 	<table align="center">
-        <tr>
-          <th colspan="4"> Exam Number </th>
-        </tr>
-        <tr>
+		<br>
+		<thead style="background-color:#72b8c6">
+	      <tr>
+			<th colspan=4></th>
+		</tr>
+	      </thead>
+		<tr>
           <th>Module Name</th>
           <th>{{item.module_name[0]}}</th>
           <th>Module Code</th>
           <th>{{item.module_code}}</th>
         </tr>
         <tr>
-          <th>Day</th>
+          <th>Day
+<img alt="day icon" id="cal_icon" src="{{url_for('static', filename='day.png')}}">
+	  </th>
           <th>{{item.exam_day[0]}}</th>
-          <th>Date</th>
+          <th>Date
+	  </th>
           <th>{{item.exam_date[0]}}</th>
         </tr>
         <tr>
-          <th>Time</th>
+          <th>Time 
+<img alt="time icon" id="cal_icon" src="{{url_for('static', filename='time.png')}}">
+	  </th>
           <th>{{item.time[0]}}</th>
-          <th>Duration</th>
+          <th>Duration
+<img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='duration.png')}}">
+	  </th>
           <th>{{item.duration}}</th>
         </tr>
         <tr>
-          <th>Venue</th>
+          <th>Venue
+<img alt="venue icon" id="cal_icon" src="{{url_for('static', filename='venue.png')}}">
+	  </th>
           <th> {{item.venue}}</th>
-          <th>Seat Number</th>
-          <th> Need to alter </th>
+	  <th>Exam Percentage
+<img alt="percent icon" id="cal_icon" src="{{url_for('static', filename='percent.png')}}">
+	  </th>
+          <th>{{item.percent}}</th>
         </tr>
         <tr>
-          <th>Exam Percentage</th>
-          <th>{{item.percent}}</th>
-          <th>Lecturer notes</th>
-          <th>{{item.lecturer_notes[0]}}</th>
+          <th>Lecturer notes
+<img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='lecturer_notes.png')}}">
+	  </th>
+          <th colspan="3">{{item.lecturer_notes[0]}}</th>
         </tr>
       </table>
 
 	{%endfor%}
+
+	<br><br>
+	<div class="row" width="100%">
+		<div class="column" style="padding-left: 30px;">
+	<div class="edit" >
 	<form action = "/admin_updates" method = "post">
 
          <label for="tables">Choose a table or type your own:</label>
@@ -101,17 +122,20 @@
                 <input type = "submit" value = "submit" />
               </form>
 
-
-<div>
+	</div>
+		</div>
+<div class="column" style="padding-left: 30px;">
+	<br><br>
+<div class="email">
         <form action = "/mail" method = "post">
 	<label for="exam_id">Enter exam id to send update email:</label>
         <input type="text" name="exam_id" id="exam_id" />
         <br>
         <input type = "submit" value = "submit" />
 	</form>
-
 </div>
-
+</div>
+</div>
 	      <script type="text/javascript">
 		function showfield1(name){
 			if(name=='DELETE'){
