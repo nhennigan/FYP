@@ -7,6 +7,7 @@
 <h3><b>Student ID: </b>{{lecturer.lecturer_id}}</h3>
         {%for item in lecturer.exam_list%}
         <table align="center">
+		<br>
 		<thead style="background-color:#72b8c6">
 	      <tr>
 			<th colspan=4></th>
@@ -14,37 +15,37 @@
 	      </thead>
             <tr>
               <th>Module Name</th>
-              <th>{{item.module_name}}</th>
+              <td>{{item.module_name}}</td>
               <th>Module Code</th>
-              <th>{{item.module_code[0]}}</th> 
+              <td>{{item.module_code[0]}}</td> 
             </tr>
             <tr>
               <th>Day
 			<img alt="day icon" id="cal_icon" src="{{url_for('static', filename='day.png')}}">
 	      </th>
-              <th>{{item.exam_day[0]}}</th>
+              <td>{{item.exam_day[0]}}</td>
               <th>Date
 <form action="/calendarview"  method="post">
           <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" id="cal_icon">
           </form>
 	      </th>
-              <th>{{item.exam_date[0]}}</th>
+              <td>{{item.exam_date[0]}}</td>
             </tr>
             <tr>
 		    <th>Time
 <img alt="time icon" id="cal_icon" src="{{url_for('static', filename='time.png')}}">
 	      </th>
-              <th>{{item.time[0]}}</th>
+              <td>{{item.time[0]}}</td>
               <th>Duration
 <img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='duration.png')}}">
 	      </th>
-              <th>{{item.duration}}</th>
+              <td>{{item.duration}}</td>
             </tr>
             <tr>
               <th>Venue
 <img alt="venue icon" id="cal_icon" src="{{url_for('static', filename='venue.png')}}">
 	      </th>
-              <th>
+              <td>
 <button class="myBtn_multi" id = {{item.venue}}>{{item.venue}}</button>
                   <!-- The Modal -->
                  <div  class="modal modal_multi">
@@ -61,18 +62,19 @@
             </div>
         </div>
         </div>
-	      </th>
+	      </td>
               <th>Exam Percentage
 <img alt="percent icon" id="cal_icon" src="{{url_for('static', filename='percent.png')}}">
 	      </th>
-	      <th>{{item.percent}}</th>
+	      <td>{{item.percent}}</td>
             </tr>
             <tr>
               <th>Lecturer's notes
 <img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='lecturer_notes.png')}}">
 	      </th>
-              <th>{{item.lecturer_notes}}</th>
-              <th>Add notes</th>
+              <td>{{item.lecturer_notes}}</td>
+              <th>Add notes
+	      </th>
               <th>
 	        <form action = "/lecturer_updates" method = "post">
 		<input type = "hidden" name = "module_code" value={{item.module_code[0]}} />

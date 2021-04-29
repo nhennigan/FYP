@@ -6,6 +6,7 @@
 <h3><b>Course Code: </b>{{user.course[0]}}</h3>
   {%for item in exams%}
       <table align="center">
+	      <br>
 	      <thead style="background-color:#72b8c6">
 	      <tr>
 			<th colspan=4></th>
@@ -13,40 +14,39 @@
 	      </thead>
         <tr>
           <th>Module Name</th>
-          <th>{{item.module_name[0]}}</th>
+          <td>{{item.module_name[0]}}</td>
           <th>Module Code</th>
-          <th>{{item.module_code}}</th>
+          <td>{{item.module_code}}</td>
         </tr>
         <tr>
           <th>Day
 		<img alt="day icon" id="cal_icon" src="{{url_for('static', filename='day.png')}}">
 	  </th>
-          <th>{{item.exam_day[0]}}</th>
+          <td>{{item.exam_day[0]}}</td>
 	  <th>
 <form action="/calendarview"  method="post">
           <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" id="cal_icon">
           </form>
 		  Date
 	  </th>
-          <th>{{item.exam_date[0]}}
-	  </th>
+          <td>{{item.exam_date[0]}} </td>
         </tr>
         <tr>
           <th>Time
 		<img alt="time icon" id="cal_icon" src="{{url_for('static', filename='time.png')}}">
 	  </th>
-          <th>{{item.time[0]}}</th>
+          <td>{{item.time[0]}}</td>
           <th>Duration
 		<img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='duration.png')}}">
 	  </th>
-          <th>{{item.duration}}</th>
+          <td>{{item.duration}}</td>
         </tr>
         <tr>
           <th>Venue
 		<img alt="venue icon" id="cal_icon" src="{{url_for('static', filename='venue.png')}}">
 	  </th>
 	  <!--make the button an image and leave //{item.venue} with double brackets  -->
-          <th>
+          <td>
           <!-- Trigger/Open The Modal -->
 	  <button class="myBtn_multi" id = {{item.venue}}>{{item.venue}}</button>
                   <!-- The Modal -->
@@ -64,11 +64,11 @@
             </div>
         </div>
         </div>
-	  </th>
+	  </td>
           <th>Seat Number
 		<img alt="seat icon" id="cal_icon" src="{{url_for('static', filename='seat_no.png')}}">
 	  </th>
-          <th>
+          <td>
 	  <!-- Trigger/Open The Modal -->
 	  <button class="myBtn_multi" >{{item.seat_no[0]}} </button>
 		 <!-- The Modal -->
@@ -90,17 +90,17 @@
             </div>
 		</div>
         </div>
-	  </th>
+	  </td>
         </tr>
         <tr>
           <th>Exam Percentage
 		<img alt="percent icon" id="cal_icon" src="{{url_for('static', filename='percent.png')}}">
 	  </th>
-          <th>{{item.percent}}</th>
+          <td>{{item.percent}}</td>
           <th>Lecturer notes
 		<img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='lecturer_notes.png')}}">
 	  </th>
-          <th>{{item.lecturer_notes[0]}}</th>
+          <td>{{item.lecturer_notes[0]}}</td>
         </tr>
 	
       </table>

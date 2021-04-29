@@ -491,7 +491,7 @@ def map_page():
     venues = conn.get_locations(session["username"])
     return render_template('map.html',locations=venues)
 
-@server.route('/examofficeinfo/')
+@server.route('/examinfo/')
 @login_required
 def info_page():
     return render_template("info.html")

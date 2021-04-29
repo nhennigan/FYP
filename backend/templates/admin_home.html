@@ -16,44 +16,44 @@
 	      </thead>
 		<tr>
           <th>Module Name</th>
-          <th>{{item.module_name[0]}}</th>
+          <td>{{item.module_name[0]}}</td>
           <th>Module Code</th>
-          <th>{{item.module_code}}</th>
+          <td>{{item.module_code}}</td>
         </tr>
         <tr>
           <th>Day
 <img alt="day icon" id="cal_icon" src="{{url_for('static', filename='day.png')}}">
 	  </th>
-          <th>{{item.exam_day[0]}}</th>
+          <td>{{item.exam_day[0]}}</td>
           <th>Date
 	  </th>
-          <th>{{item.exam_date[0]}}</th>
+          <td>{{item.exam_date[0]}}</td>
         </tr>
         <tr>
           <th>Time 
 <img alt="time icon" id="cal_icon" src="{{url_for('static', filename='time.png')}}">
 	  </th>
-          <th>{{item.time[0]}}</th>
+          <td>{{item.time[0]}}</td>
           <th>Duration
 <img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='duration.png')}}">
 	  </th>
-          <th>{{item.duration}}</th>
+          <td>{{item.duration}}</td>
         </tr>
         <tr>
           <th>Venue
 <img alt="venue icon" id="cal_icon" src="{{url_for('static', filename='venue.png')}}">
 	  </th>
-          <th> {{item.venue}}</th>
+          <td> {{item.venue}}</td>
 	  <th>Exam Percentage
 <img alt="percent icon" id="cal_icon" src="{{url_for('static', filename='percent.png')}}">
 	  </th>
-          <th>{{item.percent}}</th>
+          <td>{{item.percent}}</td>
         </tr>
         <tr>
           <th>Lecturer notes
 <img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='lecturer_notes.png')}}">
 	  </th>
-          <th colspan="3">{{item.lecturer_notes[0]}}</th>
+          <td colspan="3">{{item.lecturer_notes[0]}}</td>
         </tr>
       </table>
 
@@ -65,13 +65,13 @@
 	<div class="edit" >
 	<form action = "/admin_updates" method = "post">
 
-         <label for="tables">Choose a table or type your own:</label>
+         <label for="tables">Choose a table:</label>
           <select id="tables" name="tables" onchange="showfield(this.options[this.selectedIndex].value)">
 
                 {% for table in table_names %}
                         <option value={{table}}>{{table}}</option>
                 {% endfor %}
-                <option value="Other">Other</option>
+                <option value="Other"selected>Pick a table</option>
           </select>
 
 	<label for="actions">Choose an action:</label>
