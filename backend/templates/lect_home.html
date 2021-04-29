@@ -19,31 +19,31 @@
               <th>{{item.module_code[0]}}</th> 
             </tr>
             <tr>
-              <td>Day
+              <th>Day
 			<img alt="day icon" id="cal_icon" src="{{url_for('static', filename='day.png')}}">
-	      </td>
+	      </th>
               <th>{{item.exam_day[0]}}</th>
-              <td>Date
+              <th>Date
 <form action="/calendarview"  method="post">
           <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" id="cal_icon">
           </form>
-	      </td>
+	      </th>
               <th>{{item.exam_date[0]}}</th>
             </tr>
             <tr>
-              <td>Time
+		    <th>Time
 <img alt="time icon" id="cal_icon" src="{{url_for('static', filename='time.png')}}">
-	      </td>
+	      </th>
               <th>{{item.time[0]}}</th>
-              <td>Duration
+              <th>Duration
 <img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='duration.png')}}">
-	      </td>
+	      </th>
               <th>{{item.duration}}</th>
             </tr>
             <tr>
-              <td>Venue
+              <th>Venue
 <img alt="venue icon" id="cal_icon" src="{{url_for('static', filename='venue.png')}}">
-	      </td>
+	      </th>
               <th>
 <button class="myBtn_multi" id = {{item.venue}}>{{item.venue}}</button>
                   <!-- The Modal -->
@@ -62,17 +62,17 @@
         </div>
         </div>
 	      </th>
-              <td>Exam Percentage
+              <th>Exam Percentage
 <img alt="percent icon" id="cal_icon" src="{{url_for('static', filename='percent.png')}}">
-	      </td>
+	      </th>
 	      <th>{{item.percent}}</th>
             </tr>
             <tr>
-              <td>Lecturer's notes
+              <th>Lecturer's notes
 <img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='lecturer_notes.png')}}">
-	      </td>
+	      </th>
               <th>{{item.lecturer_notes}}</th>
-              <td>Add notes</td>
+              <th>Add notes</th>
               <th>
 	        <form action = "/lecturer_updates" method = "post">
 		<input type = "hidden" name = "module_code" value={{item.module_code[0]}} />
