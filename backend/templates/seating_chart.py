@@ -1,3 +1,4 @@
+#original seating chart using numpy which can not be inlcuded in the Dockerfile
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import colors as mcolors

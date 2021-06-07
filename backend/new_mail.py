@@ -1,3 +1,5 @@
+# Adapted from https://www.tutorialspoint.com/send-mail-from-your-gmail-account-using-python
+
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -8,7 +10,6 @@ def sendmail(receiver_address):
     #The mail addresses and password
     sender_address = 'exam.timetable.updates@gmail.com'
     sender_pass = 'Examtimetable'
-#    receiver_address = ['niamhhennigan@gmail.com','n.hennigan3@nuigalway.ie']
     #Setup the MIME
     message = MIMEMultipart()
     message['From'] = sender_address
@@ -23,4 +24,3 @@ def sendmail(receiver_address):
     text = message.as_string()
     session.sendmail(sender_address, receiver_address, text)
     session.quit()
-   # print('Mail Sent')

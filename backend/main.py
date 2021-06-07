@@ -1,14 +1,11 @@
 import os
 from flask import Flask, render_template,request,session,redirect,url_for,jsonify
-#from flask_mail import Mail, Message
 import mysql.connector
 import schema2
 from mysql.connector import errorcode
 import functools
-#import seating_chart
 import seating_matrix
 import new_mail
-#import DBManager
 
 class DBManager:
     #create connction to database
@@ -23,7 +20,6 @@ class DBManager:
         )
         pf.close()
         self.cursor = self.connection.cursor(buffered=True)
-#        self.cursor(buffered=True)
     
     #create tables in database
     def create_database_tables(self):
@@ -33,7 +29,6 @@ class DBManager:
             table_description = tables[table_name]
             try:
                 print("Creating table {}: ".format(table_name), end='')
-               # self.cursor.execute('DROP TABLE IF EXISTS %s ', (table_name,))
                 self.cursor.execute(table_description)
             except mysql.connector.Error as err:
                 if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
@@ -97,7 +92,6 @@ class DBManager:
     #gets all exams for students and returns a list of exam objects 
     def get_exam_data(self,id_no):
         exam_list_details=[]
-#        cursor2 = self.cursor(buffered=True)
         self.cursor.execute('SELECT exam_id FROM student_exam WHERE student_id = %s ', (id_no,))
         try:
             exams = self.cursor.fetchall()
@@ -126,7 +120,8 @@ class DBManager:
             exam_object = Exam(code,time,exam_date,start_date,exam_day,duration,name,venue,percent,notes,seat_no,m)
             exam_list_details.append(exam_object)
         return exam_list_details
-        
+    
+    #get lecturer info for home page
     def get_lecturer_data(self,id_no):
         lecturer_exam_list=[]
         self.cursor.execute('SELECT f_name,l_name FROM lecturer where lecturer_id = %s ', (id_no,))
@@ -157,6 +152,7 @@ class DBManager:
         print('In lecturer object')
         return lecturer_object
 
+    #get admin data for home page
     def get_admin_data(self,id_no):
         admin_exam_list=[]
         self.cursor.execute('SELECT f_name,l_name FROM admin where staff_id = %s ', (id_no,))
@@ -188,10 +184,12 @@ class DBManager:
         admin_object = Admin(id_no,f_name,l_name,admin_exam_list)
         return admin_object
 
+    #update database with lecturer notes
     def update_lecturer_notes(self,notes,module_code):
         self.cursor.execute('UPDATE module SET lecturer_notes = %s WHERE code=%s', (notes,module_code))
         self.connection.commit()
 
+    #get email addresses for admin email update function 
     def get_email_addresses(self, exam_id):
         self.cursor.execute('SELECT student_id FROM student_exam WHERE exam_id = %s',(exam_id,))
         ids = self.cursor.fetchall();
@@ -202,6 +200,7 @@ class DBManager:
             emails.append(email)
         return emails
 
+#student user object 
 class User:
     def __init__(self,id_no,f_name,l_name,course):
         self.id_no = id_no
@@ -209,6 +208,7 @@ class User:
         self.l_name = l_name
         self.course = course
 
+#exam object
 class Exam:
     def __init__(self,module_code, time, exam_date,start_date,exam_day, duration,module_name,venue,percent,lecturer_notes,seat_no,seat_matrix):
         self.module_code = module_code
@@ -224,6 +224,7 @@ class Exam:
         self.seat_no = seat_no
         self.seat_matrix = seat_matrix
 
+#lecturer object
 class Lecturer:
     def __init__(self,lecturer_id,f_name,l_name,exam_list):
         self.lecturer_id = lecturer_id
@@ -231,6 +232,7 @@ class Lecturer:
         self.l_name = l_name
         self.exam_list = exam_list
 
+#admin object
 class Admin:
     def __init__(self,staff_id,f_name,l_name,exam_list):
         self.staff_id = staff_id
@@ -239,26 +241,14 @@ class Admin:
         self.exam_list = exam_list
 
 server = Flask(__name__)
-#mail= Mail(server)
 server.secret_key = 'super secret key'
 conn = None
 user_in = None
 
-#server.config['MAIL_SERVER']='smtp.gmail.com'
-#server.config['MAIL_PORT'] = 587
-#server.config['MAIL_USERNAME'] = 'exam.timetable.updates@gmail.com'
-##server.config['MAIL_PASSWORD'] = 'fmjoukhqqbliejbw'
-#server.config['MAIL_PASSWORD'] = 'Examtimetable'
-#server.config['MAIL_USE_TLS'] = False
-#server.config['MAIL_USE_SSL'] = True
-#server.config['MAIL_DEBUG'] = True
-
+#send update email
 @server.route("/mail",methods = ['POST','GET'])
 def send_emails():
-#    msg = Message('Hello', sender = 'exam.timetable.updates@gmail.com', recipients = ['niamhhennigan@gmail.com'])
-#    msg.body = "Hello Flask message sent from Flask-Mail"
-#    mail.send(msg)
-#    return "Sent"
+
     if request.method == 'POST' and 'exam_id' in request.form:
         emails = conn.get_email_addresses(request.form["exam_id"])
         new_mail.sendmail(emails)
@@ -270,25 +260,19 @@ def init():
     global conn
     if not conn:
         conn = DBManager(password_file='/run/secrets/db-password')
-#        conn.create_database_tables()
-#        conn.sample_data()
     return render_template('login2.html',msg="start")
 
 @server.route('/login',methods = ['POST','GET'])
 def login(): 
     msg = '' 
-#    global user_in
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form: 
         username = request.form['username'] 
         password = request.form['password']
+        #check database 
         conn.cursor.execute('SELECT * FROM student WHERE student_id = %s AND password = %s', (username, password, )) 
         student_account = conn.cursor.fetchone() 
         if student_account:
-#            return render_template('check.html')
- 
             create_session(username,password)
-#            return render_template('check.html')
-#            user_in = 'student'
             return redirect(url_for('home_page'))
         else:
             conn.cursor.execute('SELECT * FROM lecturer WHERE lecturer_id = %s AND password = %s', (username, password, ))
@@ -304,15 +288,17 @@ def login():
             create_session(username,password)
             user_in='admin'
             return redirect(url_for('admin_home_page'))
-            #need to finish creating the admin objects and finsih the url
         else:
            msg = 'Incorrect username / password !'
     return redirect(url_for('login_again', msg = msg))
+
+#create session to track users
 def create_session(username,password):
     session['loggedin'] = True
     session['id'] = password
     session["username"] = username
 
+#endpoint protection
 def login_required(func):
     @functools.wraps(func)
     def secure_function(*args, **kwargs):
@@ -321,35 +307,32 @@ def login_required(func):
         return func()
     return secure_function
 
-#this method needs testing
 @server.route('/logout/')
 def logout():
-    #this may need to be session.pop()
     session.clear()
     return redirect(url_for("login"))
 
+#home page 
 @server.route('/home/', methods = ['POST','GET'])
 @login_required
 def home_page():
     try:
         f_name,l_name,course = conn.get_student_data(session["username"])
         exam_list = conn.get_exam_data(session["username"])
-    #    return render_template('check.html')
         user_in = User(session["username"],f_name,l_name,course)
         return render_template('home.html',user=user_in,exams=exam_list,m="")
     except Exception:
+        #if accessed via navbar may not be a student may be a lecturer
         return redirect(url_for('lect_home_page'))
 
 @server.route('/admin_home/', methods = ['POST','GET'])
 @login_required
 def admin_home_page():
-#    try:
    admin = conn.get_admin_data(session["username"])
    table_names = schema2.get_names()
    attributes = schema2.get_attributes()
    return render_template('admin_home.html',user = admin,table_names = table_names, attributes = attributes)
- #   except Exception:
- #       print("Error finding home page")
+
 
 @server.route('/admin_updates/', methods = ['POST','GET'])
 @login_required
@@ -453,12 +436,7 @@ def admin_updates():
                 input6= request.form["input6"]
                 input7= request.form["input7"]
                 conn.cursor.execute(query,(input1,input2,input3,input4,input5,input6,input7,))
-#            data1 = "33333333"
-#            data2 = 'n'
-#            data3 = 'h'
-#            data4 = "pw"
-#            data = "'33333333','n','h','pw'"
-#            conn.cursor.execute(query,(data1,data2,data3,data4,))
+
             conn.connection.commit()
     return redirect(url_for('admin_home_page'))
 
@@ -533,4 +511,3 @@ def return_data():
 
 if __name__ == '__main__':
     server.run(debug= True)
-#    mail.init_app(server)
