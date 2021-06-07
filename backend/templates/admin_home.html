@@ -2,18 +2,19 @@
 
 {% block content %}
 <br>
+<!-- Display user information-->
 <h3><b>Logged in user: </b>{{user.f_name}}  {{user.l_name}}</h3>
 <h3><b>Administration ID: </b>{{user.staff_id}}</h3>
       
-
-      {%for item in user.exam_list%}
+<!-- Iterate over exam objects in HTML table-->
+    {%for item in user.exam_list%}
 	<table align="center">
 		<br>
 		<thead style="background-color:#72b8c6">
-	      <tr>
-			<th colspan=4></th>
-		</tr>
-	      </thead>
+	      	<tr>
+				<th colspan=4></th>
+			</tr>
+	    </thead>
 		<tr>
           <th>Module Name</th>
           <td>{{item.module_name[0]}}</td>
@@ -21,124 +22,117 @@
           <td>{{item.module_code}}</td>
         </tr>
         <tr>
-          <th>Day
-<img alt="day icon" id="cal_icon" src="{{url_for('static', filename='day.png')}}">
-	  </th>
-          <td>{{item.exam_day[0]}}</td>
-          <th>Date
-	  </th>
-          <td>{{item.exam_date[0]}}</td>
+         	<th>Day
+				<img alt="day icon" id="cal_icon" src="{{url_for('static', filename='day.png')}}">
+	 		</th>
+          	<td>{{item.exam_day[0]}}</td>
+         	 <th>Date </th>
+          	<td>{{item.exam_date[0]}}</td>
         </tr>
         <tr>
-          <th>Time 
-<img alt="time icon" id="cal_icon" src="{{url_for('static', filename='time.png')}}">
-	  </th>
-          <td>{{item.time[0]}}</td>
-          <th>Duration
-<img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='duration.png')}}">
-	  </th>
-          <td>{{item.duration}}</td>
+         	<th>Time 
+				<img alt="time icon" id="cal_icon" src="{{url_for('static', filename='time.png')}}">
+	  		</th>
+          	<td>{{item.time[0]}}</td>
+          	<th>Duration
+				<img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='duration.png')}}">
+	 		</th>
+         	<td>{{item.duration}}</td>
         </tr>
         <tr>
-          <th>Venue
-<img alt="venue icon" id="cal_icon" src="{{url_for('static', filename='venue.png')}}">
-	  </th>
-          <td> {{item.venue}}</td>
-	  <th>Exam Percentage
-<img alt="percent icon" id="cal_icon" src="{{url_for('static', filename='percent.png')}}">
-	  </th>
-          <td>{{item.percent}}</td>
+         	<th>Venue
+				<img alt="venue icon" id="cal_icon" src="{{url_for('static', filename='venue.png')}}">
+	 		</th>
+          	<td> {{item.venue}}</td>
+	  		<th>Exam Percentage
+				<img alt="percent icon" id="cal_icon" src="{{url_for('static', filename='percent.png')}}">
+	  		</th>
+          	<td>{{item.percent}}</td>
         </tr>
         <tr>
-          <th>Lecturer notes
-<img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='lecturer_notes.png')}}">
-	  </th>
-          <td colspan="3">{{item.lecturer_notes[0]}}</td>
+          	<th>Lecturer notes
+				<img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='lecturer_notes.png')}}">
+	  		</th>
+          	<td colspan="3">{{item.lecturer_notes[0]}}</td>
         </tr>
-      </table>
+    </table>
 
 	{%endfor%}
 
 	<br><br>
+	<!--div for accepting admin updates-->
 	<div class="row" width="100%">
 		<div class="column" style="padding-left: 30px;">
-	<div class="edit" >
-	<form action = "/admin_updates" method = "post">
+			<div class="edit" >
+				<form action = "/admin_updates" method = "post">
 
-         <label for="tables">Choose a table:</label>
-          <select id="tables" name="tables" onchange="showfield(this.options[this.selectedIndex].value)">
+         			<label for="tables">Choose a table:</label>
+          			<select id="tables" name="tables" onchange="showfield(this.options[this.selectedIndex].value)">
 
-                {% for table in table_names %}
-                        <option value={{table}}>{{table}}</option>
-                {% endfor %}
-                <option value="Other"selected>Pick a table</option>
-          </select>
+               			{% for table in table_names %}
+                      	  <option value={{table}}>{{table}}</option>
+                		{% endfor %}
+               		 	<option value="Other"selected>Pick a table</option>
+          			</select>
 
-	<label for="actions">Choose an action:</label>
-	  <select id="actions" name="actions" onchange="showfield1(this.options[this.selectedIndex].value)">
-		<option value="null"selected>Pick an action</option>
-	    <option value="CREATE">Create new entry in a table</option>
-	    <option value="DELETE">Delete an entry from a table</option>
-	    <option value="UPDATE">Update an entry in a table</option>
-	  </select>
+				<label for="actions">Choose an action:</label>
+	  				<select id="actions" name="actions" onchange="showfield1(this.options[this.selectedIndex].value)">
+					<option value="null"selected>Pick an action</option>
+	   				<option value="CREATE">Create new entry in a table</option>
+	   				<option value="DELETE">Delete an entry from a table</option>
+	   				<option value="UPDATE">Update an entry in a table</option>
+	  			</select>
 
-	  <div id="div1"></div>
+	 	 <div id="div1"></div>
 
-<div id="table_structure_label"></div>
-<div id="table_structure"></div>
-
-
-	 <div id="attributes_label"></div>
-	 <div id="div2"></div>
-<div id="updated_info_label"></div>
-<div id="updated_info"></div>
-
-<div id="key_label"></div>
-<div id="div3"></div>
-<div id="key_value_label"></div>
-<div id="key_value"></div>
-<div id="second_key_label"></div>
-<div id="second_key"></div>
-<div id="second_key_value_label"></div>
-<div id="second_key_value"></div>
-<div id="input1"></div>
-<div id="input2"></div>
-<div id="input3"></div>
-<div id="input4"></div>
-<div id="input5"></div>
-<div id="input6"></div>
-<div id="input7"></div>
+		<div id="table_structure_label"></div>
+		<div id="table_structure"></div>
 
 
+	 	<div id="attributes_label"></div>
+	 	<div id="div2"></div>
+		<div id="updated_info_label"></div>
+		<div id="updated_info"></div>
 
-<!--
-<div id-"updated_info">
-<label for="updated info">New Value</label><br>
+		<div id="key_label"></div>
+		<div id="div3"></div>
+		<div id="key_value_label"></div>
+		<div id="key_value"></div>
+		<div id="second_key_label"></div>
+		<div id="second_key"></div>
+		<div id="second_key_value_label"></div>
+		<div id="second_key_value"></div>
+		<div id="input1"></div>
+		<div id="input2"></div>
+		<div id="input3"></div>
+		<div id="input4"></div>
+		<div id="input5"></div>
+		<div id="input6"></div>
+		<div id="input7"></div>
 
-		<input id="updated_info" type = "text" name = "updated_info" />
-		<br>
-</div> -->
 
-                <input type = "submit" value = "submit" />
-              </form>
+
+        <input type = "submit" value = "submit" />
+    </form>
 
 	</div>
+</div>
+</div>
+<div class="row" width="100%">
+	<div class="column" style="padding-left: 30px;">
+		<br><br>
+			<div class="email">
+        		<form action = "/mail" method = "post">
+				<label for="exam_id">Enter exam id to send update email:</label>
+        		<input type="text" name="exam_id" id="exam_id" />
+        		<br>
+        		<input type = "submit" value = "submit" />
+				</form>
+			</div>
 		</div>
 	</div>
-		<div class="row" width="100%">
-<div class="column" style="padding-left: 30px;">
-	<br><br>
-<div class="email">
-        <form action = "/mail" method = "post">
-	<label for="exam_id">Enter exam id to send update email:</label>
-        <input type="text" name="exam_id" id="exam_id" />
-        <br>
-        <input type = "submit" value = "submit" />
-	</form>
-</div>
-</div>
-</div>
-	      <script type="text/javascript">
+	<!--Javascript functions to display the correct fields when admin is updating-->
+	<script type="text/javascript">
 		function showfield1(name){
 			if(name=='DELETE'){
 				document.getElementById('attributes_label').innerHTML='';
@@ -147,7 +141,7 @@
 				document.getElementById('updated_info').innerHTML='';
 				document.getElementById('updated_info_label').innerHTML='';
 				document.getElementById('updated_info').innerHTML='';
-                                document.getElementById('key_value_label').innerHTML='<label for="key_value_label">Value of key</label>';
+                document.getElementById('key_value_label').innerHTML='<label for="key_value_label">Value of key</label>';
 				document.getElementById('key_value').innerHTML='<input type="text" name="key_value" id="key_value" />';
 				document.getElementById('input1').innerHTML='';
 				document.getElementById('input2').innerHTML='';
@@ -160,11 +154,11 @@
 			}
 			if(name=='CREATE'){
 				document.getElementById('attributes_label').innerHTML='';
-                                document.getElementById('div2').innerHTML='';
-                                document.getElementById('key_label').innerHTML='';
-                                document.getElementById('updated_info').innerHTML='';
-                                document.getElementById('updated_info_label').innerHTML='';
-                                document.getElementById('div3').innerHTML='';
+                document.getElementById('div2').innerHTML='';
+                document.getElementById('key_label').innerHTML='';
+                document.getElementById('updated_info').innerHTML='';
+                document.getElementById('updated_info_label').innerHTML='';
+                document.getElementById('div3').innerHTML='';
 				document.getElementById('key_value').innerHTML='';
 				document.getElementById('second_key_label').innerHTML='';
 				document.getElementById('second_key').innerHTML='';
@@ -175,19 +169,19 @@
 			}
 			if(name=='UPDATE'){
 				document.getElementById('attributes_label').innerHTML='<label for="attributes">Choose a attribute to update</label>';
-	                        document.getElementById('key_label').innerHTML='<label for="update key">Update Key</label>';
-        	                document.getElementById('key_value_label').innerHTML='<label for="key_value_label">Value of key</label>';
-                	        document.getElementById('key_value').innerHTML='<input type="text" name="key_value" id="key_value" />';
+	            document.getElementById('key_label').innerHTML='<label for="update key">Update Key</label>';
+        	    document.getElementById('key_value_label').innerHTML='<label for="key_value_label">Value of key</label>';
+                document.getElementById('key_value').innerHTML='<input type="text" name="key_value" id="key_value" />';
 				document.getElementById('div1').innerHTML='';
-	                        document.getElementById('updated_info_label').innerHTML='<label for="updated info">New Value</label>';
-        	                document.getElementById('updated_info').innerHTML='<input id="updated_info" type = "text" name = "updated_info" />';
+	            document.getElementById('updated_info_label').innerHTML='<label for="updated info">New Value</label>';
+        	    document.getElementById('updated_info').innerHTML='<input id="updated_info" type = "text" name = "updated_info" />';
 				document.getElementById('input1').innerHTML='';
-                                document.getElementById('input2').innerHTML='';
-                                document.getElementById('input3').innerHTML='';
-                                document.getElementById('input4').innerHTML='';
-                                document.getElementById('input5').innerHTML='';
-                                document.getElementById('input6').innerHTML='';
-                                document.getElementById('input7').innerHTML='';
+                document.getElementById('input2').innerHTML='';
+                document.getElementById('input3').innerHTML='';
+                document.getElementById('input4').innerHTML='';
+                document.getElementById('input5').innerHTML='';
+                document.getElementById('input6').innerHTML='';
+                document.getElementById('input7').innerHTML='';
 
 
 			}
@@ -195,18 +189,18 @@
 		function showfield(name){
 			document.getElementById("actions").value = "null";
 			document.getElementById('second_key_label').innerHTML='';
-                        document.getElementById('second_key').innerHTML='';
-                        document.getElementById('second_key_value_label').innerHTML='';
-                        document.getElementById('second_key_value').innerHTML='';
+            document.getElementById('second_key').innerHTML='';
+            document.getElementById('second_key_value_label').innerHTML='';
+            document.getElementById('second_key_value').innerHTML='';
 			document.getElementById('table_structure_label').innerHTML='<label for="table_structure">Table Structure</label>';
 
 			document.getElementById('input1').innerHTML='';
-                        document.getElementById('input2').innerHTML='';
-                        document.getElementById('input3').innerHTML='';
-                        document.getElementById('input4').innerHTML='';
-                        document.getElementById('input5').innerHTML='';
-                        document.getElementById('input6').innerHTML='';
-                        document.getElementById('input7').innerHTML='';
+            document.getElementById('input2').innerHTML='';
+            document.getElementById('input3').innerHTML='';
+            document.getElementById('input4').innerHTML='';
+            document.getElementById('input5').innerHTML='';
+            document.getElementById('input6').innerHTML='';
+            document.getElementById('input7').innerHTML='';
 
 
 			if(name=='Other'){
@@ -218,12 +212,12 @@
 				document.getElementById('table_structure').innerHTML='exam(exam_id,module_code,duration,venue,percent,start_date,end_date)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
-                                document.getElementById('input3').innerHTML='<input id=input3 type="text" name="input3" />';
-                                document.getElementById('input4').innerHTML='<input id=input4 type="text" name="input4" />';
-                                document.getElementById('input5').innerHTML='<input id=input5 type="text" name="input5" />';
-                                document.getElementById('input6').innerHTML='<input id=input6 type="text" name="input6" />';
-                                document.getElementById('input7').innerHTML='<input id=input7 type="text" name="input7" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input3').innerHTML='<input id=input3 type="text" name="input3" />';
+                document.getElementById('input4').innerHTML='<input id=input4 type="text" name="input4" />';
+                document.getElementById('input5').innerHTML='<input id=input5 type="text" name="input5" />';
+                document.getElementById('input6').innerHTML='<input id=input6 type="text" name="input6" />';
+                document.getElementById('input7').innerHTML='<input id=input7 type="text" name="input7" />';
 
 
 
@@ -234,9 +228,9 @@
 				document.getElementById('table_structure').innerHTML='lecturer(lecturer_id,f_name,l_name,password)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
-                                document.getElementById('input3').innerHTML='<input id=input3 type="text" name="input3" />';
-                                document.getElementById('input4').innerHTML='<input id=input4 type="text" name="input4" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input3').innerHTML='<input id=input3 type="text" name="input3" />';
+                document.getElementById('input4').innerHTML='<input id=input4 type="text" name="input4" />';
 
 
 			}else if(name=='admin'){
@@ -245,9 +239,9 @@
 				document.getElementById('table_structure').innerHTML='admin(staff_id,f_name,l_name,password)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
-                                document.getElementById('input3').innerHTML='<input id=input3 type="text" name="input3" />';
-                                document.getElementById('input4').innerHTML='<input id=input4 type="text" name="input4" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input3').innerHTML='<input id=input3 type="text" name="input3" />';
+                document.getElementById('input4').innerHTML='<input id=input4 type="text" name="input4" />';
 
 
 			}else if(name=='student'){
@@ -256,10 +250,10 @@
 				document.getElementById('table_structure').innerHTML='student(student_id,f_name,l_name,password,email)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
-                                document.getElementById('input3').innerHTML='<input id=input3 type="text" name="input3" />';
-                                document.getElementById('input4').innerHTML='<input id=input4 type="text" name="input4" />';
-                                document.getElementById('input5').innerHTML='<input id=input5 type="text" name="input5" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input3').innerHTML='<input id=input3 type="text" name="input3" />';
+                document.getElementById('input4').innerHTML='<input id=input4 type="text" name="input4" />';
+                document.getElementById('input5').innerHTML='<input id=input5 type="text" name="input5" />';
 
 
 			}else if(name=='course'){
@@ -268,7 +262,7 @@
 				document.getElementById('table_structure').innerHTML='course(code,name)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
 
 			}else if(name=='lect_module'){
 				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="staff_id">staff_id</option><option value="mod_code">mod_code</option>';
@@ -276,11 +270,11 @@
 				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second Key</label>';
 				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="staff_id">staff_id</option><option value="mod_code">mod_code</option>';
 				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
-                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
+                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 				document.getElementById('table_structure').innerHTML='lect_module(staff_id,mod_code)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
 
 
 			}else if(name=='module'){
@@ -289,10 +283,10 @@
 				document.getElementById('table_structure').innerHTML='module(code,name,semester,ECTs,lecturer_notes)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
-                                document.getElementById('input3').innerHTML='<input id=input3 type="text" name="input3" />';
-                                document.getElementById('input4').innerHTML='<input id=input4 type="text" name="input4" />';
-                                document.getElementById('input5').innerHTML='<input id=input5 type="text" name="input5" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input3').innerHTML='<input id=input3 type="text" name="input3" />';
+                document.getElementById('input4').innerHTML='<input id=input4 type="text" name="input4" />';
+                document.getElementById('input5').innerHTML='<input id=input5 type="text" name="input5" />';
 
 
 			}else if(name=='organise'){
@@ -301,11 +295,11 @@
 				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second Key</label>';
 				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="staff_id">staff_id</option><option value="exam_id">exam_id</option>';
 				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
-                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
+                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 				document.getElementById('table_structure').innerHTML='organise(staff_id,exam_id)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
 
 			}else if(name=='student_exam'){
 				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="student_id">student_id</option><option value="exam_id">exam_id</option>';
@@ -313,11 +307,11 @@
 				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second Key</label>';
 				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="student_id">student_id</option><option value="exam_id">exam_id</option>';
 				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
-                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
+                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 				document.getElementById('table_structure').innerHTML='student_exam(student_id,exam_id)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
 
 
 			}else if(name=='student_module'){
@@ -326,11 +320,11 @@
 				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second Key</label>';
 				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="student_id">student_id</option><option value="mod_code">mod_code</option>';
 				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
-                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
+                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 				document.getElementById('table_structure').innerHTML='student_module(student_id,mod_code)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
 
 			}else if(name=='course_module'){
 				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="course_code">course_code</option><option value="mod_code">mod_code</option>';
@@ -338,11 +332,11 @@
 				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second Key</label>';
 				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="course_code">course_code</option><option value="mod_code">mod_code</option>';
 				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
-                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
+                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 				document.getElementById('table_structure').innerHTML='course_module(course_code,mod_code)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
 
 
 			}else if(name=='seating'){
@@ -351,12 +345,12 @@
 				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second Key</label>';
 				document.getElementById('second_key').innerHTML='<select id="second_key" name="key"><option value="student_id">student_id</option><option value="exam_id">exam_id</option><option value="seat_no">seat_no</option>';
 				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
-                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
+                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 				document.getElementById('table_structure').innerHTML='seating(student_id,exam_id,seat_no)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
-                                document.getElementById('input3').innerHTML='<input id=input3 type="text" name="input3" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input3').innerHTML='<input id=input3 type="text" name="input3" />';
 
 			}else if(name=='course_student'){
 				document.getElementById('div2').innerHTML='<select id="attributes" name="attributes"><option value="course_code">course_code</option><option value="student_id">student_id</option>';
@@ -364,16 +358,16 @@
 				document.getElementById('second_key_label').innerHTML='<label for="second_key_label">Second Key</label>';
 				document.getElementById('second_key').innerHTML='<select id="second_key" name="second_key"><option value="course_code">course_code</option><option value="student_id">student_id</option>';
 				document.getElementById('second_key_value_label').innerHTML='<label for="second_key_value_label">Value of second key</label>';
-                                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
+                document.getElementById('second_key_value').innerHTML='<input type="text" name="second_key_value" id="second_key_value" />';
 				document.getElementById('table_structure').innerHTML='course_student(course_code,student_id)';
 
 				document.getElementById('input1').innerHTML='<input id=input1 type="text" name="input1" />';
-                                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
+                document.getElementById('input2').innerHTML='<input id=input2 type="text" name="input2" />';
 
 			}else{
 				document.getElementById('div1').innerHTML='';
 				document.getElementById('second_key_value').innerHTML='';
-                                document.getElementById('second_key').innerHTML='';
+                document.getElementById('second_key').innerHTML='';
 			}
 		}
 		function myFunction() {

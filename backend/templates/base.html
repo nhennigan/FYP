@@ -11,53 +11,60 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
 <style>
+  /* The Modal Buttons */
 .myBtn_multi{
-border: inherit;
-background-color: rgba(110,206,235, .6);
-    font-size: 16px;
-    font: inherit;
-    text-align: left;
-    adding-top: 0px;
-padding-left: 2px;
-padding-right: 2px;
-padding-bottom: 0px;
+  border: inherit;
+  background-color: rgba(110,206,235, .6);
+  font-size: 16px;
+  font: inherit;
+  text-align: left;
+  padding-top: 0px;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-bottom: 0px;
 }
+/* Button color change when hovered over */
 .myBtn_multi:hover{
   background-color: #6eceeb;
 }
+/* banner at top of every page */
 .banner{
-    padding: 10px;
-    padding-top: 10px;
-    text-align: left;
-    background-color: #611f60;
-    color: white;
-    font-size: 35px;
-    width: 100%;
+  padding: 10px;
+  padding-top: 10px;
+  text-align: left;
+  background-color: #611f60;
+  color: white;
+  font-size: 35px;
+  width: 100%;
   }
+/* NUIG crest */
 .banner #crest{
   display: inline-block;
   size: 10%;
 }
+/* size of crest */
 .responsive{
   width:10%;
   height: auto;
 }
+/* ensure no white borders on the containers*/
 .container-fluid{
   width:100%;
   padding:0px;
   margin:0px;
   padding-right: 0px;
-padding-left: 0px;
-margin-right: 0px;
-margin-left: 0;
+  padding-left: 0px;
+  margin-right: 0px;
+  margin-left: 0;
 }
+/* Navbar */
 .container-fluid nav{
   margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: #333;
 }
-
+/* items in navbar*/
 .container-fluid nav a{
   float:left;
   display: block;
@@ -67,14 +74,15 @@ margin-left: 0;
   text-decoration: none;
   font-size:1.5vw;
 }
+/* navbar hover*/
 .container-fluid nav a:hover:not(.active){
   background-color: #111;
 }
-
+/* navbar selected */
 .active{
   background-color:#111;
 }
-
+/* modal popup */
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -101,6 +109,7 @@ margin-left: 0;
 .modal-content h1{
   text-align:"center";
 }
+/* venue image in modal */
 .venue img{
   display: block;
   margin-left: auto;
@@ -121,11 +130,12 @@ margin-left: 0;
   text-decoration: none;
   cursor: pointer;
 }
+/* header of table of exams */
 thead{
   background-color:#72b8c6;
   padding: 5px;
 }
-
+/* table of exams */
 table{
 	width:80%;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -146,13 +156,13 @@ th {
 }
 
 #img_container {
-    position:relative;
-    display:inline-block;
-    text-align:center;
-margin-left: auto;
-margin-right: auto;
-height: 80%;
-width: 95%;
+  position:relative;
+  display:inline-block;
+  text-align:center;
+  margin-left: auto;
+  margin-right: auto;
+  height: 80%;
+  width: 95%;
 }
 
 #img_container img{
@@ -162,23 +172,24 @@ height:95%
 }
 #chair{
 }
+/* button for map redirect */
 .button {
-    position:absolute;
-    bottom:10px;
-    right:10px;
-    width:100px;
-    height:30px;
-    background-color:#93bd59;
-    text-align:centre;
-    border-radius:1em;
-    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
-    transition: all 0.2s;
+  position:absolute;
+  bottom:10px;
+  right:10px;
+  width:100px;
+  height:30px;
+  background-color:#93bd59;
+  text-align:centre;
+  border-radius:1em;
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  transition: all 0.2s;
 }
-        .button:hover{
-                background-color:#6d8749;
-        }
+.button:hover{
+  background-color:#6d8749;
+}
 
-/* Three image containers (use 25% for four, and 50% for two, etc) */
+/* column of chairs in modal*/
 .column {
   padding: 5px;
   display: flex;
@@ -186,6 +197,7 @@ height:95%
   flex-basis: 100%;
   flex: 1;
 }
+/* row of chairs in modal  */
 .row{
 	display: flex;
   flex-direction: row;
@@ -198,19 +210,22 @@ height:95%
   clear: both;
   display: table;
 }
+/* modal for seating chart*/
 .seating{
 	margin-left:auto;
 	margin-right:auto;
 }
+/* footer */
 .footer_class{
 	position:absolute;
-        background-color:#333;
-        color: white;
-        text-align: center;
-        padding: 10px;
-        width:100%;
+  background-color:#333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width:100%;
 }
-	.hero-image {
+/* NUIG crest on bacground */
+.hero-image {
   background-image: url("../static/crest_noback(1).png") ;
   background-position: center;
   background-repeat: no-repeat;
@@ -220,80 +235,84 @@ height:95%
   background: linear-gradient(0deg, #72b8c6, white);
    min-height: 90vh;
 }
+/* calendar icon with redirect*/
 #cal_icon{
   float:right;
   display: inline-block;
   position: relative;
   width: 9%;
 }
-	.infopage{
-        margin-left:auto;
-        margin-right:auto;
+/* exam information*/
+.infopage{
+  margin-left:auto;
+  margin-right:auto;
 }
 h3{
 padding-left: 10px;
 }
-
+/* background gradient color*/
 body{
   background: linear-gradient(0deg, #72b8c6, white);
   background-repeat: no-repeat;
 	}
-	.pink{
-		background-color: rgba(186,159,194, .7);
-		padding:10px;
-		box-shadow: 5px 5px 10px; 
-		border-radius: 25px; 
-		margin-top: 10px;
-		text-align: center;
-	}
-	.blue{
+/* pink box on exam info page*/
+.pink{
+	background-color: rgba(186,159,194, .7);
+	padding:10px;
+	box-shadow: 5px 5px 10px; 
+	border-radius: 25px; 
+	margin-top: 10px;
+	text-align: center;
+}
+/* blue box on exam info page*/
+.blue{
 	background-color: rgba(110,206,235, .6);
-                padding:10px;
-                box-shadow: 5px 5px 10px;
-                border-radius: 25px;
-                margin-top: 10px;
-		text-align: center
-	}
-	.blue ul{
-		text-align: left;
-	}
-
-	.plain{
-		background-color: rgba(255,255,255, .6);
-                padding:10px;
-                box-shadow: 5px 5px 10px;
-                border-radius: 25px;
-                margin-top: 10px;
-		text-align: center
-	}
-
-	.plain ul {
-		text-align:left;
-	}
-	.email{
-background-color: rgba(186,159,194, .9);
-padding-left: 20px;
-padding-right: 20px;
-padding-top: 010px;
-padding-bottom: 10px;
-border-radius: 20px;
-	}
-	.edit{
+  padding:10px;
+  box-shadow: 5px 5px 10px;
+  border-radius: 25px;
+  margin-top: 10px;
+	text-align: center
+}
+.blue ul{
+	text-align: left;
+}
+/* white box on exam info page */
+.plain{
+	background-color: rgba(255,255,255, .6);
+  padding:10px;
+  box-shadow: 5px 5px 10px;
+  border-radius: 25px;
+  margin-top: 10px;
+	text-align: center
+}
+.plain ul {
+	text-align:left;
+}
+/* email box on admin page */
+.email{
+  background-color: rgba(186,159,194, .9);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 010px;
+  padding-bottom: 10px;
+  border-radius: 20px;
+}
+/* edit db box on admin */
+.edit{
 	background-color: rgba(147,189,89, .9);
 	padding-left: 20px;
-padding-right: 20px;
-padding-top: 010px;
-padding-bottom: 10px;
-border-radius: 20px;
-	}
+  padding-right: 20px;
+  padding-top: 010px;
+  padding-bottom: 10px;
+  border-radius: 20px;
+}
 
 </style>
-
   <div class="container-fluid">
-	<div class="banner">
-		<img alt="Crest" class="responsive" id=crest src="{{url_for('static', filename='crest_only.png')}}">
-		<span>NUI Galway Exam Timetable </span>
-	</div>
+	  <div class="banner">
+		  <img alt="Crest" class="responsive" id=crest src="{{url_for('static', filename='crest_only.png')}}">
+		  <span>NUI Galway Exam Timetable </span>
+  	</div>
   </div>
   <div class="container-fluid"> 
 	  <nav>
@@ -305,11 +324,11 @@ border-radius: 20px;
 	  </nav>
 	</div>
   <div class="container-fluid">
-	<div class="hero-image">
+	  <div class="hero-image">
         {% block content %}{% endblock %}
-	</div>
+	  </div>
   </div>
-  </body>
+</body>
   <div class="footer_class">
     <p>Niamh Hennigan FYP</p>
   </div>

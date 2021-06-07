@@ -1,16 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 <br>
+<!--Display user information-->
 <h3><b>Logged in user: </b>{{user.f_name}}  {{user.l_name}}</h3>
 <h3><b>Student ID: </b>{{user.id_no}}</h3>
 <h3><b>Course Code: </b>{{user.course[0]}}</h3>
+
+<!--Iterate over exam objects to create table-->
   {%for item in exams%}
       <table align="center">
 	      <br>
 	      <thead style="background-color:#72b8c6">
-	      <tr>
-			<th colspan=4></th>
-		</tr>
+	        <tr>
+			      <th colspan=4></th>
+		      </tr>
 	      </thead>
         <tr>
           <th>Module Name</th>
@@ -20,91 +23,91 @@
         </tr>
         <tr>
           <th>Day
-		<img alt="day icon" id="cal_icon" src="{{url_for('static', filename='day.png')}}">
-	  </th>
+		        <img alt="day icon" id="cal_icon" src="{{url_for('static', filename='day.png')}}">
+	        </th>
           <td>{{item.exam_day[0]}}</td>
-	  <th>
-<form action="/calendarview"  method="post">
-          <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" id="cal_icon">
-          </form>
-		  Date
-	  </th>
+	        <th>
+            <form action="/calendarview"  method="post">
+            <input type="image" src="{{url_for('static', filename='calendar.png')}}" alt="Submit" id="cal_icon">
+            </form>
+		         Date
+	        </th>
           <td>{{item.exam_date[0]}} </td>
         </tr>
         <tr>
           <th>Time
-		<img alt="time icon" id="cal_icon" src="{{url_for('static', filename='time.png')}}">
-	  </th>
+		        <img alt="time icon" id="cal_icon" src="{{url_for('static', filename='time.png')}}">
+	        </th>
           <td>{{item.time[0]}}</td>
           <th>Duration
-		<img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='duration.png')}}">
-	  </th>
+		        <img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='duration.png')}}">
+	        </th>
           <td>{{item.duration}}</td>
         </tr>
         <tr>
           <th>Venue
-		<img alt="venue icon" id="cal_icon" src="{{url_for('static', filename='venue.png')}}">
-	  </th>
-	  <!--make the button an image and leave //{item.venue} with double brackets  -->
+		        <img alt="venue icon" id="cal_icon" src="{{url_for('static', filename='venue.png')}}">
+	        </th>
           <td>
           <!-- Trigger/Open The Modal -->
-	  <button class="myBtn_multi" id = {{item.venue}}>{{item.venue}}</button>
+	          <button class="myBtn_multi" id = {{item.venue}}>{{item.venue}}</button>
                   <!-- The Modal -->
-                 <div  class="modal modal_multi">
-            <!-- Modal content -->
+              <div  class="modal modal_multi">
+              <!-- Modal content -->
                 <div class="modal-content">
-                <span class="close close_multi">×</span>
-		<div id="img_container">
-<form action="/mapview"  method="post"> 
-		<!-- <button onclick="msg()">Call the function</button> -->
-		<img src ='{{url_for("static", filename="%s.jpg" % item.venue)}}'>
-		<input type="submit" class="button" value="Map view"> 
-		</form>
-		</div>
+                  <span class="close close_multi">×</span>
+		              <div id="img_container">
+                    <form action="/mapview"  method="post"> 
+	                	<!-- <button onclick="msg()">Call the function</button> -->
+	                	<img src ='{{url_for("static", filename="%s.jpg" % item.venue)}}'>
+	                	<input type="submit" class="button" value="Map view"> 
+	                	</form>
+	              	</div>
+                </div>
+              </div>
             </div>
-        </div>
-        </div>
-	  </td>
+	        </td>
           <th>Seat Number
-		<img alt="seat icon" id="cal_icon" src="{{url_for('static', filename='seat_no.png')}}">
-	  </th>
+		        <img alt="seat icon" id="cal_icon" src="{{url_for('static', filename='seat_no.png')}}">
+	        </th>
           <td>
-	  <!-- Trigger/Open The Modal -->
-	  <button class="myBtn_multi" >{{item.seat_no[0]}} </button>
-		 <!-- The Modal -->
-	         <div  class="modal modal_multi">
-	        <!-- Modal content -->
-        	<div class="modal-content">
+	        <!-- Trigger/Open The Modal -->
+	          <button class="myBtn_multi" >{{item.seat_no[0]}} </button>
+		         <!-- The Modal -->
+	          <div  class="modal modal_multi">
+	          <!-- Modal content -->
+        	    <div class="modal-content">
                 <span class="close close_multi">×</span>
-		<div class="seating" align="center" >
-		<h1>Front of exam hall</h1>
-		{% for row in item.seat_matrix %}
-		<div class="row" width="100%" >
-                        {% for value in row%}
-                                <div class="column">
-                                <img src="{{url_for('static', filename='%s' % value)}}" style="width:100%" id="chair">
-                                </div>
-                        {% endfor %}
+		            <div class="seating" align="center" >
+		              <h1>Front of exam hall</h1>
+		              {% for row in item.seat_matrix %}
+		                <div class="row" width="100%" >
+                      {% for value in row%}
+                        <div class="column">
+                          <img src="{{url_for('static', filename='%s' % value)}}" style="width:100%" id="chair">
                         </div>
-                {% endfor %}
+                      {% endfor %}
+                    </div>
+                  {% endfor %}
+                </div>
+		          </div>
             </div>
-		</div>
-        </div>
-	  </td>
+	        </td>
         </tr>
         <tr>
           <th>Exam Percentage
-		<img alt="percent icon" id="cal_icon" src="{{url_for('static', filename='percent.png')}}">
-	  </th>
+	        	<img alt="percent icon" id="cal_icon" src="{{url_for('static', filename='percent.png')}}">
+	        </th>
           <td>{{item.percent}}</td>
           <th>Lecturer notes
-		<img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='lecturer_notes.png')}}">
-	  </th>
+		        <img alt="notes icon" id="cal_icon" src="{{url_for('static', filename='lecturer_notes.png')}}">
+	        </th>
           <td>{{item.lecturer_notes[0]}}</td>
         </tr>
 	
       </table>
       {%endfor%}
+
       <br><br> 
       <script>
         // Get the modal
@@ -117,21 +120,21 @@
         function setDataIndex() {
             for (i = 0; i < modal_btn_multi.length; i++)
             {
-                modal_btn_multi[i].setAttribute('data-index', i);
-                modalparent[i].setAttribute('data-index', i);
-                span_close_multi[i].setAttribute('data-index', i);
+              modal_btn_multi[i].setAttribute('data-index', i);
+              modalparent[i].setAttribute('data-index', i);
+              span_close_multi[i].setAttribute('data-index', i);
             }
         }
         for (i = 0; i < modal_btn_multi.length; i++)
         {
             modal_btn_multi[i].onclick = function() {
-                var ElementIndex = this.getAttribute('data-index');
-                modalparent[ElementIndex].style.display = "block";
+              var ElementIndex = this.getAttribute('data-index');
+              modalparent[ElementIndex].style.display = "block";
             };
             // When the user clicks on <span> (x), close the modal
             span_close_multi[i].onclick = function() {
-                var ElementIndex = this.getAttribute('data-index');
-                modalparent[ElementIndex].style.display = "none";
+              var ElementIndex = this.getAttribute('data-index');
+              modalparent[ElementIndex].style.display = "none";
             };
         }
         window.onload = function() {
@@ -139,7 +142,7 @@
         };
         window.onclick = function(event) {
             if (event.target === modalparent[event.target.getAttribute('data-index')]) {
-                modalparent[event.target.getAttribute('data-index')].style.display = "none";
+              modalparent[event.target.getAttribute('data-index')].style.display = "none";
             }
         };
     </script>
